@@ -1,6 +1,6 @@
 -- +goose Up
 -- SQL in section 'Up' is executed when this migration is applied
-CREATE TABLE sites (
+CREATE TABLE hosts (
   id            BIGSERIAL PRIMARY KEY,
   title         VARCHAR(255)                NOT NULL,
   sub_title     VARCHAR(255)                NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE leave_words (
   id         BIGSERIAL PRIMARY KEY,
   body       TEXT                        NOT NULL,
   type       VARCHAR(8)                  NOT NULL DEFAULT 'markdown',
-  site_id    BIGINT                      REFERENCES sites,
+  host_id    BIGINT                      REFERENCES hosts,
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now()
 );
 
@@ -29,11 +29,11 @@ CREATE TABLE posts (
   title      VARCHAR(255)                NOT NULL,
   body       TEXT                        NOT NULL,
   type       VARCHAR(8)                  NOT NULL DEFAULT 'markdown',
-  site_id    BIGINT                      REFERENCES sites,
+  host_id    BIGINT                      REFERENCES hosts,
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
   updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );
-CREATE UNIQUE INDEX idx_posts_name_lang_site ON posts(name, lang, site_id);
+CREATE UNIQUE INDEX idx_posts_name_lang_host ON posts(name, lang, host_id);
 CREATE INDEX idx_posts_name ON posts(name);
 CREATE INDEX idx_posts_lang ON posts(lang);
 
@@ -41,7 +41,7 @@ CREATE TABLE notices (
   id         BIGSERIAL PRIMARY KEY,
   body       TEXT                        NOT NULL,
   type       VARCHAR(8)                  NOT NULL DEFAULT 'markdown',
-  site_id    BIGINT                      REFERENCES sites,
+  host_id    BIGINT                      REFERENCES hosts,
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
   updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );
@@ -52,7 +52,7 @@ CREATE TABLE links (
   label       VARCHAR(255) NOT NULL,
   loc         VARCHAR(16) NOT NULL,
   sort_order  INT NOT NULL DEFAULT 0,
-  site_id     BIGINT                      REFERENCES sites,
+  host_id     BIGINT                      REFERENCES hosts,
   created_at  TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
   updated_at  TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );
@@ -67,7 +67,7 @@ CREATE TABLE pages (
   logo        VARCHAR(255) NOT NULL,
   loc         VARCHAR(16) NOT NULL,
   sort_order  INT NOT NULL DEFAULT 0,
-  site_id     BIGINT                      REFERENCES sites,
+  host_id     BIGINT                      REFERENCES hosts,
   created_at  TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
   updated_at  TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );

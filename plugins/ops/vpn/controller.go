@@ -1,10 +1,10 @@
 package vpn
 
-import "github.com/kapmahc/fly/plugins/auth"
+import "github.com/kapmahc/fly/plugins/root"
 
 // Controller controller
 type Controller struct {
-	auth.Layout
+	root.Layout
 }
 
 // GetHome home page

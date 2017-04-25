@@ -7,7 +7,7 @@ CREATE TABLE forum_articles (
   summary    VARCHAR(800)                NOT NULL,
   body       TEXT                        NOT NULL,
   type       VARCHAR(8)                  NOT NULL DEFAULT 'markdown',
-  site_id    BIGINT                      REFERENCES sites,
+  host_id    BIGINT                      REFERENCES hosts,
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
   updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );
@@ -19,12 +19,12 @@ CREATE INDEX idx_forum_type
 CREATE TABLE forum_tags (
   id         BIGSERIAL PRIMARY KEY,
   name       VARCHAR(255)                NOT NULL,
-  site_id    BIGINT                      REFERENCES sites,
+  host_id    BIGINT                      REFERENCES hosts,
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
   updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );
-CREATE UNIQUE INDEX idx_forum_tags_name_site
-  ON forum_tags (name, site_id);
+CREATE UNIQUE INDEX idx_forum_tags_name_host
+  ON forum_tags (name, host_id);
 
 CREATE TABLE forum_articles_tags (
   article_id BIGINT REFERENCES forum_articles ON DELETE CASCADE,
@@ -38,7 +38,7 @@ CREATE TABLE forum_comments (
   user_id    BIGINT                      REFERENCES users,
   body       TEXT                        NOT NULL,
   type       VARCHAR(8)                  NOT NULL DEFAULT 'markdown',
-  site_id    BIGINT                      REFERENCES sites,
+  host_id    BIGINT                      REFERENCES hosts,
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
   updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );
