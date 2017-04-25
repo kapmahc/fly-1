@@ -5,3 +5,9 @@ package auth
 func (p *Controller) GetUsersSignIn() {
 
 }
+
+// PostUsersSignIn sign in
+// @router /users/sign-in [post]
+func (p *Controller) PostUsersSignIn() {
+
+}
