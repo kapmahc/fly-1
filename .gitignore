@@ -1,0 +1,6 @@
+# bee
+/.tmp
+
+# Editor
+.*.swp
+.*.un~
