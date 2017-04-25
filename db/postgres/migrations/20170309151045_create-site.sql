@@ -1,10 +1,24 @@
 -- +goose Up
 -- SQL in section 'Up' is executed when this migration is applied
+CREATE TABLE sites (
+  id            BIGSERIAL PRIMARY KEY,
+  title         VARCHAR(255)                NOT NULL,
+  sub_title     VARCHAR(255)                NOT NULL,
+  author_email  VARCHAR(255)                NOT NULL,
+  author_name   VARCHAR(255)                NOT NULL,
+  keywords      VARCHAR(255)                NOT NULL,
+  description   VARCHAR(800)                NOT NULL,
+  copyright     VARCHAR(255)                NOT NULL,
+  languages     VARCHAR(255)                NOT NULL,
+  created_at    TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
+  updated_at    TIMESTAMP WITHOUT TIME ZONE NOT NULL
+);
 
 CREATE TABLE leave_words (
   id         BIGSERIAL PRIMARY KEY,
   body       TEXT                        NOT NULL,
   type       VARCHAR(8)                  NOT NULL DEFAULT 'markdown',
+  site_id    BIGINT                      REFERENCES sites,
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now()
 );
 
@@ -15,10 +29,11 @@ CREATE TABLE posts (
   title      VARCHAR(255)                NOT NULL,
   body       TEXT                        NOT NULL,
   type       VARCHAR(8)                  NOT NULL DEFAULT 'markdown',
+  site_id    BIGINT                      REFERENCES sites,
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
   updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );
-CREATE UNIQUE INDEX idx_posts_name_lang ON posts(name, lang);
+CREATE UNIQUE INDEX idx_posts_name_lang_site ON posts(name, lang, site_id);
 CREATE INDEX idx_posts_name ON posts(name);
 CREATE INDEX idx_posts_lang ON posts(lang);
 
@@ -26,32 +41,35 @@ CREATE TABLE notices (
   id         BIGSERIAL PRIMARY KEY,
   body       TEXT                        NOT NULL,
   type       VARCHAR(8)                  NOT NULL DEFAULT 'markdown',
+  site_id    BIGINT                      REFERENCES sites,
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
   updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );
 
 CREATE TABLE links (
-  id BIGSERIAL PRIMARY KEY,
-  href VARCHAR(255) NOT NULL,
-  label VARCHAR(255) NOT NULL,
-  loc VARCHAR(16) NOT NULL,
-  sort_order INT NOT NULL DEFAULT 0,
-  created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
-  updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL
+  id          BIGSERIAL PRIMARY KEY,
+  href        VARCHAR(255) NOT NULL,
+  label       VARCHAR(255) NOT NULL,
+  loc         VARCHAR(16) NOT NULL,
+  sort_order  INT NOT NULL DEFAULT 0,
+  site_id     BIGINT                      REFERENCES sites,
+  created_at  TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
+  updated_at  TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );
 CREATE INDEX idx_links_loc ON links (loc);
 
 CREATE TABLE pages (
-  id BIGSERIAL PRIMARY KEY,
-  title VARCHAR(255) NOT NULL,
-  summary VARCHAR(2048) NOT NULL,
-  action VARCHAR(32) NOT NULL,
-  href VARCHAR(255) NOT NULL,
-  logo VARCHAR(255) NOT NULL,
-  loc VARCHAR(16) NOT NULL,
-  sort_order INT NOT NULL DEFAULT 0,
-  created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
-  updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL
+  id          BIGSERIAL PRIMARY KEY,
+  title       VARCHAR(255) NOT NULL,
+  summary     VARCHAR(2048) NOT NULL,
+  action      VARCHAR(32) NOT NULL,
+  href        VARCHAR(255) NOT NULL,
+  logo        VARCHAR(255) NOT NULL,
+  loc         VARCHAR(16) NOT NULL,
+  sort_order  INT NOT NULL DEFAULT 0,
+  site_id     BIGINT                      REFERENCES sites,
+  created_at  TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
+  updated_at  TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );
 CREATE INDEX idx_pages_loc ON pages (loc);
 
