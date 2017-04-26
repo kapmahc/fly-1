@@ -236,6 +236,7 @@ type Host struct {
 
 	Name string
 	Lang string
+	Root bool
 
 	Title       string
 	SubTitle    string

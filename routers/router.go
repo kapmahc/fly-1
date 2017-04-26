@@ -13,6 +13,9 @@ import (
 func init() {
 	beego.Include(&root.Controller{})
 	for k, v := range map[string]beego.ControllerInterface{
+		"/users":   &root.UsersController{},
+		"/install": &root.InstallController{},
+
 		"/forum":    &forum.Controller{},
 		"/reading":  &reading.Controller{},
 		"/shop":     &shop.Controller{},

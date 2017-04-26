@@ -44,8 +44,16 @@ func (p *Layout) setLangVer() {
 	}
 
 	// 4. Default language is English.
-	if len(lang) == 0 || !i18n.IsExist(lang) {
+	if lang != "" {
+		if tag, err := language.Parse(lang); err == nil {
+			lang = tag.String()
+		} else {
+			lang = ""
+		}
+	}
+	if lang == "" || !i18n.IsExist(lang) {
 		lang = language.AmericanEnglish.String()
+		write = true
 	}
 
 	// Save language information in cookies.
@@ -56,5 +64,4 @@ func (p *Layout) setLangVer() {
 	// Set language properties.
 	p.Lang = lang
 	p.Data["lang"] = lang
-	p.Data["languages"] = i18n.ListLangs()
 }

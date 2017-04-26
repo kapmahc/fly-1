@@ -2,17 +2,24 @@
 -- SQL in section 'Up' is executed when this migration is applied
 CREATE TABLE hosts (
   id            BIGSERIAL PRIMARY KEY,
+  lang          VARCHAR(255)                NOT NULL,
+  name          VARCHAR(255)                NOT NULL,
+  root          BOOLEAN                     NOT NULL DEFAULT FALSE,
   title         VARCHAR(255)                NOT NULL,
   sub_title     VARCHAR(255)                NOT NULL,
-  author_email  VARCHAR(255)                NOT NULL,
-  author_name   VARCHAR(255)                NOT NULL,
+  author_id     BIGINT                      REFERENCES users,
   keywords      VARCHAR(255)                NOT NULL,
   description   VARCHAR(800)                NOT NULL,
   copyright     VARCHAR(255)                NOT NULL,
-  languages     VARCHAR(255)                NOT NULL,
+  ssl           BOOLEAN                     NOT NULL DEFAULT FALSE,
+  public_perm   TEXT,
+  private_perm  TEXT,
   created_at    TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
   updated_at    TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );
+CREATE UNIQUE INDEX idx_hosts_name_lang ON hosts(name, lang);
+CREATE INDEX idx_hosts_name ON hosts(name);
+
 
 CREATE TABLE leave_words (
   id         BIGSERIAL PRIMARY KEY,
