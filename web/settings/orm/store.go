@@ -1,35 +1,24 @@
 package orm
 
-import (
-	"github.com/jinzhu/gorm"
-	"github.com/kapmahc/fly/web/settings"
-)
-
-// New new gorm store
-func New(db *gorm.DB) settings.Store {
-	db.AutoMigrate(&Model{})
-	return &Store{
-		db: db,
-	}
-}
+import "github.com/jinzhu/gorm"
 
 // Store gorm store
 type Store struct {
-	db *gorm.DB
+	Db *gorm.DB `inject:""`
 }
 
 // Set save
 func (p *Store) Set(key string, val []byte, enc bool) error {
 	var m Model
-	if p.db.Where("key = ?", key).First(&m).RecordNotFound() {
-		return p.db.Create(&Model{
+	if p.Db.Where("key = ?", key).First(&m).RecordNotFound() {
+		return p.Db.Create(&Model{
 			Key:    key,
 			Val:    val,
 			Encode: enc,
 		}).Error
 	}
 
-	return p.db.Model(&m).Updates(map[string]interface{}{
+	return p.Db.Model(&m).Updates(map[string]interface{}{
 		"encode": enc,
 		"val":    val,
 	}).Error
@@ -39,7 +28,7 @@ func (p *Store) Set(key string, val []byte, enc bool) error {
 // Get get
 func (p *Store) Get(key string) ([]byte, bool, error) {
 	var m Model
-	err := p.db.Where("key = ?", key).First(&m).Error
+	err := p.Db.Where("key = ?", key).First(&m).Error
 	if err != nil {
 		return nil, false, err
 	}

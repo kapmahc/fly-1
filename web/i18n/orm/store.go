@@ -1,35 +1,24 @@
 package orm
 
-import (
-	"github.com/jinzhu/gorm"
-	"github.com/kapmahc/fly/web/i18n"
-)
-
-// New new gorm store
-func New(db *gorm.DB) i18n.Store {
-	db.AutoMigrate(&Model{})
-	return &Store{
-		db: db,
-	}
-}
+import "github.com/jinzhu/gorm"
 
 // Store gorm-store
 type Store struct {
-	db *gorm.DB
+	Db *gorm.DB `inject:""`
 }
 
 //Set set locale
 func (p *Store) Set(lang, code, message string, override bool) error {
 	var l Model
-	if p.db.Where("lang = ? AND code = ?", lang, code).First(&l).RecordNotFound() {
+	if p.Db.Where("lang = ? AND code = ?", lang, code).First(&l).RecordNotFound() {
 		l.Lang = lang
 		l.Code = code
 		l.Message = message
-		return p.db.Create(&l).Error
+		return p.Db.Create(&l).Error
 	}
 	if override {
 		l.Message = message
-		return p.db.Save(&l).Error
+		return p.Db.Save(&l).Error
 	}
 
 	return nil
@@ -37,13 +26,13 @@ func (p *Store) Set(lang, code, message string, override bool) error {
 
 //Del del locale
 func (p *Store) Del(lang, code string) error {
-	return p.db.Where("lang = ? AND code = ?", lang, code).Delete(Model{}).Error
+	return p.Db.Where("lang = ? AND code = ?", lang, code).Delete(Model{}).Error
 }
 
 // Get get message
 func (p *Store) Get(lang, code string) (string, error) {
 	var l Model
-	if err := p.db.
+	if err := p.Db.
 		Select("message").
 		Where("lang = ? AND code = ?", lang, code).
 		First(&l).Error; err != nil {
@@ -55,14 +44,14 @@ func (p *Store) Get(lang, code string) (string, error) {
 // Languages languages
 func (p *Store) Languages() ([]string, error) {
 	var val []string
-	err := p.db.Model(&Model{}).Pluck("lang", &val).Error
+	err := p.Db.Model(&Model{}).Pluck("lang", &val).Error
 	return val, err
 }
 
 // All list all items
 func (p *Store) All(lang string) (map[string]string, error) {
 	var items []Model
-	if err := p.db.
+	if err := p.Db.
 		Select([]string{"code", "message"}).
 		Where("lang = ?", lang).
 		Find(&items).Error; err != nil {
