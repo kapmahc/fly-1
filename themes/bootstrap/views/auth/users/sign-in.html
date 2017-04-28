@@ -1,0 +1,11 @@
+{{define "auth-users-sign-in"}}
+{{template "application-header" .}}
+{{template "form-header" .}}
+<form method="post">
+  {{template "form-field-email" dict "id" "email" "label" "attributes.email" "lng" .l}}
+  {{template "form-field-password" dict "id" "password" "label" "attributes.password" "lng" .l "help" "helps.password"}}
+  {{template "form-buttons" .}}
+</form>
+{{template "auth-users-links" .}}
+{{template "application-footer" .}}
+{{end}}

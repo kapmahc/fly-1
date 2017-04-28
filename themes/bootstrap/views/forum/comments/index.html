@@ -1,0 +1,8 @@
+{{define "forum-comments-index"}}
+{{template "application-header" .}}
+{{template "form-header" .}}
+{{template "pagination" .pager}}
+{{template "forum-comments-list" .pager.Items}}
+{{template "pagination" .pager}}
+{{template "application-footer" .}}
+{{end}}

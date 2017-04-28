@@ -1,0 +1,12 @@
+{{define "forum-tags-new"}}
+{{template "application-header" .}}
+{{template "form-header" .}}
+<form method="post">
+  <div class="form-group">
+    <label for="name">{{t .l "attributes.name"}}</label>
+    <input type="text" class="form-control" id="name" name="name">
+  </div>
+  {{template "form-buttons" .}}
+</form>
+{{template "application-footer" .}}
+{{end}}

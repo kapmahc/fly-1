@@ -1,0 +1,32 @@
+{{define "reading-admin-books-index"}}
+{{template "dashboard-header" .}}
+{{template "form-header" .}}
+{{$l := .l}}
+{{template "pagination" .pager}}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>{{t $l "attributes.title"}}</th>
+      <th>
+        {{t $l "buttons.manage"}}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .pager.Items}}
+    <tr>
+      <th scope="row">
+        <a href="/reading/books/{{.ID}}">{{.Title}} - {{.Author}}</a>
+      </th>
+      <td>
+        <div class="btn-group btn-group-sm" role="group">
+          <a class="btn btn-danger" data-method="delete" data-next="/reading/admin/books" data-confirm="{{t $l "are-you-sure"}}" href="/reading/admin/books/{{.ID}}">{{t $.l "buttons.remove"}}</a>
+        </div>
+      </td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>
+{{template "pagination" .pager}}
+{{template "application-footer" .}}
+{{end}}

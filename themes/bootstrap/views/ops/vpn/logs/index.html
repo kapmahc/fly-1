@@ -1,0 +1,34 @@
+{{define "ops-vpn-logs-index"}}
+{{template "dashboard-header" .}}
+{{template "form-header" .}}
+{{$l := .l}}
+{{template "pagination" .pager}}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>{{t $l "ops.vpn.models.user"}}</th>
+      <th>{{t $l "ops.vpn.attributes.log.startUp"}}</th>
+      <th>{{t $l "ops.vpn.attributes.log.shutDown"}}</th>
+      <th>{{t $l "ops.vpn.attributes.log.trusted"}}</th>
+      <th>{{t $l "ops.vpn.attributes.log.remote"}}</th>
+      <th>{{t $l "ops.vpn.attributes.log.received"}}</th>
+      <th>{{t $l "ops.vpn.attributes.log.send"}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .pager.Items}}
+    <tr>
+      <th scope="row">{{.UserID}}</th>
+      <td>{{dtf .StartUp}}</td>
+      <td>{{dtf .ShutDown}}</td>
+      <td>{{.Trusted}}</td>
+      <td>{{.Remote}}</td>
+      <td>{{.Received}}</td>
+      <td>{{.Send}}</td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>
+{{template "pagination" .pager}}
+{{template "application-footer" .}}
+{{end}}

@@ -1,0 +1,45 @@
+{{define "site-admin-pages-index"}}
+{{template "dashboard-header" .}}
+{{template "form-header" .}}
+{{$l := .l}}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>{{t $l "attributes.sortOrder"}}</th>
+      <th>{{t $l "attributes.loc"}}</th>
+      <th>{{t $l "attributes.demo"}}</th>
+      <th width="12%">
+        {{t $l "buttons.manage"}}
+        <a href="/admin/pages/new">{{t $l "buttons.new"}}</a>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .items}}
+    <tr>
+      <th scope="row">{{.SortOrder}}</th>
+      <td>{{.Loc}}</td>
+      <td>
+        <div class="card" style="width: 20rem;">
+          <img class="card-img-top" src="{{.Logo}}" alt="{{.Logo}}">
+          <div class="card-block">
+            <h4 class="card-title">
+              <a target="_blank" href="{{.Href}}">{{.Title}}</a>
+            </h4>
+            <p class="card-text">{{.Summary}}</p>
+            <a  target="_blank" href="{{.Href}}" class="btn btn-primary">{{.Action}}</a>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="btn-group btn-group-sm" role="group">
+          <a class="btn btn-warning" href="/admin/pages/edit/{{.ID}}">{{t $l "buttons.edit"}}</a>
+          <a class="btn btn-danger" data-method="delete" data-next="/admin/pages" data-confirm="{{t $l "are-you-sure"}}" href="/admin/pages/{{.ID}}">{{t $.l "buttons.remove"}}</a>
+        </div>
+      </td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>
+{{template "application-footer" .}}
+{{end}}

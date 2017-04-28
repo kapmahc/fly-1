@@ -99,12 +99,6 @@ func (p *Plugin) openDatabase() (*gorm.DB, error) {
 }
 func (p *Plugin) openRender(theme string) *render.Render {
 	fm := template.FuncMap{
-		"ht": func(lang string, path string, args ...interface{}) string {
-			return p.Wrap.URLFor(lang, path, args...)
-		},
-		"assets": func(n string) string {
-			return web.Home() + "/assets/" + n
-		},
 		"t": func(lang, code string, args ...interface{}) string {
 			return p.I18n.T(lang, code, args...)
 		},

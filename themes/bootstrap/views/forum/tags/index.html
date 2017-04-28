@@ -1,0 +1,15 @@
+{{define "forum-tags-index"}}
+{{template "application-header" .}}
+{{template "form-header" .}}
+<div class="card-columns">
+  {{range .items}}
+  <div class="card">
+    <div class="card-block">
+      <h4 class="card-title"><a href="/forum/tags/show/{{.ID}}" target="_blank">{{.Name}}</a></h4>
+      <p class="card-text"></p>
+    </div>
+  </div>
+  {{end}}
+</div>
+{{template "application-footer" .}}
+{{end}}

@@ -1,0 +1,33 @@
+{{define "reading-notes-my"}}
+{{template "dashboard-header" .}}
+{{template "form-header" .}}
+{{$l := .l}}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>{{t $l "attributes.updatedAt"}}</th>
+      <th>{{t $l "attributes.body"}}</th>
+      <th>
+        {{t $l "buttons.manage"}}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .items}}
+    <tr>
+      <th scope="row">{{dtf .UpdatedAt}}</th>
+      <th scope="row">
+        <pre><code>{{.Body}}</code></pre>
+      </th>
+      <td>
+        <div class="btn-group btn-group-sm" role="group">          
+          <a class="btn btn-warning" href="/reading/notes/edit/{{.ID}}">{{t $l "buttons.edit"}}</a>
+          <a class="btn btn-danger" data-method="delete" data-next="/reading/notes/my" data-confirm="{{t $l "are-you-sure"}}" href="/reading/notes/{{.ID}}">{{t $.l "buttons.remove"}}</a>
+        </div>
+      </td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>
+{{template "application-footer" .}}
+{{end}}

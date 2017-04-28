@@ -1,0 +1,31 @@
+{{define "reading-dict-index"}}
+{{template "application-header" .}}
+{{template "form-header" .}}
+<form method="post">
+  <div class="form-group">
+    <label for="keywords">{{t .l "attributes.keywords"}}</label>
+    <input type="text" value="{{.keywords}}" class="form-control" id="keywords" name="keywords">
+  </div>
+  {{template "form-buttons" .}}
+</form>
+<br/>
+{{if .result}}
+<div class="card-columns" style="column-count: 2;">
+  {{range $k, $v := .result}}
+    <div class="card">
+      <div class="card-block">
+        <h4 class="card-title">{{$k}}</h4>
+        <p class="card-text"></p>
+      </div>
+      <ul class="list-group list-group-flush">
+        {{range $v}}
+          <li class="list-group-item list-group-item-action">{{.}}</li>
+        {{end}}
+      </ul>
+    </div>
+  {{end}}
+</div>
+{{end}}
+<br/>
+{{template "application-footer" .}}
+{{end}}

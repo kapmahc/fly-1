@@ -1,0 +1,30 @@
+{{define "reading-admin-status"}}
+{{template "application-header" .}}
+{{template "form-header" .}}
+{{$l := .l}}
+<div class="card-columns" style="column-count: 2;">
+    <div class="card">
+      <div class="card-block">
+        <h4 class="card-title">{{t $l "reading.admin.status.book"}}</h4>
+        <p class="card-text"></p>
+      </div>
+      <ul class="list-group list-group-flush">
+        {{range $k, $v := .book}}
+          <li class="list-group-item list-group-item-action">{{$k}}: {{$v}}</li>
+        {{end}}
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-block">
+        <h4 class="card-title">{{t $l "reading.admin.status.dict"}}</h4>
+        <p class="card-text"></p>
+      </div>
+      <ul class="list-group list-group-flush">
+        {{range $k, $v := .dict}}
+          <li class="list-group-item list-group-item-action">{{$k}}: {{$v}}</li>
+        {{end}}
+      </ul>
+    </div>
+</div>
+{{template "application-footer" .}}
+{{end}}

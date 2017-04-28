@@ -1,0 +1,26 @@
+{{define "site-admin-seo"}}
+{{template "dashboard-header" .}}
+{{template "form-header" .}}
+<form method="post">
+  <div class="form-group">
+    <label for="googleVerifyCode">{{t .l "site.attributes.googleVerifyCode"}}</label>
+    <input type="text" class="form-control" value="{{.googleVerifyCode}}" id="googleVerifyCode" name="googleVerifyCode">
+  </div>
+  <div class="form-group">
+    <label for="baiduVerifyCode">{{t .l "site.attributes.baiduVerifyCode"}}</label>
+    <input type="text" class="form-control" value="{{.baiduVerifyCode}}" id="baiduVerifyCode" name="baiduVerifyCode">
+  </div>
+  {{template "form-buttons" .}}
+</form>
+<br/>
+<ul class="list-group">
+  <a href="/robots.txt" target="_blank" class="list-group-item list-group-item-action">robots.txt</a>
+  <a href="/sitemap.xml.gz" target="_blank" class="list-group-item list-group-item-action">sitemap.xml.gz</a>
+  {{range .languages}}
+    <a href="/rss-{{.}}.atom" target="_blank" class="list-group-item list-group-item-action">rss-{{.}}.atom</a>
+  {{end}}
+  <a href="/google{{.googleVerifyCode}}.html" target="_blank" class="list-group-item list-group-item-action">google{{.googleVerifyCode}}.html</a>
+  <a href="/baidu_verify_{{.baiduVerifyCode}}.html" target="_blank" class="list-group-item list-group-item-action">baidu_verify_{{.baiduVerifyCode}}.html</a>
+</ul>
+{{template "application-footer" .}}
+{{end}}

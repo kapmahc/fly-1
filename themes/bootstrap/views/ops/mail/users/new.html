@@ -1,0 +1,40 @@
+{{define "ops-mail-users-new"}}
+{{template "application-header" .}}
+{{template "form-header" .}}
+<form method="post">
+  <div class="form-group">
+    <label for="domainId">{{t .l "ops.mail.models.domain"}}</label>
+    <select class="form-control" id="domainId" name="domainId">
+      {{range .domains}}
+        <option value="{{.ID}}">{{.Name}}</option>
+      {{end}}
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="fullName">{{t .l "attributes.fullName"}}</label>
+    <input type="text" class="form-control" id="fullName" name="fullName">
+  </div>
+  <div class="form-group">
+    <label for="email">{{t .l "attributes.email"}}</label>
+    <input type="email" class="form-control" id="email" name="email">
+  </div>
+  <div class="form-group">
+    <label for="password">{{t .l "attributes.password"}}</label>
+    <input type="password" class="form-control" name="password" id="password" aria-describedby="passwordHelp">
+    <small id="passwordHelp" class="form-text text-muted">{{t .l "helps.password"}}</small>
+  </div>
+  <div class="form-group">
+    <label for="passwordConfirmation">{{t .l "attributes.passwordConfirmation"}}</label>
+    <input type="password" class="form-control" name="passwordConfirmation" id="passwordConfirmation" aria-describedby="passwordConfirmationHelp">
+    <small id="passwordConfirmationHelp" class="form-text text-muted">{{t .l "helps.passwordConfirmation"}}</small>
+  </div>
+  <div class="form-check">
+    <label class="form-check-label">
+      <input value="true" name="enable" id="enable" type="checkbox" class="form-check-input">
+      {{t .l "attributes.enable"}}
+    </label>
+  </div>
+  {{template "form-buttons" .}}
+</form>
+{{template "application-footer" .}}
+{{end}}

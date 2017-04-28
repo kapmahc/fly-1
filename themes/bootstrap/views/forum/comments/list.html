@@ -1,0 +1,10 @@
+{{define "forum-comments-list"}}
+{{range .}}
+<blockquote class="blockquote">
+  <p class="mb-0 markdown">
+    {{.Body}}
+  </p>
+  <footer class="blockquote-footer"><cite>{{dtf .UpdatedAt}}</cite></footer>
+</blockquote>
+{{end}}
+{{end}}

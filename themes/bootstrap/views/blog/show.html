@@ -1,0 +1,21 @@
+{{define "blog-show"}}
+{{template "application-header" .}}
+{{$l := .l}}
+<div class="row">
+  <div class="col-md-9">
+    {{template "form-header" .}}
+    <p class="markdown">{{.item.Body}}</p>
+  </div>
+  <div class="col-md-3">
+    <br/>
+    <h4>{{t $l "blog.sidebar.title"}}</h4>
+    <hr/>
+    <div class="list-group">
+      {{range .items}}
+        <a class="list-group-item list-group-item-action {{if eq .Href $.item.Href}}active{{end}}" target="_blank" href="/blog/{{.Href}}">{{.Title}}</a>
+      {{end}}
+    </div>
+  </div>
+</div>
+{{template "application-footer" .}}
+{{end}}

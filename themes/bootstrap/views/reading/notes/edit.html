@@ -1,0 +1,14 @@
+{{define "reading-notes-edit"}}
+{{template "dashboard-header" .}}
+{{template "form-header" .}}
+<form method="post">
+  <div class="form-group">
+    <label for="body">{{t .l "attributes.body"}}</label>
+    <textarea class="form-control" id="body" name="body" rows="8" aria-describedby="bodyHelp">{{.item.Body}}</textarea>
+    <small id="bodyHelp" class="form-text text-muted">{{t .l "helps.markdown"}}</small>
+  </div>
+  <input type="hidden" id="type" name="type" value="markdown"/>
+  {{template "form-buttons" .}}
+</form>
+{{template "application-footer" .}}
+{{end}}

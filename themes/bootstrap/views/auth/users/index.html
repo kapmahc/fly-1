@@ -1,0 +1,19 @@
+{{define "auth-users-index"}}
+{{template "application-header" .}}
+{{$l := .l}}
+<h2>{{.title}}</h2>
+<hr/>
+<div class="card-columns">
+  {{range .users}}
+    <div class="card">
+      <img class="card-img-top img-fluid" src="{{.Logo}}" alt="logo">
+      <div class="card-block">
+        <h4 class="card-title">{{.Name}}</h4>
+        <p class="card-text"></p>
+        <a href="{{.Home}}" class="btn btn-primary" target="_blank">{{t $l "buttons.view"}}</a>
+      </div>
+    </div>
+  {{end}}
+</div>
+{{template "application-footer" .}}
+{{end}}

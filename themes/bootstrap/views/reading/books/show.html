@@ -1,0 +1,21 @@
+{{define "reading-books-show"}}
+{{template "application-header" .}}
+<div class="row">
+<div class="col-md-9">
+  {{template "form-header" .}}
+  {{.homeage}}
+</div>
+<div class="col-md-3">
+  <br/>
+  <h4>
+    {{t .l "reading.books.show.notes"}}
+    {{if .currentUser}}
+      <a href="/reading/notes/new?bookId={{.book.ID}}">{{t .l "buttons.new"}}</a>
+    {{end}}
+  </h4>
+  <hr/>
+  {{template "reading-notes-list" .notes}}
+</div>
+</div>
+{{template "application-footer" .}}
+{{end}}

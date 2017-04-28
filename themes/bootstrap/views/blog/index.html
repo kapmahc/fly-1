@@ -1,0 +1,10 @@
+{{define "blog-index"}}
+{{template "application-header" .}}
+{{template "form-header" .}}
+<div class="list-group">
+  {{range .items}}
+    <a class="list-group-item list-group-item-action" target="_blank" href="/blog/{{.Href}}">{{.Title}}</a>
+  {{end}}
+</div>
+{{template "application-footer" .}}
+{{end}}

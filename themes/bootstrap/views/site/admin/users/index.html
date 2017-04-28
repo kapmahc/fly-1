@@ -1,0 +1,31 @@
+{{define "site-admin-users-index"}}
+{{template "dashboard-header" .}}
+{{template "form-header" .}}
+{{$l := .l}}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>{{t $l "auth.attributes.user.info"}}</th>
+      <th>{{t $l "auth.attributes.user.lastSignIn"}}</th>
+      <th>{{t $l "auth.attributes.user.currentSignIn"}}</th>
+      <th>{{t $l "buttons.manage"}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .users}}
+    <tr>
+      <th scope="row">{{.Name}}&lt;{{.Email}}&gt;</th>
+      <th scope="row">
+        {{dtf .LastSignInAt}} [{{.LastSignInIP}}]
+      </th>
+      <th scope="row">
+        {{dtf .CurrentSignInAt}} [{{.CurrentSignInIP}}]
+      </th>
+      <td>
+      </td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>
+{{template "application-footer" .}}
+{{end}}

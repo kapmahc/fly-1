@@ -1,7 +1,6 @@
 package web
 
 import (
-	"fmt"
 	"net/http"
 
 	log "github.com/Sirupsen/logrus"
@@ -17,19 +16,6 @@ type Wrap struct {
 
 func (p *Wrap) ht() string {
 	return "htdocs"
-}
-
-// URLFor htdoc url for
-func (p *Wrap) URLFor(lang string, path string, args ...interface{}) string {
-	args = append([]interface{}{p.ht(), lang}, args)
-	return fmt.Sprintf("/%s/%s"+path, args...)
-}
-
-// Group create mount group
-func (p *Wrap) Group(rt *gin.Engine) (ht *gin.RouterGroup, api *gin.RouterGroup) {
-	ht = rt.Group("/" + p.ht() + "/:lang")
-	api = rt.Group("/api")
-	return
 }
 
 // Redirect wrap redirect

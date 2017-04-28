@@ -1,0 +1,20 @@
+{{define "ops-mail-aliases-new"}}
+{{template "application-header" .}}
+{{template "form-header" .}}
+<form method="post">
+  <div class="form-group">
+    <label for="source">{{t .l "ops.mail.attributes.alias.source"}}</label>
+    <input type="email" class="form-control" id="source" name="source">
+  </div>
+  <div class="form-group">
+    <label for="destination">{{t .l "ops.mail.attributes.alias.destination"}}</label>
+    <select class="form-control" id="destination" name="destination">
+      {{range .users}}
+        <option value="{{.Email}}">{{.FullName}}&lt;{{.Email}}&gt;</option>
+      {{end}}
+    </select>
+  </div>
+  {{template "form-buttons" .}}
+</form>
+{{template "application-footer" .}}
+{{end}}

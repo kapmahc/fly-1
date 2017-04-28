@@ -1,0 +1,30 @@
+{{define "site-leave-words-index"}}
+{{template "dashboard-header" .}}
+{{template "form-header" .}}
+{{$l := .l}}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>{{t $l "attributes.createdAt"}}</th>
+      <th>{{t $l "attributes.body"}}</th>
+      <th>{{t $l "buttons.manage"}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .items}}
+    <tr>
+      <th scope="row">{{dtf .CreatedAt}}</th>
+      <th scope="row">
+        <pre><code>{{.Body}}</code></pre>
+      </th>
+      <td>
+        <div class="btn-group btn-group-sm" role="group">
+          <a class="btn btn-danger" data-method="delete" data-next="/leave-words" data-confirm="{{t $l "are-you-sure"}}" href="/leave-words/{{.ID}}">{{t $.l "buttons.remove"}}</a>
+        </div>
+      </td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>
+{{template "application-footer" .}}
+{{end}}

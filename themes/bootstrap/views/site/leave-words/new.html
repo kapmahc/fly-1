@@ -1,0 +1,14 @@
+{{define "site-leave-words-new"}}
+{{template "application-header" .}}
+{{template "form-header" .}}
+<form method="post">
+  <div class="form-group">
+    <label for="body">{{t .l "attributes.body"}}</label>
+    <textarea class="form-control" id="body" name="body" rows="6" aria-describedby="bodyHelp">{{.body}}</textarea>
+    <small id="bodyHelp" class="form-text text-muted">{{t .l "site.helps.leave-word.body"}}</small>
+  </div>
+  <input type="hidden" id="type" name="type" value="markdown"/>
+  {{template "form-buttons" .}}
+</form>
+{{template "application-footer" .}}
+{{end}}

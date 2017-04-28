@@ -1,0 +1,18 @@
+{{define "application-header"}}
+<!DOCTYPE html>
+<html lang="{{.l}}">
+  <head>
+    {{template "metas" .}}
+  </head>
+  <body>
+    {{template "header" .}}
+    <div class="container">
+      {{template "flashs" .}}
+{{end}}
+
+{{define "application-footer"}}
+</div>
+{{template "footer" .}}
+</body>
+</html>
+{{end}}

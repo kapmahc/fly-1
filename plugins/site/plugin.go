@@ -1,7 +1,6 @@
 package site
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/ikeikeikeike/go-sitemap-generator/stm"
 	"github.com/jinzhu/gorm"
 	"github.com/kapmahc/fly/plugins/auth"
@@ -33,11 +32,6 @@ type Plugin struct {
 
 // Init load config
 func (p *Plugin) Init() {}
-
-// Mount mount web points
-func (p *Plugin) Mount(*gin.Engine) {
-
-}
 
 // Dashboard dashboard nav
 func (p *Plugin) Dashboard() []*widgets.Dropdown {

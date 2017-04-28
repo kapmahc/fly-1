@@ -1,0 +1,32 @@
+{{define "site-admin-locales-index"}}
+{{template "dashboard-header" .}}
+{{template "form-header" .}}
+{{$l := .l}}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>{{t $l "site.attributes.locale.code"}}</th>
+      <th>{{t $l "site.attributes.locale.message"}}</th>
+      <th width="12%">
+        {{t $l "buttons.manage"}}
+        <a href="/admin/locales/edit">{{t $.l "buttons.new"}}</a>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .items}}
+    <tr>
+      <th scope="row">{{.Code}}</th>
+      <th scope="row">{{.Message}}</th>
+      <td>
+        <div class="btn-group btn-group-sm" role="group">
+          <a class="btn btn-warning" href="/admin/locales/edit?code={{.Code}}">{{t $.l "buttons.edit"}}</a>
+          <a class="btn btn-danger" data-method="delete" data-next="/admin/locales" data-confirm="{{t $l "are-you-sure"}}" href="/admin/locales/{{.ID}}">{{t $.l "buttons.remove"}}</a>
+        </div>
+      </td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>
+{{template "application-footer" .}}
+{{end}}

@@ -1,0 +1,46 @@
+{{define "site-admin-smtp"}}
+{{template "dashboard-header" .}}
+{{template "form-header" .}}
+<form method="post">
+  <div class="form-group">
+    <label for="host">{{t .l "attributes.host"}}</label>
+    <input type="text" class="form-control" value="{{.smtp.host}}" id="host" name="host">
+  </div>
+  <div class="form-group">
+    <label for="port">{{t .l "attributes.port"}}</label>
+    <select class="form-control" id="port" name="port">
+      {{$port := .smtp.port}}
+      {{range .ports}}
+        <option value="{{.}}" {{if eq . $port}}selected{{end}}>{{.}}</option>
+      {{end}}
+    </select>
+  </div>
+  <div class="form-check">
+    <label class="form-check-label">
+      <input value="true" name="ssl" id="ssl" type="checkbox" class="form-check-input" {{if .smtp.ssl}}checked{{end}}>
+      {{t .l "attributes.ssl"}}
+    </label>
+  </div>
+  <div class="form-group">
+    <label for="username">{{t .l "site.admin.smtp.sender"}}</label>
+    <input type="email" class="form-control" value="{{.smtp.username}}" id="username" name="username">
+  </div>
+  <div class="form-group">
+    <label for="password">{{t .l "attributes.password"}}</label>
+    <input type="password" class="form-control" name="password" id="password" aria-describedby="passwordHelp">
+    <small id="passwordHelp" class="form-text text-muted">{{t .l "helps.password"}}</small>
+  </div>
+  <div class="form-group">
+    <label for="passwordConfirmation">{{t .l "attributes.passwordConfirmation"}}</label>
+    <input type="password" class="form-control" name="passwordConfirmation" id="passwordConfirmation" aria-describedby="passwordConfirmationHelp">
+    <small id="passwordConfirmationHelp" class="form-text text-muted">{{t .l "helps.passwordConfirmation"}}</small>
+  </div>
+  {{template "form-buttons" .}}
+</form>
+<br/>
+<ol>
+  <li><a target="_blank" href="https://support.google.com/mail/answer/78754">Read Gmail messages on other email clients using IMAP</a></li>
+  <li><a target="_blank" href="https://support.google.com/mail/answer/6010255">Allowing less secure apps to access your account</a></li>
+</ol>
+{{template "application-footer" .}}
+{{end}}

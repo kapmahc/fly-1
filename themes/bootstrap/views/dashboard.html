@@ -1,0 +1,47 @@
+{{define "dashboard-header"}}
+<!DOCTYPE html>
+<html lang="{{.l}}">
+  <head>
+    {{template "metas" .}}
+  </head>
+  <body>
+    {{$l := .l}}
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="/">{{t $l "site.subTitle"}}</a>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard">{{t $l "header.dashboard"}}</a>
+          </li>
+
+          {{range .dashboard}}
+            {{if .}}
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" id="dashboard-bar-{{.Label}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      {{t $l .Label}}
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="dashboard-bar-{{.Label}}">
+                    {{range .Links}}
+                      {{if .}}
+                        <a class="dropdown-item" href="{{.Href}}">{{t $l .Label}}</a>
+                      {{else}}
+                        <div class="dropdown-divider"></div>
+                      {{end}}
+                    {{end}}
+                  </div>
+              </li>
+            {{end}}
+          {{end}}
+
+          {{template "language-bar" .}}
+          {{template "personal-bar" .}}
+        </ul>
+        {{template "search-form" .}}
+      </div>
+    </nav>
+    <div class="container">
+      {{template "flashs" .}}
+{{end}}

@@ -1,0 +1,36 @@
+{{define "personal-bar"}}
+{{$l := .l}}
+{{$gl := .}}
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" id="personal-bar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{if .currentUser}}
+    {{t .l "personal-bar.welcome" .currentUser.Name}}
+    {{else}}
+    {{t .l "personal-bar.sign-in-or-up"}}
+    {{end}}
+  </a>
+  <div class="dropdown-menu" aria-labelledby="personal-bar">
+    {{if .currentUser}}
+      <a class="dropdown-item" href="/dashboard">{{t .l "personal-bar.dashboard"}}</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" data-method="delete" data-next="/" data-confirm="{{t .l "are-you-sure"}}" href="/users/sign-out">{{t .l "personal-bar.sign-out"}}</a>
+    {{else}}
+    <a class="dropdown-item" href="/users/sign-in">
+      {{t .l "auth.users.sign-in.title"}}
+    </a>
+    <a class="dropdown-item" href="/users/sign-up">
+      {{t .l "auth.users.sign-up.title"}}
+    </a>
+    <a class="dropdown-item" href="/users/forgot-password">
+      {{t .l "auth.users.forgot-password.title"}}
+    </a>
+    <a class="dropdown-item" href="/users/confirm">
+      {{t .l "auth.users.confirm.title"}}
+    </a>
+    <a class="dropdown-item" href="/users/unlock">
+      {{t .l "auth.users.unlock.title"}}
+    </a>
+    {{end}}
+  </div>
+</li>
+{{end}}

@@ -1,0 +1,48 @@
+{{define "ops-vpn-users-new"}}
+{{template "application-header" .}}
+{{template "form-header" .}}
+<form method="post">
+  <div class="form-group">
+    <label for="fullName">{{t .l "attributes.fullName"}}</label>
+    <input type="text" class="form-control" id="fullName" name="fullName">
+  </div>
+  <div class="form-group">
+    <label for="email">{{t .l "attributes.email"}}</label>
+    <input type="email" class="form-control" id="email" name="email">
+  </div>
+  <div class="form-group">
+    <label for="password">{{t .l "attributes.password"}}</label>
+    <input type="password" class="form-control" name="password" id="password" aria-describedby="passwordHelp">
+    <small id="passwordHelp" class="form-text text-muted">{{t .l "helps.password"}}</small>
+  </div>
+  <div class="form-group">
+    <label for="passwordConfirmation">{{t .l "attributes.passwordConfirmation"}}</label>
+    <input type="password" class="form-control" name="passwordConfirmation" id="passwordConfirmation" aria-describedby="passwordConfirmationHelp">
+    <small id="passwordConfirmationHelp" class="form-text text-muted">{{t .l "helps.passwordConfirmation"}}</small>
+  </div>
+  <div class="form-check">
+    <label class="form-check-label">
+      <input value="true" name="enable" id="enable" type="checkbox" class="form-check-input">
+      {{t .l "attributes.enable"}}
+    </label>
+  </div>
+  <div class="form-group row">
+    <label for="startUp" class="col-2 col-form-label">{{t .l "attributes.startUp"}}</label>
+    <div class="col-3">
+      <input class="form-control" type="date" value="{{.startUp}}" id="startUp" name="startUp">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="shutDown" class="col-2 col-form-label">{{t .l "attributes.shutDown"}}</label>
+    <div class="col-3">
+      <input class="form-control" type="date" value="{{.shutDown}}" id="shutDown" name="shutDown">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="details">{{t .l "attributes.details"}}</label>
+    <textarea class="form-control" id="details" name="details" rows="3"></textarea>
+  </div>
+  {{template "form-buttons" .}}
+</form>
+{{template "application-footer" .}}
+{{end}}

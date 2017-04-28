@@ -1,0 +1,10 @@
+{{define "reading-notes-list"}}
+{{range .}}
+<blockquote class="blockquote">
+  <p class="mb-0">
+    <p class="markdown">{{.Body}}</p>    
+  </p>
+  <footer class="blockquote-footer"><cite>{{dtf .UpdatedAt}}</cite></footer>
+</blockquote>
+{{end}}
+{{end}}

@@ -1,0 +1,35 @@
+{{define "ops-vpn-users-index"}}
+{{template "dashboard-header" .}}
+{{template "form-header" .}}
+{{$l := .l}}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>{{t $l "ops.vpn.models.user"}}</th>
+      <th>{{t $l "attributes.enable"}}</th>
+      <th>{{t $l "attributes.validity"}}</th>
+      <th>
+        {{t $l "buttons.manage"}}
+        <a href="/ops/vpn/users/new">{{t $l "buttons.new"}}</a>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .items}}
+    <tr>
+      <th scope="row">{{.FullName}}&lt;{{.Email}}&gt;</th>
+      <td>{{.Enable}}</td>
+      <td>{{df .StartUp}} - {{df .ShutDown}}</td>
+      <td>
+        <div class="btn-group btn-group-sm" role="group">
+          <a class="btn btn-info" href="/ops/vpn/users/edit/{{.ID}}">{{t $.l "ops.vpn.users.edit.title"}}</a>
+          <a class="btn btn-warning" href="/ops/vpn/users/reset-password/{{.ID}}">{{t $.l "ops.vpn.users.reset-password.title"}}</a>
+          <a class="btn btn-danger" data-method="delete" data-next="/ops/vpn/users" data-confirm="{{t $l "are-you-sure"}}" href="/ops/vpn/users/{{.ID}}">{{t $.l "buttons.remove"}}</a>
+        </div>
+      </td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>
+{{template "application-footer" .}}
+{{end}}

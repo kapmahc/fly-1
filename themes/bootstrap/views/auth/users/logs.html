@@ -1,0 +1,10 @@
+{{define "auth-users-logs"}}
+{{template "dashboard-header" .}}
+{{template "form-header" .}}
+<ul class="list-group">
+  {{range .logs}}
+    <li class="list-group-item list-group-item-action">[{{.IP}}]{{dtf .CreatedAt}}: {{.Message}}</li>
+  {{end}}
+</ul>
+{{template "application-footer" .}}
+{{end}}

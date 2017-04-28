@@ -1,0 +1,12 @@
+{{define "auth-attachments-edit"}}
+{{template "application-header" .}}
+{{template "form-header" .}}
+<form method="post">
+  <div class="form-group">
+    <label for="title">{{t .l "attributes.title"}}</label>
+    <input type="text" class="form-control" value={{.item.Title}} id="title" name="title">
+  </div>
+  {{template "form-buttons" .}}
+</form>
+{{template "application-footer" .}}
+{{end}}

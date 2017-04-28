@@ -1,0 +1,12 @@
+{{define "forum-articles-list"}}
+<div class="card-columns">
+  {{range .}}
+  <div class="card">
+    <div class="card-block">
+      <h4 class="card-title"><a href="/forum/articles/show/{{.ID}}" target="_blank">{{.Title}}</a></h4>
+      <p class="card-text">{{.Summary}}</p>
+    </div>
+  </div>
+  {{end}}
+</div>
+{{end}}

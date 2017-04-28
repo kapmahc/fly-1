@@ -1,0 +1,38 @@
+{{define "auth-attachments-index"}}
+{{template "dashboard-header" .}}
+{{template "form-header" .}}
+{{$l := .l}}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>{{t $l "attributes.name"}}</th>
+      <th>{{t $l "attributes.size"}}</th>
+      <th>
+        {{t $l "buttons.manage"}}
+        <a href="/attachments/new" target="_blank">{{t $l "buttons.new"}}</a>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .attachments}}
+    <tr>
+      <th scope="row">
+        <a href="{{.URL}}" target="_blank">{{.Title}}</a>
+        <a class="clipboard" data-clipboard-text="{{.URL}}">
+          <img width="24" src="/public/assets/clippy.svg" alt="{{t $l "auth.attachments.index.copy-toclip-board"}}">
+        </a>
+      </th>
+      <td>{{.Length}}KB</td>
+      <td>
+        <div class="btn-group btn-group-sm" role="group">
+          <a class="btn btn-info" href="{{.URL}}" target="_blank">{{t $l "buttons.view"}}</a>
+          <a class="btn btn-warning" href="/attachments/edit/{{.ID}}">{{t $l "buttons.edit"}}</a>
+          <a class="btn btn-danger" data-method="delete" data-next="/attachments" data-confirm="{{t $l "are-you-sure"}}" href="/attachments/{{.ID}}">{{t $l "buttons.remove"}}</a>
+        </div>
+      </td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>
+{{template "application-footer" .}}
+{{end}}

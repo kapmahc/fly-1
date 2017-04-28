@@ -1,0 +1,28 @@
+{{define "form-buttons"}}
+{{ .csrfField }}
+<button type="submit" class="btn btn-primary">{{t .l "buttons.submit"}}</button>
+<button type="reset" class="btn btn-secondary">{{t .l "buttons.reset"}}</button>
+{{end}}
+
+{{define "form-header"}}
+<br/>
+<h2>{{.title}}</h2>
+<hr/>
+{{end}}
+
+{{define "form-field-email"}}
+<div class="form-group">
+  <label for="{{.id}}">{{t .lng .label}}</label>
+  <input type="email" class="form-control" id="{{.id}}" name="{{.id}}">
+</div>
+{{end}}
+
+{{define "form-field-password"}}
+<div class="form-group">
+  <label for="password">{{t .lng .label }}</label>
+  <input type="password" class="form-control" name="{{.id}}" id="{{.id}}" aria-describedby="{{.id}}Help">
+  {{if .help}}
+  <small id="{{.id}}Help" class="form-text text-muted">{{t .lng .help}}</small>
+  {{end}}
+</div>
+{{end}}

@@ -1,0 +1,34 @@
+{{define "site-admin-links-index"}}
+{{template "dashboard-header" .}}
+{{template "form-header" .}}
+{{$l := .l}}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>{{t $l "attributes.sortOrder"}}</th>
+      <th>{{t $l "attributes.loc"}}</th>
+      <th>{{t $l "attributes.demo"}}</th>
+      <th width="12%">
+        {{t $l "buttons.manage"}}
+        <a href="/admin/links/new">{{t $l "buttons.new"}}</a>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .items}}
+    <tr>
+      <th scope="row">{{.SortOrder}}</th>
+      <td>{{.Loc}}</td>
+      <td><a href="{{.Href}}" target="_blank">{{t $l .Label}}</a></td>
+      <td>
+        <div class="btn-group btn-group-sm" role="group">
+          <a class="btn btn-warning" href="/admin/links/edit/{{.ID}}">{{t $l "buttons.edit"}}</a>
+          <a class="btn btn-danger" data-method="delete" data-next="/admin/links" data-confirm="{{t $l "are-you-sure"}}" href="/admin/links/{{.ID}}">{{t $.l "buttons.remove"}}</a>
+        </div>
+      </td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>
+{{template "application-footer" .}}
+{{end}}

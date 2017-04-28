@@ -1,0 +1,20 @@
+{{define "footer"}}
+{{$l := .l}}
+<div class="container">
+  <hr/>
+  <footer>
+    <p class="float-right">
+      {{t $l "footer.other-languages"}}
+      {{range .languages}}
+        {{$lng := fmt "languages.%s" .}}
+        <a href="/?locale={{.}}">{{t $l $lng}}</a>
+      {{end}}
+    </p>
+    <p>
+      &copy; {{t $l "site.copyright"}}
+      &middot; <a href="/blog/privacy.md">{{t $l "footer.pravicy"}}</a>
+      &middot; <a href="/blog/teams.md">{{t $l "footer.teams"}}</a>
+    </p>
+  </footer>
+</div>
+{{end}}

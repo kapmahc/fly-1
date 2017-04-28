@@ -1,0 +1,32 @@
+{{define "site-admin-links-new"}}
+{{template "dashboard-header" .}}
+{{template "form-header" .}}
+<form method="post">
+  <div class="form-group">
+    <label for="loc">{{t .l "attributes.loc"}}</label>
+    <select class="form-control" id="loc" name="loc">
+      {{range .locs}}
+        <option value="{{.}}">{{.}}</option>
+      {{end}}
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="label">{{t .l "attributes.label"}}</label>
+    <input type="text" class="form-control" id="label" name="label">
+  </div>
+  <div class="form-group">
+    <label for="href">{{t .l "attributes.href"}}</label>
+    <input type="text" class="form-control" id="href" name="href">
+  </div>
+  <div class="form-group">
+    <label for="sortOrder">{{t .l "attributes.sortOrder"}}</label>
+    <select class="form-control" id="sortOrder" name="sortOrder">
+      {{range .sortOrders}}
+        <option value="{{.}}">{{.}}</option>
+      {{end}}
+    </select>
+  </div>
+  {{template "form-buttons" .}}
+</form>
+{{template "application-footer" .}}
+{{end}}
