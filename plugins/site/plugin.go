@@ -33,8 +33,32 @@ type Plugin struct {
 func (p *Plugin) Init() {}
 
 // Dashboard dashboard nav
-func (p *Plugin) Dashboard(*gin.Context) []*widgets.Dropdown {
-	return []*widgets.Dropdown{}
+func (p *Plugin) Dashboard(c *gin.Context) []*widgets.Dropdown {
+	var items []*widgets.Dropdown
+	if admin, ok := c.Get(auth.IsAdmin); ok && admin.(bool) {
+		items = append(
+			items,
+			widgets.NewDropdown(
+				"site.dashboard.title",
+				widgets.NewLink("site.admin.status.title", "/admin/site/status"),
+				nil,
+				widgets.NewLink("site.admin.links.index.title", "/admin/links"),
+				widgets.NewLink("site.admin.cards.index.title", "/admin/cards"),
+				nil,
+				widgets.NewLink("site.admin.info.title", "/admin/site/info"),
+				widgets.NewLink("site.admin.author.title", "/admin/site/author"),
+				widgets.NewLink("site.admin.seo.title", "/admin/site/seo"),
+				widgets.NewLink("site.admin.smtp.title", "/admin/site/smtp"),
+				nil,
+				widgets.NewLink("site.admin.users.index.title", "/admin/users"),
+				widgets.NewLink("site.admin.locales.index.title", "/admin/locales"),
+				widgets.NewLink("site.notices.index.title", "/admin/notices"),
+				widgets.NewLink("site.admin.leave-words.index.title", "/leave-words"),
+				widgets.NewLink("site.admin.friend-links.index.title", "/friend-links"),
+			),
+		)
+	}
+	return items
 }
 
 // Atom rss.atom

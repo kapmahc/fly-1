@@ -1,17 +1,15 @@
-<div class="row">
+<div class="card-columns">
   {{range .dashboard}}
-  <div class="col-md-6">
-    <div class="card">
-      <div class="card-block">
-        <h4 class="card-title">{{.Label}}</h4>
-      </div>
-      <div class="list-group list-group-flush">
-        {{range .Items}}
-          {{if .}}
-            <a class="list-group-item list-group-item-action" href="{{.Href}}">{{.Label}}</a>
-          {{end}}
+  <div class="card">
+    <div class="card-block">
+      <h4 class="card-title">{{t $.lang .Label}}</h4>
+    </div>
+    <div class="list-group list-group-flush">
+      {{range .Items}}
+        {{if .}}
+          <a class="list-group-item list-group-item-action" href="{{.Href}}">{{t $.lang .Label}}</a>
         {{end}}
-      </div>
+      {{end}}
     </div>
   </div>
   {{end}}
