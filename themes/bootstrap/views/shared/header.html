@@ -1,4 +1,3 @@
-{{define "header"}}
 {{$l := .l}}
 <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,10 +22,9 @@
         </li>
       {{end}}
 
-      {{template "language-bar" .}}
-      {{template "personal-bar" .}}
+      {{template "shared/language-bar" .}}
+      {{template "shared/personal-bar" .}}
     </ul>
-    {{template "search-form" .}}
+    {{template "shared/search-form" .}}
   </div>
 </nav>
-{{end}}

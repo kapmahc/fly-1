@@ -1,15 +1,14 @@
-{{define "metas"}}
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
 <meta name="description" content="{{t .l "site.description"}}">
 <meta name="keywords" content="{{t .l "site.keywords"}}">
 <meta name="author" content="{{t .l "site.author.name"}}<{{t .l "site.author.email"}}>">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="csrf-token" content="{{.csrf}}">
-<link rel="icon" type="image/png" href="/public/assets/favicon.png">
 
 <title>{{.title}}|{{t .l "site.subTitle"}}|{{t .l "site.title"}}</title>
 
-<link rel="stylesheet" href="/public/assets/main.css" />
+<link rel="stylesheet" href="/assets/main.css" />
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
@@ -18,5 +17,5 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js" integrity="sha256-3SFEu3qBPVRitcXI7ITnBKtwkYmoqF7ap4xI5dEexaY=" crossorigin="anonymous"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js" integrity="sha256-p2l8VeL3iL1J0NxcXbEVtoyYSC+VbEbre5KHbzq1fq8=" crossorigin="anonymous"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.1/clipboard.min.js" integrity="sha256-El0fEiD3YOM7uIVZztyQzmbbPlgEj0oJVxRWziUh4UE=" crossorigin="anonymous"></script>
-<script src="/public/assets/main.js"></script>
+<script src="/assets/main.js"></script>
 {{end}}

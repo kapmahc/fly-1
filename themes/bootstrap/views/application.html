@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="{{.l}}">
+  <head>
+    {{template "shared/metas" .}}
+  </head>
+  <body>
+    {{template "shared/header" .}}
+    <div class="container">
+      {{yield}}      
+    </div>
+    <div class="container">
+      {{template "shared/footer" .}}
+    </div>
+  </body>
+</html>

@@ -1,4 +1,3 @@
-{{define "footer"}}
 {{$l := .l}}
 <div class="container">
   <hr/>
@@ -12,9 +11,9 @@
     </p>
     <p>
       &copy; {{t $l "site.copyright"}}
-      &middot; <a href="/blog/privacy.md">{{t $l "footer.pravicy"}}</a>
-      &middot; <a href="/blog/teams.md">{{t $l "footer.teams"}}</a>
+      &middot; <a href="/posts/privacy.md">{{t $l "footer.pravicy"}}</a>
+      &middot; <a href="/posts/terms.md">{{t $l "footer.terms"}}</a>
+      &middot; <a href="/posts/about.md">{{t $l "footer.about"}}</a>
     </p>
   </footer>
 </div>
-{{end}}

@@ -61,7 +61,7 @@ CREATE TABLE friend_links (
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
   updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );
-CREATE INDEX friend_links_loc ON friend_links (loc);
+
 
 -- +goose Down
 -- SQL section 'Down' is executed when this migration is rolled back
