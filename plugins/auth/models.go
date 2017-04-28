@@ -31,7 +31,7 @@ type User struct {
 
 	Name            string     `json:"name"`
 	Email           string     `json:"email"`
-	UID             string     `json:"uid"`
+	UID             string     `json:"uid" gorm:"column:uid"`
 	Password        []byte     `json:"-"`
 	ProviderID      string     `json:"-"`
 	ProviderType    string     `json:"providerType"`

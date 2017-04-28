@@ -13,7 +13,7 @@ func NewForm(req *http.Request, lang, action, next, title string, fields ...inte
 		next = action
 	}
 	return Form{
-		"id":             uuid.New().String(),
+		"id":             "form-" + uuid.New().String(),
 		"lang":           lang,
 		"method":         http.MethodPost,
 		"action":         action,

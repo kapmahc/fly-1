@@ -1,18 +1,16 @@
-<div class="container">
-  <hr/>
-  <footer>
-    <p class="float-right">
-      {{t .lang "footer.other-languages"}}
-      {{range .languages}}
-        {{$lng := fmt "languages.%s" .}}
-        <a href="/?locale={{.}}">{{t $.lang $lng}}</a>
-      {{end}}
-    </p>
-    <p>
-      &copy; {{t .lang "site.copyright"}}
-      &middot; <a href="/posts/privacy">{{t .lang "footer.pravicy"}}</a>
-      &middot; <a href="/posts/terms">{{t .lang "footer.terms"}}</a>
-      &middot; <a href="/posts/about">{{t .lang "footer.about"}}</a>
-    </p>
-  </footer>
-</div>
+<hr/>
+<footer>
+  <p class="float-right">
+    {{t .lang "footer.other-languages"}}
+    {{range .languages}}
+      {{$lng := fmt "languages.%s" .}}
+      <a href="/?locale={{.}}">{{t $.lang $lng}}</a>
+    {{end}}
+  </p>
+  <p>
+    &copy; {{t .lang "site.copyright"}}
+    &middot; <a href="/posts/privacy">{{t .lang "footer.pravicy"}}</a>
+    &middot; <a href="/posts/terms">{{t .lang "footer.terms"}}</a>
+    &middot; <a href="/posts/about">{{t .lang "footer.about"}}</a>
+  </p>
+</footer>

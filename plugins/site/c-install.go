@@ -7,10 +7,24 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/kapmahc/fly/plugins/auth"
 	"github.com/kapmahc/fly/web/i18n"
+	"github.com/kapmahc/fly/web/widgets"
 )
 
-func (p *Plugin) getInstall(c *gin.Context, l string) (gin.H, error) {
-	return gin.H{}, nil
+func (p *Plugin) getInstall(c *gin.Context, lang string) (gin.H, error) {
+	title := p.I18n.T(lang, "site.install.title")
+	fm := widgets.NewForm(
+		c.Request,
+		lang,
+		"/install",
+		"/users/sign-in",
+		title,
+		widgets.NewTextField("title", p.I18n.T(lang, "site.attributes.title"), ""),
+		widgets.NewTextField("subTitle", p.I18n.T(lang, "site.attributes.subTitle"), ""),
+		widgets.NewEmailField("email", p.I18n.T(lang, "attributes.email"), ""),
+		widgets.NewPasswordField("password", p.I18n.T(lang, "attributes.password"), p.I18n.T(lang, "helpers.password")),
+		widgets.NewPasswordField("passwordConfirmation", p.I18n.T(lang, "attributes.passwordConfirmation"), p.I18n.T(lang, "helpers.passwordConfirmation")),
+	)
+	return gin.H{"form": fm, "title": title}, nil
 }
 
 type fmInstall struct {
@@ -48,12 +62,11 @@ func (p *Plugin) mustDatabaseEmpty(c *gin.Context) {
 	lang := c.MustGet(i18n.LOCALE).(string)
 	var count int
 	if err := p.Db.Model(&auth.User{}).Count(&count).Error; err != nil {
-		c.String(http.StatusInternalServerError, err.Error())
+		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 	if count > 0 {
-		c.String(http.StatusForbidden, p.I18n.T(lang, "errors.forbidden"))
+		c.AbortWithError(http.StatusForbidden, p.I18n.E(lang, "errors.forbidden"))
 		return
 	}
-	c.Next()
 }

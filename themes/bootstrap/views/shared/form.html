@@ -1,2 +1,49 @@
-<h2>{{.}}</h2>
+<h2>{{.title}}</h2>
 <hr/>
+<form id="{{.id}}" method="{{.method}}" action="{{.action}}" data-next="{{.next}}">
+  {{.csrfField}}
+  {{range .fields}}
+    {{if eq .type "text"}}
+      <div class="form-group">
+        <label for="{{.id}}">{{.label}}</label>
+        <input type="text" class="form-control" id="{{.id}}" name="{{.id}}" value="{{.value}}" aria-describedby="{{.id}}Help" placeholder="{{.placeholder}}">
+        <small id="{{.id}}Help" class="form-text text-muted">{{.helper}}</small>
+      </div>
+    {{else if eq .type "email"}}
+      <div class="form-group">
+        <label for="{{.id}}">{{.label}}</label>
+        <input type="email" class="form-control" id="{{.id}}" name="{{.id}}" value="{{.value}}" aria-describedby="{{.id}}Help" placeholder="{{.placeholder}}">
+        <small id="{{.id}}Help" class="form-text text-muted">{{.helper}}</small>
+      </div>
+    {{else if eq .type "password"}}
+      <div class="form-group">
+        <label for="{{.id}}">{{.label}}</label>
+        <input type="password" class="form-control" id="{{.id}}" name="{{.id}}" aria-describedby="{{.id}}Help" placeholder="{{.placeholder}}">
+        <small id="{{.id}}Help" class="form-text text-muted">{{.helper}}</small>
+      </div>
+    {{else}}
+      <input id="{{.id}}" name="{{.id}}" value="{{.id}}"/>
+    {{end}}
+  {{end}}
+  <button type="submit" class="btn btn-primary">{{t .lang "buttons.submit"}}</button>
+  <button type="reset" class="btn btn-secondary">{{t .lang "buttons.reset"}}</button>
+</form>
+<script>
+  $(function(){
+    $('#{{.id}}').submit(function(e){
+        e.preventDefault();
+        var next = $(this).data('next');
+        $.post(
+          $(this).attr('action'),
+          $(this).serialize()
+        ).done(function(rst){
+          if(rst.message) {
+            alert(rst.message)
+          }
+          window.location.href = next;
+        }).fail(function(req){
+          alert(req.responseText || req.statusText);
+        });
+    });
+  });
+</script>
