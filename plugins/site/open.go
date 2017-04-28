@@ -18,7 +18,9 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/kapmahc/fly/web"
 	"github.com/kapmahc/fly/web/cache/redis"
+	i_orm "github.com/kapmahc/fly/web/i18n/orm"
 	"github.com/kapmahc/fly/web/job/rabbitmq"
+	s_orm "github.com/kapmahc/fly/web/settings/orm"
 	"github.com/kapmahc/fly/web/uploader/fs"
 	"github.com/spf13/viper"
 	"github.com/unrolled/render"
@@ -76,6 +78,8 @@ func (p *Plugin) Open(g *inject.Graph) error {
 			viper.GetString("rabbitmq.password"),
 			viper.GetString("rabbitmq.virtual"),
 		)},
+		&inject.Object{Value: &i_orm.Store{}},
+		&inject.Object{Value: &s_orm.Store{}},
 	)
 }
 

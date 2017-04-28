@@ -6,17 +6,17 @@
   </head>
   <body>
     {{template "header" .}}
-    {{$carousel := pages "carousel"}}
-    {{template "carousel-pages" $carousel}}
+    {{$carousel := cards "carousel"}}
+    {{template "carousel-cards" $carousel}}
     <div class="container marketing">
-      {{$circle := pages "circle"}}
-      {{template "circle-pages" $circle}}
-      {{$square := pages "square"}}
-      {{template "square-pages" $square}}
+      {{$circle := cards "circle"}}
+      {{template "circle-cards" $circle}}
+      {{$square := cards "square"}}
+      {{template "square-cards" $square}}
       {{template "application-footer" .}}
 {{end}}
 
-{{define "square-pages"}}
+{{define "square-cards"}}
 {{range $k, $v :=  .}}
   <hr class="featurette-divider">
   <div class="row featurette">
@@ -34,7 +34,7 @@
 {{end}}
 {{end}}
 
-{{define "circle-pages"}}
+{{define "circle-cards"}}
 <div class="row">
   {{range .}}
     <div class="col-lg-4">
@@ -47,7 +47,7 @@
 </div>
 {{end}}
 
-{{define "carousel-pages"}}
+{{define "carousel-cards"}}
 <div id="topCarousel" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">
     {{range $k, $v:= .}}

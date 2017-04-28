@@ -590,7 +590,6 @@ func (p *Plugin) runServer(*cli.Context, *inject.Graph) error {
 		gin.SetMode(gin.ReleaseMode)
 	}
 	rt := gin.Default()
-	rt.LoadHTMLGlob("templates/*.html")
 
 	// --------------------
 	rt.Use(
