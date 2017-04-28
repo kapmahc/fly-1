@@ -11,9 +11,14 @@ func Name() string {
 	return viper.GetString("server.name")
 }
 
+// Secure http secure?
+func Secure() bool {
+	return viper.GetBool("server.ssl")
+}
+
 // Home  home url
 func Home() string {
-	if viper.GetBool("server.ssl") {
+	if Secure() {
 		return "https://" + Name()
 	}
 	return "http://" + Name()

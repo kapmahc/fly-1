@@ -32,8 +32,19 @@ type Plugin struct {
 func (p *Plugin) Init() {}
 
 // Dashboard dashboard nav
-func (p *Plugin) Dashboard(*gin.Context) []*widgets.Dropdown {
-	return []*widgets.Dropdown{}
+func (p *Plugin) Dashboard(c *gin.Context) []*widgets.Dropdown {
+	var items []*widgets.Dropdown
+	lang := c.MustGet(i18n.LOCALE).(string)
+	if _, ok := c.Get(CurrentUser); ok {
+		items = append(items, widgets.NewDropdown(
+			p.I18n.T(lang, "auth.dashboard.title"),
+			widgets.NewLink(p.I18n.T(lang, "auth.users.info.title"), "/users/info"),
+			widgets.NewLink(p.I18n.T(lang, "auth.users.change-password.title"), "/users/change-password"),
+			nil,
+			widgets.NewLink(p.I18n.T(lang, "auth.users.logs.title"), "/users/logs"),
+		))
+	}
+	return items
 }
 
 // Open open beans

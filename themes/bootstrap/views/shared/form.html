@@ -1,18 +1,17 @@
-<h2>{{.title}}</h2>
-<hr/>
+{{template "shared/title" .title}}
 <form id="{{.id}}" method="{{.method}}" action="{{.action}}" data-next="{{.next}}">
   {{.csrfField}}
   {{range .fields}}
     {{if eq .type "text"}}
       <div class="form-group">
         <label for="{{.id}}">{{.label}}</label>
-        <input type="text" class="form-control" id="{{.id}}" name="{{.id}}" value="{{.value}}" aria-describedby="{{.id}}Help" placeholder="{{.placeholder}}">
+        <input type="text" class="form-control" id="{{.id}}" name="{{.id}}" value="{{.value}}" aria-describedby="{{.id}}Help" placeholder="{{.placeholder}}" {{if .readonly}}readonly{{end}}>
         <small id="{{.id}}Help" class="form-text text-muted">{{.helper}}</small>
       </div>
     {{else if eq .type "email"}}
       <div class="form-group">
         <label for="{{.id}}">{{.label}}</label>
-        <input type="email" class="form-control" id="{{.id}}" name="{{.id}}" value="{{.value}}" aria-describedby="{{.id}}Help" placeholder="{{.placeholder}}">
+        <input type="email" class="form-control" id="{{.id}}" name="{{.id}}" value="{{.value}}" aria-describedby="{{.id}}Help" placeholder="{{.placeholder}}" {{if .readonly}}readonly{{end}}>
         <small id="{{.id}}Help" class="form-text text-muted">{{.helper}}</small>
       </div>
     {{else if eq .type "password"}}
@@ -22,7 +21,7 @@
         <small id="{{.id}}Help" class="form-text text-muted">{{.helper}}</small>
       </div>
     {{else}}
-      <input id="{{.id}}" name="{{.id}}" value="{{.id}}"/>
+      <input type="hidden" id="{{.id}}" name="{{.id}}" value="{{.value}}"/>
     {{end}}
   {{end}}
   <button type="submit" class="btn btn-primary">{{t .lang "buttons.submit"}}</button>

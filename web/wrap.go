@@ -5,6 +5,7 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/csrf"
 	"github.com/kapmahc/fly/web/i18n"
 	"github.com/kapmahc/fly/web/widgets"
 	"github.com/unrolled/render"
@@ -42,18 +43,25 @@ func (p *Wrap) FORM(fm interface{}, fn func(*gin.Context, string, interface{}) (
 func (p *Wrap) HTML(t string, f func(*gin.Context, string) (gin.H, error)) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		lang := c.MustGet(i18n.LOCALE).(string)
-		if v, e := f(c, lang); e == nil {
-			v["lang"] = lang
-			v["languages"], _ = p.I18n.Store.Languages()
+		if d, e := f(c, lang); e == nil {
+			// -------------
+			for k, v := range c.Keys {
+				d[k] = v
+			}
+			// ------------
+			d["lang"] = lang
+			d["languages"], _ = p.I18n.Store.Languages()
 			// -----------
 			var dashboard []*widgets.Dropdown
 			for _, en := range plugins {
 				items := en.Dashboard(c)
 				dashboard = append(dashboard, items...)
 			}
-			v["dashboard"] = dashboard
+			d["dashboard"] = dashboard
 			// -----------
-			p.Render.HTML(c.Writer, http.StatusOK, t, v)
+			d["csrf"] = csrf.Token(c.Request)
+			// -----------
+			p.Render.HTML(c.Writer, http.StatusOK, t, d)
 		} else {
 			log.Error(e)
 			c.String(http.StatusInternalServerError, e.Error())

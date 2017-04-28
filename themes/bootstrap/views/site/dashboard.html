@@ -1,0 +1,18 @@
+<div class="row">
+  {{range .dashboard}}
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-block">
+        <h4 class="card-title">{{.Label}}</h4>
+      </div>
+      <div class="list-group list-group-flush">
+        {{range .Items}}
+          {{if .}}
+            <a class="list-group-item list-group-item-action" href="{{.Href}}">{{.Label}}</a>
+          {{end}}
+        {{end}}
+      </div>
+    </div>
+  </div>
+  {{end}}
+</div>

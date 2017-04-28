@@ -1,0 +1,8 @@
+{{template "shared/title" .title}}
+<ul class="list-group">
+  {{range .logs}}
+    <li class="list-group-item list-group-item-action">
+      [{{.IP}}] {{dtf .CreatedAt}}: {{.Message}}
+    </li>
+  {{end}}
+</ul>
