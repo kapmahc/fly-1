@@ -31,15 +31,12 @@ CREATE TABLE links (
   id BIGSERIAL PRIMARY KEY,
   href VARCHAR(255) NOT NULL,
   label VARCHAR(255) NOT NULL,
-  lang VARCHAR(8) NOT NULL,
   loc VARCHAR(16) NOT NULL,
   sort_order INT NOT NULL DEFAULT 0,
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
   updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );
-CREATE INDEX idx_links_loc_lang ON links (loc, lang);
 CREATE INDEX idx_links_loc ON links (loc);
-CREATE INDEX idx_links_lang ON links (lang);
 
 CREATE TABLE cards (
   id BIGSERIAL PRIMARY KEY,

@@ -1,4 +1,4 @@
-package web
+package widgets
 
 import (
 	"net/http"

@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/ikeikeikeike/go-sitemap-generator/stm"
 	"github.com/kapmahc/fly/web/job"
+	"github.com/kapmahc/fly/web/widgets"
 	"github.com/urfave/cli"
 	"golang.org/x/tools/blog/atom"
 )
@@ -12,11 +13,12 @@ import (
 // Plugin plugin
 type Plugin interface {
 	Init()
-	Mount(*gin.RouterGroup, *gin.RouterGroup)
+	Mount(*gin.Engine)
+	Dashboard() []*widgets.Dropdown
 	Open(*inject.Graph) error
 	Console() []cli.Command
 	Atom(lang string) ([]*atom.Entry, error)
-	Sitemap(languages ...string) ([]stm.URL, error)
+	Sitemap() ([]stm.URL, error)
 	Workers() map[string]job.Handler
 }
 
