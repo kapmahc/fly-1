@@ -17,6 +17,7 @@ import (
 	"github.com/facebookgo/inject"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/gorilla/csrf"
 	"github.com/ikeikeikeike/go-sitemap-generator/stm"
 	"github.com/kapmahc/fly/web"
 	"github.com/spf13/viper"
@@ -49,7 +50,11 @@ func (p *Plugin) Console() []cli.Command {
 				if err := p.writeSitemap(root); err != nil {
 					return err
 				}
-				for _, lang := range viper.GetStringSlice("languages") {
+				langs, err := p.I18n.Store.Languages()
+				if err != nil {
+					return err
+				}
+				for _, lang := range langs {
 					if err := p.writeRssAtom(root, lang); err != nil {
 						return err
 					}
@@ -592,10 +597,10 @@ func (p *Plugin) runServer(*cli.Context, *inject.Graph) error {
 	rt := gin.Default()
 
 	// --------------------
-	rt.Use(
-		p.I18n.Middleware,
-	)
-
+	lm, err := p.I18n.Middleware()
+	if err != nil {
+		return err
+	}
 	// cfg := cors.DefaultConfig()
 	// cfg.AllowMethods = append(cfg.AllowMethods, http.MethodDelete, http.MethodPatch)
 	// cfg.AllowCredentials = true
@@ -603,6 +608,7 @@ func (p *Plugin) runServer(*cli.Context, *inject.Graph) error {
 	// cfg.AllowOrigins = []string{web.Home(), "http://localhost:3000"}
 	rt.Use(
 		// cors.New(cfg),
+		lm,
 		p.Jwt.CurrentUserMiddleware,
 	)
 	web.Walk(func(en web.Plugin) error {
@@ -611,18 +617,18 @@ func (p *Plugin) runServer(*cli.Context, *inject.Graph) error {
 	})
 
 	// -------------
-	// hnd := csrf.Protect(
-	// 	[]byte(viper.GetString("secrets.csrf")),
-	// 	csrf.Secure(web.IsProduction()),
-	// 	csrf.CookieName("_csrf_"),
-	// 	csrf.Path("/"),
-	// 	csrf.FieldName("authenticity_token"),
-	// )(rt)
+	hnd := csrf.Protect(
+		[]byte(viper.GetString("secrets.csrf")),
+		csrf.Secure(web.IsProduction()),
+		csrf.CookieName("_csrf_"),
+		csrf.Path("/"),
+		csrf.FieldName("authenticity_token"),
+	)(rt)
 	// ---------------
 	addr := fmt.Sprintf(":%d", port)
 
 	if web.IsProduction() {
-		srv := &http.Server{Addr: addr, Handler: rt}
+		srv := &http.Server{Addr: addr, Handler: hnd}
 		go func() {
 			// service connections
 			if err := srv.ListenAndServe(); err != nil {
@@ -646,7 +652,7 @@ func (p *Plugin) runServer(*cli.Context, *inject.Graph) error {
 		return nil
 	}
 
-	return http.ListenAndServe(addr, rt)
+	return http.ListenAndServe(addr, hnd)
 }
 
 func (p *Plugin) writeSitemap(root string) error {

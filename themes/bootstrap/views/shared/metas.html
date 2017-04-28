@@ -1,12 +1,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
-<meta name="description" content="{{t .l "site.description"}}">
-<meta name="keywords" content="{{t .l "site.keywords"}}">
-<meta name="author" content="{{t .l "site.author.name"}}<{{t .l "site.author.email"}}>">
+<meta name="description" content="{{t .lang "site.description"}}">
+<meta name="keywords" content="{{t .lang "site.keywords"}}">
+<meta name="author" content="{{t .lang "site.author.name"}}<{{t .lang "site.author.email"}}>">
 <meta name="csrf-token" content="{{.csrf}}">
 
-<title>{{.title}}|{{t .l "site.subTitle"}}|{{t .l "site.title"}}</title>
+<title>{{.title}}|{{t .lang "site.subTitle"}}|{{t .lang "site.title"}}</title>
 
 <link rel="stylesheet" href="/assets/main.css" />
 
@@ -18,4 +18,3 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js" integrity="sha256-p2l8VeL3iL1J0NxcXbEVtoyYSC+VbEbre5KHbzq1fq8=" crossorigin="anonymous"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.1/clipboard.min.js" integrity="sha256-El0fEiD3YOM7uIVZztyQzmbbPlgEj0oJVxRWziUh4UE=" crossorigin="anonymous"></script>
 <script src="/assets/main.js"></script>
-{{end}}

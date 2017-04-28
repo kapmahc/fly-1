@@ -2,6 +2,7 @@ package auth
 
 import (
 	"github.com/facebookgo/inject"
+	"github.com/gin-gonic/gin"
 	"github.com/ikeikeikeike/go-sitemap-generator/stm"
 	"github.com/jinzhu/gorm"
 	"github.com/kapmahc/fly/web"
@@ -31,8 +32,8 @@ type Plugin struct {
 func (p *Plugin) Init() {}
 
 // Dashboard dashboard nav
-func (p *Plugin) Dashboard() []*widgets.Dropdown {
-	return nil
+func (p *Plugin) Dashboard(*gin.Context) []*widgets.Dropdown {
+	return []*widgets.Dropdown{}
 }
 
 // Open open beans

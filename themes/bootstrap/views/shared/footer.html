@@ -1,19 +1,18 @@
-{{$l := .l}}
 <div class="container">
   <hr/>
   <footer>
     <p class="float-right">
-      {{t $l "footer.other-languages"}}
+      {{t .lang "footer.other-languages"}}
       {{range .languages}}
         {{$lng := fmt "languages.%s" .}}
-        <a href="/?locale={{.}}">{{t $l $lng}}</a>
+        <a href="/?locale={{.}}">{{t $.lang $lng}}</a>
       {{end}}
     </p>
     <p>
-      &copy; {{t $l "site.copyright"}}
-      &middot; <a href="/posts/privacy.md">{{t $l "footer.pravicy"}}</a>
-      &middot; <a href="/posts/terms.md">{{t $l "footer.terms"}}</a>
-      &middot; <a href="/posts/about.md">{{t $l "footer.about"}}</a>
+      &copy; {{t .lang "site.copyright"}}
+      &middot; <a href="/posts/privacy">{{t .lang "footer.pravicy"}}</a>
+      &middot; <a href="/posts/terms">{{t .lang "footer.terms"}}</a>
+      &middot; <a href="/posts/about">{{t .lang "footer.about"}}</a>
     </p>
   </footer>
 </div>

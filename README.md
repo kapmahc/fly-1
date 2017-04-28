@@ -22,7 +22,7 @@ cd $GOPATH/src/github.com/kapmahc/fly
 go run main.go g c
 # generate nginx.conf
 go run main.go g ng
-sudo ln -s $GOPATH/github.com/kapmahc/h2o/etc/nginx/sites-enabled/localhost.conf /etc/nginx/sites-enabled/
+sudo ln -s $GOPATH/src/github.com/kapmahc/fly/etc/nginx/sites-enabled/localhost.conf /etc/nginx/sites-enabled/
 sudo nginx -s reload
 # start server
 ./run.sh

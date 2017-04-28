@@ -26,8 +26,8 @@ func (p *Plugin) Mount(*gin.Engine) {
 }
 
 // Dashboard dashboard nav
-func (p *Plugin) Dashboard() []*widgets.Dropdown {
-	return nil
+func (p *Plugin) Dashboard(*gin.Context) []*widgets.Dropdown {
+	return []*widgets.Dropdown{}
 }
 
 // Open open beans

@@ -18,9 +18,8 @@ import (
 
 // I18n i18n
 type I18n struct {
-	Store   Store            `inject:""`
-	Cache   *cache.Cache     `inject:""`
-	Matcher language.Matcher `inject:""`
+	Store Store        `inject:""`
+	Cache *cache.Cache `inject:""`
 }
 
 // F format message

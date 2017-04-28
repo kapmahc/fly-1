@@ -14,7 +14,7 @@ import (
 type Plugin interface {
 	Init()
 	Mount(*gin.Engine)
-	Dashboard() []*widgets.Dropdown
+	Dashboard(*gin.Context) []*widgets.Dropdown
 	Open(*inject.Graph) error
 	Console() []cli.Command
 	Atom(lang string) ([]*atom.Entry, error)

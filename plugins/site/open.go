@@ -24,7 +24,6 @@ import (
 	"github.com/kapmahc/fly/web/uploader/fs"
 	"github.com/spf13/viper"
 	"github.com/unrolled/render"
-	"golang.org/x/text/language"
 )
 
 // Open init beans
@@ -38,15 +37,7 @@ func (p *Plugin) Open(g *inject.Graph) error {
 	if err != nil {
 		return err
 	}
-	// -------------------
-	var tags []language.Tag
-	for _, l := range viper.GetStringSlice("languages") {
-		lng, er := language.Parse(l)
-		if er != nil {
-			return er
-		}
-		tags = append(tags, lng)
-	}
+
 	// -------------------
 	theme := viper.GetString("server.theme")
 	up, err := fs.NewFileSystemStore(
@@ -62,7 +53,6 @@ func (p *Plugin) Open(g *inject.Graph) error {
 		&inject.Object{Value: []byte(viper.GetString("secrets.jwt")), Name: "jwt.key"},
 		&inject.Object{Value: crypto.SigningMethodHS512, Name: "jwt.method"},
 
-		&inject.Object{Value: language.NewMatcher(tags)},
 		&inject.Object{Value: cip},
 		&inject.Object{Value: db},
 		&inject.Object{Value: p.openRedis()},
@@ -181,11 +171,11 @@ func (p *Plugin) openRender(theme string) *render.Render {
 		"starts": func(s string, b string) bool {
 			return strings.HasPrefix(s, b)
 		},
-		"links": func(lang, loc string) []Link {
+		"links": func(loc string) []Link {
 			var items []Link
 			if err := p.Db.
-				Where("loc = ?", lang, loc).
-				Order("sort DESC").
+				Where("loc = ?", loc).
+				Order("sort_order DESC").
 				Find(&items).Error; err != nil {
 				log.Error(err)
 			}

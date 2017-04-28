@@ -44,7 +44,7 @@ func (p *Store) Get(lang, code string) (string, error) {
 // Languages languages
 func (p *Store) Languages() ([]string, error) {
 	var val []string
-	err := p.Db.Model(&Model{}).Pluck("lang", &val).Error
+	err := p.Db.Model(&Model{}).Pluck("DISTINCT lang", &val).Error
 	return val, err
 }
 

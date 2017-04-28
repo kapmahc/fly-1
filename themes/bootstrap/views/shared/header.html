@@ -1,24 +1,23 @@
-{{$l := .l}}
 <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="/">{{t $l "site.subTitle"}}</a>
+  <a class="navbar-brand" href="/">{{t .lang "site.subTitle"}}</a>
   <div class="collapse navbar-collapse" id="navbarCollapse">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="/">{{t $l "header.home"}}</a>
+        <a class="nav-link" href="/">{{t .lang "header.home"}}</a>
       </li>
       {{$top := links "top"}}
       {{range $top}}
         <li class="nav-item">
-          <a class="nav-link" href="{{.Href}}">{{t $l .Label}}</a>
+          <a class="nav-link" href="{{.Href}}">{{t $.lang .Label}}</a>
         </li>
       {{end}}
 
       {{if .currentUser}}
         <li class="nav-item">
-          <a class="nav-link" href="/dashboard">{{t $l "header.dashboard"}}</a>
+          <a class="nav-link" href="/dashboard">{{t .lang "header.dashboard"}}</a>
         </li>
       {{end}}
 

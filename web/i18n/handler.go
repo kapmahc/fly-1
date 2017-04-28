@@ -11,25 +11,37 @@ const (
 )
 
 // Middleware locale-middleware
-func (p *I18n) Middleware(c *gin.Context) {
-	// 1. Check URL arguments.
-	lang := c.Request.URL.Query().Get(LOCALE)
-
-	// 2. Get language information from cookies.
-	if len(lang) == 0 {
-		if ck, er := c.Request.Cookie(LOCALE); er == nil {
-			lang = ck.Value
-		}
+func (p *I18n) Middleware() (gin.HandlerFunc, error) {
+	langs, err := p.Store.Languages()
+	if err != nil {
+		return nil, err
 	}
-
-	// 3. Get language information from 'Accept-Language'.
-	if len(lang) == 0 {
-		al := c.Request.Header.Get("Accept-Language")
-		if len(al) > 4 {
-			lang = al[:5] // Only compare first 5 letters.
-		}
+	var tags []language.Tag
+	for _, l := range langs {
+		tags = append(tags, language.Make(l))
 	}
+	matcher := language.NewMatcher(tags)
 
-	tag, _, _ := p.Matcher.Match(language.Make(lang))
-	c.Set(LOCALE, tag.String())
+	return func(c *gin.Context) {
+		// 1. Check URL arguments.
+		lang := c.Request.URL.Query().Get(LOCALE)
+
+		// 2. Get language information from cookies.
+		if len(lang) == 0 {
+			if ck, er := c.Request.Cookie(LOCALE); er == nil {
+				lang = ck.Value
+			}
+		}
+
+		// 3. Get language information from 'Accept-Language'.
+		if len(lang) == 0 {
+			al := c.Request.Header.Get("Accept-Language")
+			if len(al) > 4 {
+				lang = al[:5] // Only compare first 5 letters.
+			}
+		}
+
+		tag, _, _ := matcher.Match(language.Make(lang))
+		c.Set(LOCALE, tag.String())
+	}, nil
 }

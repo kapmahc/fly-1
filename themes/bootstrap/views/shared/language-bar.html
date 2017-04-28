@@ -1,12 +1,11 @@
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" id="language-bar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        {{t .l "language-bar.switch"}}
+        {{t .lang "language-bar.switch"}}
     </a>
     <div class="dropdown-menu" aria-labelledby="language-bar">
-      {{$l := .l}}
       {{range .languages}}
       {{$v := fmt "languages.%s" .}}
-      <a class="dropdown-item" href="/?locale={{.}}">{{t $l $v}}</a>
+      <a class="dropdown-item" href="/?locale={{.}}">{{t $.lang $v}}</a>
       {{end}}
     </div>
 </li>

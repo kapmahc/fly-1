@@ -6,16 +6,14 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/gin-gonic/gin"
 	"github.com/kapmahc/fly/web/i18n"
+	"github.com/kapmahc/fly/web/widgets"
 	"github.com/unrolled/render"
 )
 
 // Wrap wrap
 type Wrap struct {
 	Render *render.Render `inject:""`
-}
-
-func (p *Wrap) ht() string {
-	return "htdocs"
+	I18n   *i18n.I18n     `inject:""`
 }
 
 // Redirect wrap redirect
@@ -46,6 +44,15 @@ func (p *Wrap) HTML(t string, f func(*gin.Context, string) (gin.H, error)) gin.H
 		lang := c.MustGet(i18n.LOCALE).(string)
 		if v, e := f(c, lang); e == nil {
 			v["lang"] = lang
+			v["languages"], _ = p.I18n.Store.Languages()
+			// -----------
+			var dashboard []*widgets.Dropdown
+			for _, en := range plugins {
+				items := en.Dashboard(c)
+				dashboard = append(dashboard, items...)
+			}
+			v["dashboard"] = dashboard
+			// -----------
 			p.Render.HTML(c.Writer, http.StatusOK, t, v)
 		} else {
 			log.Error(e)
