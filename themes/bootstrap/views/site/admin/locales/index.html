@@ -1,0 +1,27 @@
+{{template "shared/title" .title}}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>{{t .lang "site.attributes.locale.code"}}</th>
+      <th>{{t .lang "site.attributes.locale.message"}}</th>
+      <th width="12%">
+        {{t .lang "buttons.manage"}}
+        <a href="/admin/locales/edit">{{t .lang "buttons.new"}}</a>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range $k, $v := .items}}
+      <tr>
+        <th>{{$k}}</th>
+        <td>{{$v}}</td>
+        <td>
+          <div class="btn-group btn-group-sm" role="group">
+            <a class="btn btn-warning" href="/admin/locales/edit?code={{$k}}">{{t $.lang "buttons.edit"}}</a>
+            <a class="btn btn-danger" data-method="delete" data-next="/admin/locales" data-confirm="{{t $.lang "are-you-sure"}}" href="/admin/locales/{{$k}}">{{t $.lang "buttons.remove"}}</a>
+          </div>
+        </td>
+      </tr>
+    {{end}}
+  </tbody>
+</table>

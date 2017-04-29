@@ -12,6 +12,13 @@ func (p *Plugin) Mount(rt *gin.Engine) {
 
 	ag := rt.Group("/admin", p.Jwt.MustAdminMiddleware)
 
+	ag.GET("/users", p.Wrap.HTML("site/admin/users/index", p.indexAdminUsers))
+
+	ag.GET("/locales", p.Wrap.HTML("site/admin/locales/index", p.getAdminLocales))
+	ag.GET("/locales/edit", p.Wrap.HTML("form", p.editAdminLocales))
+	ag.POST("/locales", p.Wrap.FORM(&fmLocale{}, p.saveAdminLocales))
+	ag.DELETE("/locales/:code", p.Wrap.JSON(p.deleteAdminLocales))
+
 	asg := ag.Group("/site")
 	asg.GET("/status", p.Wrap.HTML("site/admin/status", p.getAdminSiteStatus))
 	asg.GET("/info", p.Wrap.HTML("form", p.getAdminSiteInfo))

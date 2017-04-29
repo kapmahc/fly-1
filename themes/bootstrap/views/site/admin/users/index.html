@@ -1,0 +1,21 @@
+{{template "shared/title" .title}}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>{{t .lang "attributes.fullName"}}&lt;{{t .lang "attributes.email"}}&gt;</th>
+      <th>{{t .lang "auth.attributes.user.lastSignIn"}}</th>
+      <th>{{t .lang "auth.attributes.user.currentSignIn"}}</th>
+      <th width="12%">{{t .lang "buttons.manage"}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .items}}
+      <tr>
+        <th scope="row">{{.Name}}&lt;{{.Email}}&gt;({{.SignInCount}})</th>
+        <td>{{.LastSignInIP}} {{dtf .LastSignInAt}}</td>
+        <td>{{.CurrentSignInIP}} {{dtf .CurrentSignInAt}}</td>
+        <td></td>
+      </tr>
+    {{end}}
+  </tbody>
+</table>
