@@ -14,4 +14,12 @@ func (p *Plugin) Mount(rt *gin.Engine) {
 
 	asg := ag.Group("/site")
 	asg.GET("/status", p.Wrap.HTML("site/admin/status", p.getAdminSiteStatus))
+	asg.GET("/info", p.Wrap.HTML("form", p.getAdminSiteInfo))
+	asg.POST("/info", p.Wrap.FORM(&fmSiteInfo{}, p.postAdminSiteInfo))
+	asg.GET("/author", p.Wrap.HTML("form", p.getAdminSiteAuthor))
+	asg.POST("/author", p.Wrap.FORM(&fmSiteAuthor{}, p.postAdminSiteAuthor))
+	asg.GET("/seo", p.Wrap.HTML("site/admin/seo", p.getAdminSiteSeo))
+	asg.POST("/seo", p.Wrap.FORM(&fmSiteSeo{}, p.postAdminSiteSeo))
+	asg.GET("/smtp", p.Wrap.HTML("site/admin/smtp", p.getAdminSiteSMTP))
+	asg.POST("/smtp", p.Wrap.FORM(&fmSiteSMTP{}, p.postAdminSiteSMTP))
 }

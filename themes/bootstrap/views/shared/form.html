@@ -20,6 +20,29 @@
         <input type="password" class="form-control" id="{{.id}}" name="{{.id}}" aria-describedby="{{.id}}Help" placeholder="{{.placeholder}}">
         <small id="{{.id}}Help" class="form-text text-muted">{{.helper}}</small>
       </div>
+    {{else if eq .type "textarea"}}
+      <div class="form-group">
+        <label for="{{.id}}">{{.label}}</label>
+        <textarea class="form-control" id="{{.id}}" name="{{.id}}" aria-describedby="{{.id}}Help" placeholder="{{.placeholder}}" rows="{{.rows}}">{{.value}}</textarea>
+        <small id="{{.id}}Help" class="form-text text-muted">{{.helper}}</small>
+      </div>
+    {{else if eq .type "checkbox"}}
+      <div class="form-check">
+        <label class="form-check-label">
+          <input type="checkbox" class="form-check-input" id="{{.id}}" name="{{.id}}" {{if .checked}}checked{{end}}>
+          {{.label}}
+        </label>
+      </div>
+    {{else if eq .type "select"}}
+      <div class="form-group">
+        <label for="{{.id}}">{{.label}}</label>
+        <select {{if .multiple}}multiple{{end}} class="form-control" id="{{.id}}" name="{{.id}}">
+          {{$v := .value}}
+          {{range .options}}
+            <option value="{{.value}}" {{if eq $v .value}}selected{{end}}>{{.label}}</option>
+          {{end}}
+        </select>
+      </div>
     {{else}}
       <input type="hidden" id="{{.id}}" name="{{.id}}" value="{{.value}}"/>
     {{end}}
@@ -31,10 +54,18 @@
   $(function(){
     $('#{{.id}}').submit(function(e){
         e.preventDefault();
+        var data = $(this).serialize();
+
+        $(this).find('input[type="checkbox"]').each(function(i, e) {
+          if (!e.checked) {
+            delete data[e.id];
+          }
+        });
+
         var next = $(this).data('next');
         $.post(
           $(this).attr('action'),
-          $(this).serialize()
+          data
         ).done(function(rst){
           if(rst.message) {
             alert(rst.message)

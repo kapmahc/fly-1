@@ -3,6 +3,7 @@ package widgets
 import (
 	"net/http"
 
+	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/gorilla/csrf"
 )
@@ -52,7 +53,7 @@ func NewTextarea(id, label, value string, row int) Field {
 		"type":  "textarea",
 		"label": label,
 		"value": value,
-		"row":   3,
+		"rows":  3,
 	}
 }
 
@@ -93,4 +94,34 @@ func NewPasswordField(id, label, helper string) Field {
 		"label":  label,
 		"helper": helper,
 	}
+}
+
+// NewCheckbox new checkbox field
+func NewCheckbox(id, label string, checked bool) Field {
+	return Field{
+		"id":      id,
+		"type":    "checkbox",
+		"label":   label,
+		"checked": checked,
+	}
+}
+
+// NewSelect new select field
+func NewSelect(id, label string, value interface{}, options ...Option) Field {
+	return Field{
+		"id":       id,
+		"type":     "select",
+		"multiple": false,
+		"label":    label,
+		"value":    value,
+		"options":  options,
+	}
+}
+
+// Option select option
+type Option gin.H
+
+// NewOption new option
+func NewOption(label string, value interface{}) Option {
+	return Option{"value": value, "label": label}
 }
