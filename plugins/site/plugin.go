@@ -55,6 +55,7 @@ func (p *Plugin) Dashboard(c *gin.Context) []*widgets.Dropdown {
 				widgets.NewLink("site.admin.notices.index.title", "/admin/notices"),
 				widgets.NewLink("site.admin.leave-words.index.title", "/admin/leave-words"),
 				widgets.NewLink("site.admin.friend-links.index.title", "/admin/friend-links"),
+				widgets.NewLink("site.admin.posts.index.title", "/admin/posts"),
 			),
 		)
 	}

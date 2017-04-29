@@ -1,0 +1,7 @@
+{{range .items}}
+  <h1><a href="/posts/show/{{.Name}}" target="_blank">{{.Title}}</a></h1>
+  <hr/>
+  <p class="mb-0 markdown">
+    {{.Body}}
+  </p>
+{{end}}

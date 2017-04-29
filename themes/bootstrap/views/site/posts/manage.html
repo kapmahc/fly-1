@@ -1,0 +1,31 @@
+{{template "shared/title" .title}}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>{{t .lang "attributes.updatedAt"}}</th>
+      <th>{{t .lang "attributes.content"}}</th>
+      <th>
+        {{t .lang "buttons.manage"}}
+        <a href="/admin/posts/new">{{t .lang "buttons.new"}}</a>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .items}}
+    <tr>
+      <th scope="row">{{dtf .UpdatedAt}}</th>
+      <td>
+        {{.Title}}
+        <pre><code>{{.Body}}</code></pre>
+      </td>
+      <td>
+        <div class="btn-group btn-group-sm" role="group">
+          <a class="btn btn-primary" target="_blank" href="/posts/show/{{.Name}}">{{t $.lang "buttons.view"}}</a>
+          <a class="btn btn-warning" href="/admin/posts/edit/{{.ID}}">{{t $.lang "buttons.edit"}}</a>
+          <a class="btn btn-danger" data-method="delete" data-next="/admin/posts" data-confirm="{{t $.lang "are-you-sure"}}" href="/admin/posts/{{.ID}}">{{t $.lang "buttons.remove"}}</a>
+        </div>
+      </td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>

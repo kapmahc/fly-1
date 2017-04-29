@@ -8,7 +8,6 @@ import (
 
 // Post post
 type Post struct {
-	web.Model
 	web.Media
 
 	Name  string `json:"name"`

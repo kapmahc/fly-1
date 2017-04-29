@@ -63,4 +63,13 @@ func (p *Plugin) Mount(rt *gin.Engine) {
 	ag.GET("/cards/edit/:id", p.Wrap.HTML("form", p.editCard))
 	ag.POST("/cards/:id", p.Wrap.FORM(&fmCard{}, p.updateCard))
 	ag.DELETE("/cards/:id", p.Wrap.JSON(p.destroyCard))
+
+	rt.GET("/posts", p.Wrap.HTML("site/posts/index", p.indexPosts))
+	rt.GET("/posts/show/*name", p.Wrap.HTML("site/posts/show", p.showPost))
+	ag.GET("/posts", p.Wrap.HTML("site/posts/manage", p.indexAdminPosts))
+	ag.GET("/posts/new", p.Wrap.HTML("form", p.newPost))
+	ag.POST("/posts", p.Wrap.FORM(&fmPost{}, p.createPost))
+	ag.GET("/posts/edit/:id", p.Wrap.HTML("form", p.editPost))
+	ag.POST("/posts/:id", p.Wrap.FORM(&fmPost{}, p.updatePost))
+	ag.DELETE("/posts/:id", p.Wrap.JSON(p.destroyPost))
 }
