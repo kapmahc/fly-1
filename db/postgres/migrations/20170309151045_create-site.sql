@@ -55,7 +55,7 @@ CREATE INDEX idx_cards_loc ON cards (loc);
 CREATE TABLE friend_links (
   id BIGSERIAL PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
-  href VARCHAR(255) NOT NULL,
+  home VARCHAR(255) NOT NULL,
   logo VARCHAR(255) NOT NULL,
   sort_order INT NOT NULL DEFAULT 0,
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),

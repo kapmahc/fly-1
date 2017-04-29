@@ -22,10 +22,7 @@ func (Post) TableName() string {
 
 // Notice notice
 type Notice struct {
-	web.Model
 	web.Media
-
-	Body string `json:"body"`
 }
 
 // TableName table name
@@ -63,12 +60,14 @@ func (Link) TableName() string {
 // Card card
 type Card struct {
 	web.Model
+
 	Loc       string `json:"loc"`
 	Title     string `json:"title"`
 	Summary   string `json:"summary"`
 	Href      string `json:"href"`
 	Logo      string `json:"logo"`
 	SortOrder int    `json:"sortOrder"`
+	Action    string `json:"action"`
 }
 
 // TableName table name
@@ -81,7 +80,7 @@ type FriendLink struct {
 	web.Model
 
 	Title     string `json:"title"`
-	Href      string `json:"href"`
+	Home      string `json:"Home"`
 	Logo      string `json:"logo"`
 	SortOrder int    `json:"sortOrder"`
 }

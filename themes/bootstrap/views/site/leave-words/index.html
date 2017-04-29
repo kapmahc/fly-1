@@ -1,0 +1,25 @@
+{{template "shared/title" .title}}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>{{t .lang "attributes.createdAt"}}</th>
+      <th>{{t .lang "attributes.body"}}</th>
+      <th width="12%">{{t .lang "buttons.manage"}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .items}}
+    <tr>
+      <th scope="row">{{dtf .CreatedAt}}</th>
+      <td>
+        <pre><code>{{.Body}}</code></pre>
+      </td>
+      <td>
+        <div class="btn-group btn-group-sm" role="group">
+          <a class="btn btn-danger" data-method="delete" data-next="/admin/leave-words" data-confirm="{{t $.lang "are-you-sure"}}" href="/admin/leave-words/{{.ID}}">{{t $.lang "buttons.remove"}}</a>
+        </div>
+      </td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>

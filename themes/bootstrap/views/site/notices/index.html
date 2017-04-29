@@ -1,7 +1,4 @@
-{{define "site-notices-index"}}
-{{template "application-header" .}}
-{{template "form-header" .}}
-{{$l := .l}}
+{{template "shared/title" .title}}
 {{range .items}}
 <blockquote class="blockquote">
   <p class="mb-0 markdown">
@@ -9,6 +6,4 @@
   </p>
   <footer class="blockquote-footer"><cite>{{dtf .UpdatedAt}}</cite></footer>
 </blockquote>
-{{end}}
-{{template "application-footer" .}}
 {{end}}

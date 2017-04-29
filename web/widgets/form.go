@@ -2,6 +2,7 @@ package widgets
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -47,13 +48,13 @@ func (p Field) Helper(h string) {
 }
 
 // NewTextarea new textarea field
-func NewTextarea(id, label, value string, row int) Field {
+func NewTextarea(id, label, value string, rows int) Field {
 	return Field{
 		"id":    id,
 		"type":  "textarea",
 		"label": label,
 		"value": value,
-		"rows":  3,
+		"rows":  rows,
 	}
 }
 
@@ -124,4 +125,13 @@ type Option gin.H
 // NewOption new option
 func NewOption(label string, value interface{}) Option {
 	return Option{"value": value, "label": label}
+}
+
+// NewSortSelect new sort select
+func NewSortSelect(id, label string, value, min, max int) Field {
+	var options []Option
+	for i := min; i <= max; i++ {
+		options = append(options, NewOption(strconv.Itoa(i), i))
+	}
+	return NewSelect(id, label, value, options...)
 }

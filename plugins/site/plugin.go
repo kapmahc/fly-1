@@ -52,9 +52,9 @@ func (p *Plugin) Dashboard(c *gin.Context) []*widgets.Dropdown {
 				nil,
 				widgets.NewLink("site.admin.users.index.title", "/admin/users"),
 				widgets.NewLink("site.admin.locales.index.title", "/admin/locales"),
-				widgets.NewLink("site.notices.index.title", "/admin/notices"),
-				widgets.NewLink("site.admin.leave-words.index.title", "/leave-words"),
-				widgets.NewLink("site.admin.friend-links.index.title", "/friend-links"),
+				widgets.NewLink("site.admin.notices.index.title", "/admin/notices"),
+				widgets.NewLink("site.admin.leave-words.index.title", "/admin/leave-words"),
+				widgets.NewLink("site.admin.friend-links.index.title", "/admin/friend-links"),
 			),
 		)
 	}

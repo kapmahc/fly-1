@@ -1,0 +1,29 @@
+{{template "shared/title" .title}}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>{{t .lang "attributes.loc"}}</th>
+      <th>{{t .lang "attributes.label"}}</th>
+      <th>{{t .lang "attributes.href"}}</th>
+      <th width="12%">
+        {{t .lang "buttons.manage"}}
+        <a href="/admin/links/new">{{t .lang "buttons.new"}}</a>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .items}}
+    <tr>
+      <th scope="row">{{.Loc}}({{.SortOrder}})</th>
+      <td>{{.Label}}</td>
+      <td><a href="{{.Href}}" target="_blank">{{.Href}}</a></td>
+      <td>
+        <div class="btn-group btn-group-sm" role="group">
+          <a class="btn btn-warning" href="/admin/links/edit/{{.ID}}">{{t $.lang "buttons.edit"}}</a>
+          <a class="btn btn-danger" data-method="delete" data-next="/admin/links" data-confirm="{{t $.lang "are-you-sure"}}" href="/admin/links/{{.ID}}">{{t $.lang "buttons.remove"}}</a>
+        </div>
+      </td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>

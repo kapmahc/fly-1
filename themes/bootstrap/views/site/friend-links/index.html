@@ -1,0 +1,29 @@
+{{template "shared/title" .title}}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>{{t .lang "attributes.title"}}</th>
+      <th>{{t .lang "attributes.home"}}</th>
+      <th>{{t .lang "attributes.logo"}}</th>
+      <th width="12%">
+        {{t .lang "buttons.manage"}}
+        <a href="/admin/friend-links/new">{{t .lang "buttons.new"}}</a>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .items}}
+    <tr>
+      <th scope="row">{{.Title}}</th>
+      <td><a href="{{.Home}}" target="_blank">{{.Home}}</a></td>
+      <td><img style="width:120px; height:60px" src="{{.Logo}}" alt="{{.Logo}}"/></td>
+      <td>
+        <div class="btn-group btn-group-sm" role="group">
+          <a class="btn btn-warning" href="/admin/friend-links/edit/{{.ID}}">{{t $.lang "buttons.edit"}}</a>
+          <a class="btn btn-danger" data-method="delete" data-next="/admin/friend-links" data-confirm="{{t $.lang "are-you-sure"}}" href="/admin/friend-links/{{.ID}}">{{t $.lang "buttons.remove"}}</a>
+        </div>
+      </td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>
