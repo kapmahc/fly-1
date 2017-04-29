@@ -319,6 +319,6 @@ func (p *Plugin) indexUsers(c *gin.Context, l string) (gin.H, error) {
 		Find(&users).Error; err != nil {
 		return nil, err
 	}
-	data["users"] = users
+	data["items"] = users
 	return data, nil
 }
