@@ -58,7 +58,14 @@ func (p *Plugin) Atom(lang string) ([]*atom.Entry, error) {
 
 // Sitemap sitemap.xml.gz
 func (p *Plugin) Sitemap() ([]stm.URL, error) {
-	return []stm.URL{}, nil
+	return []stm.URL{
+		{"loc": "/users/sign-in"},
+		{"loc": "/users/sign-up"},
+		{"loc": "/users/forgot-password"},
+		{"loc": "/users/confirm"},
+		{"loc": "/users/unlock"},
+		{"loc": "/users"},
+	}, nil
 }
 
 func init() {

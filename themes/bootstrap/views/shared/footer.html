@@ -9,8 +9,8 @@
   </p>
   <p>
     &copy; {{t .lang "site.copyright"}}
-    &middot; <a href="/posts/privacy">{{t .lang "footer.privacy"}}</a>
-    &middot; <a href="/posts/terms">{{t .lang "footer.terms"}}</a>
-    &middot; <a href="/posts/about">{{t .lang "footer.about"}}</a>
+    {{range links "footer"}}
+      &middot; <a href="{{.Href}}">{{t $.lang .Label}}</a>
+    {{end}}
   </p>
 </footer>

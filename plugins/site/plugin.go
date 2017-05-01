@@ -69,7 +69,22 @@ func (p *Plugin) Atom(lang string) ([]*atom.Entry, error) {
 
 // Sitemap sitemap.xml.gz
 func (p *Plugin) Sitemap() ([]stm.URL, error) {
-	return []stm.URL{}, nil
+	var items []stm.URL
+	items = append(
+		items,
+		stm.URL{"loc": "/leave-words/new"},
+		stm.URL{"loc": "/notices"},
+		stm.URL{"loc": "/posts"},
+	)
+
+	var posts []Post
+	if err := p.Db.Select([]string{"name", "updated_at"}).Find(&posts).Error; err != nil {
+		return nil, err
+	}
+	for _, it := range posts {
+		items = append(items, stm.URL{"loc": "/posts/show/" + it.Name, "lastmod": it.UpdatedAt})
+	}
+	return items, nil
 }
 
 // Workers register workers

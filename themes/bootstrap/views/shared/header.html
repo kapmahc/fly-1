@@ -8,8 +8,7 @@
       <li class="nav-item">
         <a class="nav-link" href="/">{{t .lang "header.home"}}</a>
       </li>
-      {{$top := links "top"}}
-      {{range $top}}
+      {{range links "header"}}
         <li class="nav-item">
           <a class="nav-link" href="{{.Href}}">{{t $.lang .Label}}</a>
         </li>
