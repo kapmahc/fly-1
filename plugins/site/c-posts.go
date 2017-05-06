@@ -39,7 +39,7 @@ func (p *Plugin) showPost(c *gin.Context, lang string) (gin.H, error) {
 
 type fmPost struct {
 	Name  string `form:"name" binding:"required,max=255"`
-	Title string `form:"body" binding:"required,max=255"`
+	Title string `form:"title" binding:"required,max=255"`
 	Body  string `form:"body" binding:"required"`
 	Type  string `form:"type" binding:"required,max=8"`
 }
