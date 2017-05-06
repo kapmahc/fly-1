@@ -625,7 +625,11 @@ func (p *Plugin) runServer(c *cli.Context, _ *inject.Graph) error {
 	if c.Bool("worker") {
 		log.Info("start worker")
 		name, _ := os.Hostname()
-		go p.Server.Do(name)
+		go func() {
+			if err := p.Server.Do(name); err != nil {
+				log.Error(err)
+			}
+		}()
 	}
 
 	// -------------

@@ -15,7 +15,7 @@
         <div class="container">
           <div class="carousel-caption d-none d-md-block text-left">
             <h1>{{.Title}}</h1>
-            <p>{{.Summary}}</p>
+            <p class="markdown">{{.Summary}}</p>
             <p><a class="btn btn-lg btn-primary" href="{{.Href}}" target="_blank" role="button">{{t $.lang .Action}}</a></p>
           </div>
         </div>
@@ -39,7 +39,7 @@
       <div class="col-md-4">
         <img class="rounded-circle" src="{{.Logo}}" alt="{{.Logo}}" width="140" height="140">
         <h2>{{.Title}}</h2>
-        <p>{{.Summary}}</p>
+        <p class="markdown">{{.Summary}}</p>
         <p><a class="btn btn-secondary" target="_blank" href="{{.Href}}" role="button">{{t $.lang .Action}} &raquo;</a></p>
       </div>
     {{end}}
@@ -54,7 +54,7 @@
       {{if even $k }}
         <div class="col-md-7">
           <h2>{{$v.Title}}</h2>
-          <p>{{$v.Summary}}</p>
+          <p class="markdown">{{$v.Summary}}</p>
         </div>
         <div class="col-md-5">
           <img class="img-fluid mx-auto" src="{{$v.Logo}}" alt="{{$v.Logo}}">
@@ -65,7 +65,7 @@
         </div>
         <div class="col-md-7">
           <h2>{{$v.Title}}</h2>
-          <p>{{$v.Summary}}</p>
+          <p class="markdown">{{$v.Summary}}</p>
         </div>
       {{end}}
     </div>

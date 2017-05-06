@@ -17,7 +17,7 @@ func (p *Plugin) indexCards(c *gin.Context, lang string) (gin.H, error) {
 type fmCard struct {
 	Loc       string `form:"loc" binding:"required,max=32"`
 	Title     string `form:"title" binding:"required,max=255"`
-	Summary   string `form:"loc" binding:"required"`
+	Summary   string `form:"summary" binding:"required"`
 	Href      string `form:"href" binding:"required,max=255"`
 	Logo      string `form:"logo" binding:"required,max=255"`
 	SortOrder int    `form:"sortOrder"`

@@ -74,3 +74,4 @@ GRANT ALL PRIVILEGES ON DATABASE db-name TO user-name;
   ```bash
   @daily cd /var/www/www.change-me.com && ./fly seo
   ```
+- [For gmail smtp](http://stackoverflow.com/questions/20337040/gmail-smtp-debug-error-please-log-in-via-your-web-browser)
