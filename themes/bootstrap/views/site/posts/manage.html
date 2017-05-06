@@ -17,11 +17,11 @@
       <th scope="row">{{dtf .UpdatedAt}}</th>
       <td>
         {{.Title}}
-        <pre><code>{{.Body}}</code></pre>
+        <p class="markdown">{{.Body}}</p>
       </td>
       <td>
         <div class="btn-group btn-group-sm" role="group">
-          <a class="btn btn-primary" target="_blank" href="/posts/show/{{.Name}}">{{t $.lang "buttons.view"}}</a>          
+          <a class="btn btn-primary" target="_blank" href="/posts/show/{{.Name}}">{{t $.lang "buttons.view"}}</a>
           <a class="btn btn-warning" href="/admin/posts/edit/{{.ID}}">{{t $.lang "buttons.edit"}}</a>
           <a class="btn btn-danger" data-method="delete" data-next="/admin/posts" data-confirm="{{t $.lang "are-you-sure"}}" href="/admin/posts/{{.ID}}">{{t $.lang "buttons.remove"}}</a>
         </div>
