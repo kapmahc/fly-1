@@ -39,7 +39,13 @@ func (p *Plugin) Console() []cli.Command {
 			Name:    "server",
 			Aliases: []string{"s"},
 			Usage:   "start the app server",
-			Action:  web.Inject(p.runServer),
+			Flags: []cli.Flag{
+				cli.BoolFlag{
+					Name:  "worker, w",
+					Usage: "with a worker",
+				},
+			},
+			Action: web.Inject(p.runServer),
 		},
 		{
 			Name:  "seo",
@@ -583,7 +589,7 @@ func (p *Plugin) runWorker(c *cli.Context, _ *inject.Graph) error {
 	return p.Server.Do(name)
 }
 
-func (p *Plugin) runServer(*cli.Context, *inject.Graph) error {
+func (p *Plugin) runServer(c *cli.Context, _ *inject.Graph) error {
 	port := viper.GetInt("server.port")
 	log.Infof(
 		"application starting in %s on http://localhost:%d",
@@ -615,6 +621,12 @@ func (p *Plugin) runServer(*cli.Context, *inject.Graph) error {
 		en.Mount(rt)
 		return nil
 	})
+	// ---------------
+	if c.Bool("worker") {
+		log.Info("start worker")
+		name, _ := os.Hostname()
+		go p.Server.Do(name)
+	}
 
 	// -------------
 	hnd := csrf.Protect(
