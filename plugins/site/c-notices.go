@@ -25,7 +25,7 @@ func (p *Plugin) indexNotices(c *gin.Context, lang string) (gin.H, error) {
 }
 
 type fmNotice struct {
-	Body string `form:"body" binding:"required,max=800"`
+	Body string `form:"body" binding:"required"`
 	Type string `form:"type" binding:"required,max=8"`
 }
 

@@ -15,7 +15,7 @@ func (p *Plugin) indexLeaveWords(c *gin.Context, lang string) (gin.H, error) {
 }
 
 type fmLeaveWord struct {
-	Body string `form:"body" binding:"required,max=800"`
+	Body string `form:"body" binding:"required,max=2048"`
 }
 
 func (p *Plugin) newLeaveWord(c *gin.Context, lang string) (gin.H, error) {

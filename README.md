@@ -39,6 +39,15 @@ GRANT ALL PRIVILEGES ON DATABASE db-name TO user-name;
 
 ## Issues
 
+- Rabbitmq Management Plugin(<http://localhost:15612>)
+
+  ```bash
+  rabbitmq-plugins enable rabbitmq_management
+  rabbitmqctl add_user test test
+  rabbitmqctl set_user_tags test administrator
+  rabbitmqctl set_permissions -p / test ".*" ".*" ".*"
+  ```
+
 - "RPC failed; HTTP 301 curl 22 The requested URL returned error: 301"
 
   ```bash
