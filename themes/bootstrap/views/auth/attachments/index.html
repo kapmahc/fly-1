@@ -1,0 +1,34 @@
+<br/>
+{{template "shared/title" .title}}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>{{t .lang "attributes.name"}}</th>
+      <th>{{t .lang "attributes.size"}}</th>
+      <th>
+        {{t .lang "buttons.manage"}}
+        <a href="/attachments/new">{{t .lang "buttons.upload"}}</a>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .items}}
+    <tr>
+      <th scope="row">
+        <a href="{{.URL}}" target="_blank">{{.Title}}</a>
+        <a class="clipboard" data-clipboard-text="{{.URL}}">
+          <img width="24" src="/assets/clippy.svg" alt="{{t $.lang "auth.attachments.index.copy-toclip-board"}}">
+        </a>
+      </th>
+      <td>{{.Length}}KB</td>
+      <td>
+        <div class="btn-group btn-group-sm" role="group">
+          <a class="btn btn-info" href="{{.URL}}" target="_blank">{{t $.lang "buttons.view"}}</a>
+          <a class="btn btn-warning" href="/attachments/edit/{{.ID}}">{{t $.lang "buttons.edit"}}</a>
+          <a class="btn btn-danger" data-method="delete" data-next="/attachments" data-confirm="{{t $.lang "are-you-sure"}}" href="/attachments/{{.ID}}">{{t $.lang "buttons.remove"}}</a>
+        </div>
+      </td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>

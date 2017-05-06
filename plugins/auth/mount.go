@@ -28,4 +28,12 @@ func (p *Plugin) Mount(rt *gin.Engine) {
 	umg.POST("/change-password", p.Wrap.FORM(&fmChangePassword{}, p.postUsersChangePassword))
 	umg.GET("/logs", p.Wrap.HTML("auth/users/logs", p.getUsersLogs))
 	umg.DELETE("/sign-out", p.Wrap.JSON(p.deleteUsersSignOut))
+
+	atg := rt.Group("/attachments", p.Jwt.MustSignInMiddleware)
+	atg.GET("/", p.Wrap.HTML("auth/attachments/index", p.indexAttachments))
+	atg.GET("/new", p.Wrap.HTML("auth/attachments/new", p.newAttachment))
+	atg.POST("/", p.Wrap.FORM(&fmAttachmentNew{}, p.createAttachment))
+	atg.GET("/edit/:id", p.canEditAttachment, p.Wrap.HTML("form", p.editAttachment))
+	atg.POST("/:id", p.canEditAttachment, p.Wrap.FORM(&fmAttachmentEdit{}, p.updateAttachment))
+	atg.DELETE("/:id", p.canEditAttachment, p.Wrap.JSON(p.destroyAttachment))
 }

@@ -37,6 +37,8 @@ func (p *Plugin) Dashboard(c *gin.Context) []*widgets.Dropdown {
 	if _, ok := c.Get(CurrentUser); ok {
 		items = append(items, widgets.NewDropdown(
 			"auth.dashboard.title",
+			widgets.NewLink("auth.attachments.index.title", "/attachments"),
+			nil,
 			widgets.NewLink("auth.users.info.title", "/users/info"),
 			widgets.NewLink("auth.users.change-password.title", "/users/change-password"),
 			nil,

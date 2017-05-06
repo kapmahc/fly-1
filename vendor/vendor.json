@@ -3,10 +3,6 @@
 	"ignore": "test",
 	"package": [
 		{
-			"path": "appengine/cloudsql",
-			"revision": ""
-		},
-		{
 			"checksumSHA1": "pPH/BoINXxzYDObljpsGZbysMrw=",
 			"path": "github.com/BurntSushi/toml",
 			"revision": "b26d9c308763d68093482582cea63d69be07a0f0",
