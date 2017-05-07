@@ -20,6 +20,8 @@
       </td>
       <td>
         <div class="btn-group btn-group-sm" role="group">
+          <a class="btn btn-primary" href="/forms/report/{{.ID}}">{{t $.lang "buttons.report"}}</a>
+          <a class="btn btn-info" href="/forms/export/{{.ID}}">{{t $.lang "buttons.export"}}</a>
           <a class="btn btn-warning" href="/forms/edit/{{.ID}}">{{t $.lang "buttons.edit"}}</a>
           <a class="btn btn-danger" data-method="delete" data-next="/forms/manage" data-confirm="{{t $.lang "are-you-sure"}}" href="/forms/{{.ID}}">{{t $.lang "buttons.remove"}}</a>
         </div>
