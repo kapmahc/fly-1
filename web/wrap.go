@@ -17,6 +17,16 @@ type Wrap struct {
 	I18n   *i18n.I18n     `inject:""`
 }
 
+// Do do
+func (p *Wrap) Do(f func(*gin.Context, string) error) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if e := f(c, c.MustGet(i18n.LOCALE).(string)); e != nil {
+			log.Error(e)
+			c.String(http.StatusInternalServerError, e.Error())
+		}
+	}
+}
+
 // Redirect wrap redirect
 func (p *Wrap) Redirect(f func(*gin.Context, string) (string, error)) gin.HandlerFunc {
 	return func(c *gin.Context) {

@@ -6,6 +6,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	_ "github.com/kapmahc/fly/plugins/erp"
+	_ "github.com/kapmahc/fly/plugins/forms"
 	_ "github.com/kapmahc/fly/plugins/forum"
 	_ "github.com/kapmahc/fly/plugins/ops/mail"
 	_ "github.com/kapmahc/fly/plugins/ops/vpn"
