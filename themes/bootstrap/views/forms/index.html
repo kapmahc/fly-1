@@ -1,0 +1,12 @@
+<br/>
+{{range .items}}
+  <h1>
+    {{.Title}}
+    <div class="btn-group btn-group-sm">
+      <a href="/forms/apply/{{.ID}}" target="_blank" class="btn btn-primary">{{t $.lang "buttons.apply"}}</a>
+      <a href="/forms/cancel/{{.ID}}" target="_blank" class="btn btn-danger">{{t $.lang "buttons.cancel"}}</a>
+    </div>
+  </h1>
+  <hr/>
+  <p class="markdown">{{.Body}}</p>
+{{end}}

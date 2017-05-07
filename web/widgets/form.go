@@ -29,6 +29,15 @@ func NewForm(req *http.Request, lang, action, next, title string, fields ...inte
 // Form form
 type Form map[string]interface{}
 
+// Append  append fields
+func (p Form) Append(fields ...Field) {
+	items := p["fields"].([]interface{})
+	for _, f := range fields {
+		items = append(items, f)
+	}
+	p["fields"] = items
+}
+
 // Method set method
 func (p Form) Method(m string) {
 	p["method"] = m
@@ -94,6 +103,35 @@ func NewPasswordField(id, label, helper string) Field {
 		"type":   "password",
 		"label":  label,
 		"helper": helper,
+	}
+}
+
+// NewCheckboxs new checkboxs field
+func NewCheckboxs(id, label string, value []interface{}, options ...Option) Field {
+	return Field{
+		"id":      id,
+		"type":    TypeCheckboxs,
+		"label":   label,
+		"value":   value,
+		"options": options,
+	}
+}
+
+const (
+	// TypeRadios radios
+	TypeRadios = "radios"
+	// TypeCheckboxs checkboxs
+	TypeCheckboxs = "checkboxs"
+)
+
+// NewRadios new radios filed
+func NewRadios(id, label string, value interface{}, options ...Option) Field {
+	return Field{
+		"id":      id,
+		"type":    TypeRadios,
+		"label":   label,
+		"value":   value,
+		"options": options,
 	}
 }
 

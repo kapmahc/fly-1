@@ -5,7 +5,7 @@ CREATE TABLE forms_models (
   title      VARCHAR(255)                NOT NULL,
   body       TEXT                        NOT NULL,
   type       VARCHAR(8)                  NOT NULL DEFAULT 'markdown',
-  deadline   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+  deadline   DATE NOT NULL,
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
   updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );
@@ -19,6 +19,7 @@ CREATE TABLE forms_fields (
   value      VARCHAR(255)                NOT NULL,
   body       TEXT                        NOT NULL,
   type       VARCHAR(16)                 NOT NULL DEFAULT 'text',
+  required   BOOLEAN                     NOT NULL DEFAULT TRUE,
   form_id    BIGINT                      REFERENCES forms_models,
   sort_order INT                         NOT NULL DEFAULT 0,
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),

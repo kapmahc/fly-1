@@ -43,6 +43,34 @@
           {{end}}
         </select>
       </div>
+    {{else if eq .type "checkboxs"}}
+      <fieldset class="form-group">
+        <legend>{{.label}}</legend>
+        {{$val := .value}}
+        {{$name := .id}}
+        {{range .options}}
+        <div class="form-check">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" name="{{$name}}" value="{{.value}}" {{if in .value $val}}checked{{end}}>
+            {{.label}}
+          </label>
+        </div>
+        {{end}}
+      </fieldset>
+    {{else if eq .type "radios"}}
+      <fieldset class="form-group">
+        <legend>{{.label}}</legend>
+        {{$val := .value}}
+        {{$name := .id}}
+        {{range .options}}
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="{{$name}}" value="{{.value}}" {{if eq $val .value}}checked{{end}}>
+              {{.label}}
+            </label>
+          </div>
+        {{end}}
+      </fieldset>
     {{else}}
       <input type="hidden" id="{{.id}}" name="{{.id}}" value="{{.value}}"/>
     {{end}}
@@ -61,7 +89,7 @@
             delete data[e.id];
           }
         });
-
+        
         var next = $(this).data('next');
         $.post(
           $(this).attr('action'),

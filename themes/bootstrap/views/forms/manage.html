@@ -1,0 +1,30 @@
+<br/>
+{{template "shared/title" .title}}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>{{t .lang "attributes.shutDown"}}</th>
+      <th>{{t .lang "attributes.title"}}</th>
+      <th>
+        {{t .lang "buttons.manage"}}
+        <a href="/forms/new">{{t .lang "buttons.new"}}</a>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .items}}
+    <tr>
+      <th scope="row">{{df .Deadline}}</th>
+      <td>
+        {{.Title}}
+      </td>
+      <td>
+        <div class="btn-group btn-group-sm" role="group">
+          <a class="btn btn-warning" href="/forms/edit/{{.ID}}">{{t $.lang "buttons.edit"}}</a>
+          <a class="btn btn-danger" data-method="delete" data-next="/forms/manage" data-confirm="{{t $.lang "are-you-sure"}}" href="/forms/{{.ID}}">{{t $.lang "buttons.remove"}}</a>
+        </div>
+      </td>
+    </tr>
+    {{end}}
+  </tbody>
+</table>

@@ -17,6 +17,11 @@ type Form struct {
 	Records []Record
 }
 
+// Expire expire?
+func (p *Form) Expire() bool {
+	return time.Now().After(p.Deadline)
+}
+
 // TableName table name
 func (Form) TableName() string {
 	return "forms_models"

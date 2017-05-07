@@ -18,10 +18,11 @@ import (
 
 // Plugin plugin
 type Plugin struct {
-	Db   *gorm.DB   `inject:""`
-	Jwt  *auth.Jwt  `inject:""`
-	Wrap *web.Wrap  `inject:""`
-	I18n *i18n.I18n `inject:""`
+	Db     *gorm.DB    `inject:""`
+	Jwt    *auth.Jwt   `inject:""`
+	Wrap   *web.Wrap   `inject:""`
+	I18n   *i18n.I18n  `inject:""`
+	Server *job.Server `inject:""`
 }
 
 // Init load config

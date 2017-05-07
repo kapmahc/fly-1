@@ -17,13 +17,14 @@ const (
 	actUnlock        = "unlock"
 	actResetPassword = "reset-password"
 
-	sendEmailJob = "auth.send-email"
+	// SendEmailJob send email
+	SendEmailJob = "send-email"
 )
 
 // Workers job handler
 func (p *Plugin) Workers() map[string]job.Handler {
 	return map[string]job.Handler{
-		sendEmailJob: func(buf []byte) error {
+		SendEmailJob: func(buf []byte) error {
 			var msg map[string]string
 			if err := json.Unmarshal(buf, &msg); err != nil {
 				return err
@@ -62,7 +63,7 @@ func (p *Plugin) sendEmail(lng string, user *User, act string) {
 	}
 
 	// -----------------------
-	p.Server.Send(job.PriorityLow, sendEmailJob, map[string]string{
+	p.Server.Send(job.PriorityLow, SendEmailJob, map[string]string{
 		"to":      user.Email,
 		"subject": subject,
 		"body":    body,
