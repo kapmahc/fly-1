@@ -635,7 +635,7 @@ func (p *Plugin) runServer(c *cli.Context, _ *inject.Graph) error {
 	// -------------
 	hnd := csrf.Protect(
 		[]byte(viper.GetString("secrets.csrf")),
-		csrf.Secure(web.IsProduction()),
+		csrf.Secure(web.Secure()),
 		csrf.CookieName("_csrf_"),
 		csrf.Path("/"),
 		csrf.FieldName("authenticity_token"),
