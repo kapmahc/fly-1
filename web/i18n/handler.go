@@ -1,42 +1,45 @@
 package i18n
 
 import (
+	"context"
 	"net/http"
 
-	log "github.com/Sirupsen/logrus"
+	"github.com/kapmahc/fly/web"
+	"github.com/urfave/negroni"
 	"golang.org/x/text/language"
 )
 
-// Lang detect language from http request
-func (p *I18n) Lang(r *http.Request) language.Tag {
-	lang := p.detect(r)
-	if lang == "" {
-		return language.AmericanEnglish
-	}
+const (
+	// LOCALE locale key
+	LOCALE = "locale"
+)
+
+// Middleware detect language from http request
+func (p *I18n) Middleware() (negroni.HandlerFunc, error) {
 	langs, err := p.Store.Languages()
 	if err != nil {
-		log.Error(err)
-		return language.AmericanEnglish
+		return nil, err
 	}
 	var tags []language.Tag
 	for _, l := range langs {
 		tags = append(tags, language.Make(l))
 	}
 	matcher := language.NewMatcher(tags)
-	tag, _, _ := matcher.Match(language.Make(lang))
-	return tag
+
+	return func(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
+		tag, _, _ := matcher.Match(language.Make(p.detect(r)))
+		n(w, r.WithContext(context.WithValue(r.Context(), web.K(LOCALE), tag.String())))
+	}, nil
 }
 
 func (p *I18n) detect(r *http.Request) string {
-	const key = "locale"
-
 	// 1. Check URL arguments.
-	if lang := r.URL.Query().Get(key); lang != "" {
+	if lang := r.URL.Query().Get(LOCALE); lang != "" {
 		return lang
 	}
 
 	// 2. Get language information from cookies.
-	if ck, er := r.Cookie(key); er == nil {
+	if ck, er := r.Cookie(LOCALE); er == nil {
 		return ck.Value
 	}
 

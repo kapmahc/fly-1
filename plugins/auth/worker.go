@@ -3,6 +3,7 @@ package auth
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/SermoDigital/jose/jws"
@@ -45,11 +46,13 @@ func (p *Plugin) sendEmail(lng string, user *User, act string) {
 	}
 
 	obj := struct {
-		Home  string
-		Token string
+		Backend  string
+		Frontend string
+		Token    string
 	}{
-		Home:  web.Home(),
-		Token: string(tkn),
+		Backend:  web.Backend(),
+		Frontend: web.Frontend(),
+		Token:    string(tkn),
 	}
 	subject, err := p.I18n.F(lng, fmt.Sprintf("auth.emails.%s.subject", act), obj)
 	if err != nil {
@@ -76,7 +79,7 @@ func (p *Plugin) parseToken(lng, tkn, act string) (*User, error) {
 		return nil, err
 	}
 	if act != cm.Get("act").(string) {
-		return nil, p.I18n.E(lng, "errors.bad-action")
+		return nil, p.I18n.E(http.StatusBadRequest, lng, "errors.bad-action")
 	}
 	return p.Dao.GetUserByUID(cm.Get("uid").(string))
 }

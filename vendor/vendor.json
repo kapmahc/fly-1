@@ -421,6 +421,18 @@
 			"revisionTime": "2017-05-08T00:14:13Z"
 		},
 		{
+			"checksumSHA1": "naf+sai8rdVYJ9ozLllNMMwE9aY=",
+			"path": "github.com/rs/cors",
+			"revision": "2d7dd2a10331137ae3f931ba08c21fd00cbf208d",
+			"revisionTime": "2017-04-20T18:42:42Z"
+		},
+		{
+			"checksumSHA1": "hCRfPlNpqv8tvVivLzmXsoUOf1c=",
+			"path": "github.com/rs/xhandler",
+			"revision": "ed27b6fd65218132ee50cd95f38474a3d8a2cd12",
+			"revisionTime": "2016-06-18T19:32:21Z"
+		},
+		{
 			"checksumSHA1": "lBehULzb2/kIK3wZ0gz2yNmHq9s=",
 			"path": "github.com/spf13/afero",
 			"revision": "9be650865eab0c12963d8753212f4f9c66cdcf12",
@@ -479,6 +491,12 @@
 			"path": "github.com/urfave/negroni",
 			"revision": "1d8981a52d6bda4467a9faacf3fdddd38222dfc4",
 			"revisionTime": "2017-05-06T02:27:41Z"
+		},
+		{
+			"checksumSHA1": "Y+HGqEkYM15ir+J93MEaHdyFy0c=",
+			"path": "golang.org/x/net/context",
+			"revision": "c9b681d35165f1995d6f3034e61f8761d4b90c99",
+			"revisionTime": "2017-05-10T00:04:54Z"
 		},
 		{
 			"checksumSHA1": "oS0UZOGWVVsVciOQ8nZJ582mFF8=",

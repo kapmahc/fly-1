@@ -16,11 +16,14 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/facebookgo/inject"
 	"github.com/google/uuid"
+	"github.com/gorilla/mux"
 	"github.com/ikeikeikeike/go-sitemap-generator/stm"
 	"github.com/kapmahc/fly/web"
+	"github.com/rs/cors"
 	"github.com/spf13/viper"
 	"github.com/steinbacher/goose"
 	"github.com/urfave/cli"
+	"github.com/urfave/negroni"
 	"golang.org/x/text/language"
 	"golang.org/x/tools/blog/atom"
 )
@@ -245,20 +248,22 @@ func (p *Plugin) Console() []cli.Command {
 			Name:    "routes",
 			Aliases: []string{"rt"},
 			Usage:   "print out all defined routes",
-			Action: func(*cli.Context) error {
+			Action: web.Inject(func(*cli.Context, *inject.Graph) error {
 				web.Walk(func(en web.Plugin) error {
 					en.Mount()
 					return nil
 				})
 				tpl := "%-7s %s\n"
 				fmt.Printf(tpl, "METHOD", "PATH")
-				//TODO
-				// for _, ri := range rt.Routes() {
-				// 	fmt.Printf(tpl, ri.Method, ri.Path)
-				// 	// fmt.Println(runtime.FuncForPC(reflect.ValueOf(r.Handler).Pointer()).Name())
-				// }
-				return nil
-			},
+				return p.Router.Walk(func(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
+					ptl, err := route.GetPathTemplate()
+					if err != nil {
+						return err
+					}
+					fmt.Printf(tpl, "", ptl)
+					return nil
+				})
+			}),
 		},
 		{
 			Name:  "i18n",
@@ -595,17 +600,22 @@ func (p *Plugin) runServer(c *cli.Context, _ *inject.Graph) error {
 	)
 
 	// --------------------
-	// TODO
-	// cfg := cors.DefaultConfig()
-	// cfg.AllowMethods = append(cfg.AllowMethods, http.MethodDelete, http.MethodPatch)
-	// cfg.AllowCredentials = true
-	// cfg.AllowHeaders = append(cfg.AllowHeaders, "Authorization")
-	// cfg.AllowOrigins = []string{web.Home(), "http://localhost:3000"}
-	// rt.Use(
-	// 	// cors.New(cfg),
-	// 	lm,
-	// 	p.Jwt.CurrentUserMiddleware,
-	// )
+	p.Negroni.Use(cors.New(cors.Options{
+		AllowedHeaders:   []string{"Authorization"},
+		AllowedMethods:   []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete, http.MethodPatch},
+		AllowedOrigins:   []string{web.Frontend()},
+		AllowCredentials: true,
+	}))
+	// --------------------
+	lm, err := p.I18n.Middleware()
+	if err != nil {
+		return err
+	}
+	p.Negroni.Use(lm)
+	// ----------------
+	p.Negroni.Use(negroni.HandlerFunc(p.Jwt.CurrentUserMiddleware))
+	// --------
+
 	web.Walk(func(en web.Plugin) error {
 		en.Mount()
 		return nil
@@ -657,7 +667,7 @@ func (p *Plugin) runServer(c *cli.Context, _ *inject.Graph) error {
 
 func (p *Plugin) writeSitemap(root string) error {
 	sm := stm.NewSitemap()
-	sm.SetDefaultHost(web.Home())
+	sm.SetDefaultHost(web.Frontend())
 	sm.SetPublicPath(root)
 	sm.SetCompress(true)
 	sm.SetSitemapsPath("/")
@@ -695,7 +705,7 @@ func (p *Plugin) writeRssAtom(root string, lang string) error {
 		},
 		Entry: make([]*atom.Entry, 0),
 	}
-	home := web.Home()
+	home := web.Frontend()
 	if err := web.Walk(func(en web.Plugin) error {
 		items, err := en.Atom(lang)
 		if err != nil {
@@ -735,7 +745,7 @@ func (p *Plugin) writeRobotsTxt(root string) error {
 
 	return web.Template(fd, "robots.txt", struct {
 		Home string
-	}{Home: web.Home()})
+	}{Home: web.Frontend()})
 }
 
 func (p *Plugin) writeGoogleVerify(root string) error {

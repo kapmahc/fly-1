@@ -2,7 +2,6 @@ package i18n
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"html/template"
 	"os"
@@ -12,6 +11,7 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/go-ini/ini"
+	"github.com/kapmahc/fly/web"
 	"github.com/kapmahc/fly/web/cache"
 	"golang.org/x/text/language"
 )
@@ -38,12 +38,11 @@ func (p *I18n) F(lang, code string, obj interface{}) (string, error) {
 }
 
 //E create an i18n error
-func (p *I18n) E(lang, code string, args ...interface{}) error {
-	msg := p.get(lang, code)
-	if msg == "" {
-		return errors.New(code)
+func (p *I18n) E(status int, lang, code string, args ...interface{}) error {
+	return &web.HTTPError{
+		Message: p.T(lang, code, args...),
+		Code:    status,
 	}
-	return fmt.Errorf(msg, args...)
 }
 
 //T translate by lang tag

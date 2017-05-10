@@ -4,23 +4,14 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"net/http"
-
-	"github.com/kapmahc/fly/web/i18n"
 )
 
-// Wrapper wrapper
-type Wrapper struct {
-	I18n *i18n.I18n `inject:""`
-}
-
 // Handle handle
-func (p *Wrapper) Handle(f func(*Context) error) http.HandlerFunc {
+func Handle(f func(c *Context) error) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if err := f(&Context{
-			Writer:  w,
 			Request: r,
-			Lang:    p.I18n.Lang(r).String(),
-			I18n:    p.I18n,
+			Writer:  w,
 		}); err != nil {
 			code := http.StatusInternalServerError
 			if her, ok := err.(*HTTPError); ok {
@@ -32,8 +23,8 @@ func (p *Wrapper) Handle(f func(*Context) error) http.HandlerFunc {
 }
 
 // JSON wrap JSON
-func (p *Wrapper) JSON(f func(*Context) (interface{}, error)) http.HandlerFunc {
-	return p.Handle(func(c *Context) error {
+func JSON(f func(*Context) (interface{}, error)) http.HandlerFunc {
+	return Handle(func(c *Context) error {
 		v, e := f(c)
 		if e != nil {
 			return e
@@ -44,8 +35,8 @@ func (p *Wrapper) JSON(f func(*Context) (interface{}, error)) http.HandlerFunc {
 }
 
 // XML wrap XML
-func (p *Wrapper) XML(f func(*Context) (interface{}, error)) http.HandlerFunc {
-	return p.Handle(func(c *Context) error {
+func XML(f func(*Context) (interface{}, error)) http.HandlerFunc {
+	return Handle(func(c *Context) error {
 		v, e := f(c)
 		if e != nil {
 			return e

@@ -1,6 +1,9 @@
 package site
 
 import (
+	"os"
+	"path"
+
 	"github.com/gorilla/mux"
 	"github.com/ikeikeikeike/go-sitemap-generator/stm"
 	"github.com/jinzhu/gorm"
@@ -51,6 +54,11 @@ func (p *Plugin) Workers() map[string]job.Handler {
 }
 
 func init() {
+	pwd, _ := os.Getwd()
+	viper.SetDefault("uploader", map[string]interface{}{
+		"dir":  path.Join(pwd, "public", "files"),
+		"home": "http://localhost/files",
+	})
 	viper.SetDefault("redis", map[string]interface{}{
 		"host": "localhost",
 		"port": 6379,
@@ -82,9 +90,11 @@ func init() {
 	})
 
 	viper.SetDefault("server", map[string]interface{}{
-		"port": 8080,
-		"ssl":  false,
-		"name": "localhost",
+		"port":     8080,
+		"ssl":      false,
+		"name":     "localhost",
+		"frontend": "http://localhost:3000",
+		"backend":  "http://localhost:8080",
 	})
 
 	viper.SetDefault("secrets", map[string]interface{}{

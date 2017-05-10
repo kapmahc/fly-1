@@ -11,17 +11,14 @@ func Name() string {
 	return viper.GetString("server.name")
 }
 
-// Secure http secure?
-func Secure() bool {
-	return viper.GetBool("server.ssl")
+// Frontend frontend home
+func Frontend() string {
+	return viper.GetString("server.frontend")
 }
 
-// Home  home url
-func Home() string {
-	if Secure() {
-		return "https://" + Name()
-	}
-	return "http://" + Name()
+// Backend backend home
+func Backend() string {
+	return viper.GetString("server.backend")
 }
 
 // IsProduction production mode ?

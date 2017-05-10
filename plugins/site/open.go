@@ -3,7 +3,6 @@ package site
 import (
 	"crypto/aes"
 	"fmt"
-	"path"
 	"time"
 
 	"github.com/SermoDigital/jose/crypto"
@@ -35,8 +34,8 @@ func (p *Plugin) Open(g *inject.Graph) error {
 
 	// -------------------
 	up, err := fs.NewFileSystemStore(
-		path.Join("public", "files"),
-		web.Home()+"/files",
+		viper.GetString("uploader.dir"),
+		viper.GetString("uploader.home"),
 	)
 	if err != nil {
 		return err

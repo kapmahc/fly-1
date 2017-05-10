@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"context"
 	"net/http"
 	"time"
 
@@ -45,11 +46,11 @@ func (p *Jwt) Validate(buf []byte) (jwt.Claims, error) {
 
 func (p *Jwt) parse(r *http.Request) (jwt.Claims, error) {
 	tk, err := jws.ParseJWTFromRequest(r)
-	if err == jws.ErrNoTokenInRequest {
-		if ck, er := r.Cookie(TOKEN); er == nil {
-			tk, err = jws.ParseJWT([]byte(ck.Value))
-		}
-	}
+	// if err == jws.ErrNoTokenInRequest {
+	// 	if ck, er := r.Cookie(TOKEN); er == nil {
+	// 		tk, err = jws.ParseJWT([]byte(ck.Value))
+	// 	}
+	// }
 	if err != nil {
 		return nil, err
 	}
@@ -72,9 +73,9 @@ func (p *Jwt) Sum(cm jws.Claims, exp time.Duration) ([]byte, error) {
 	return jt.Serialize(p.Key)
 }
 
-func (p *Jwt) getUserFromRequest(c *web.Context) (*User, error) {
-
-	cm, err := p.parse(c.Request)
+func (p *Jwt) getUserFromRequest(r *http.Request) (*User, error) {
+	lng := r.Context().Value(web.K(i18n.LOCALE)).(string)
+	cm, err := p.parse(r)
 	if err != nil {
 		return nil, err
 	}
@@ -83,35 +84,41 @@ func (p *Jwt) getUserFromRequest(c *web.Context) (*User, error) {
 		return nil, err
 	}
 	if !user.IsConfirm() {
-		return nil, c.E(http.StatusForbidden, "auth.errors.user-not-confirm")
+		return nil, p.I18n.E(http.StatusForbidden, lng, "auth.errors.user-not-confirm")
 	}
 	if user.IsLock() {
-		return nil, c.E(http.StatusForbidden, "auth.errors.user-is-lock")
+		return nil, p.I18n.E(http.StatusForbidden, lng, "auth.errors.user-is-lock")
 	}
 	return user, nil
 }
 
 // CurrentUserMiddleware current-user middleware
-func (p *Jwt) CurrentUserMiddleware(c *web.Context) error {
-	if user, err := p.getUserFromRequest(c); err == nil {
-		c.Set(CurrentUser, user)
-		c.Set(IsAdmin, p.Dao.Is(user.ID, RoleAdmin))
+func (p *Jwt) CurrentUserMiddleware(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
+	if user, err := p.getUserFromRequest(r); err == nil {
+		ctx := context.WithValue(r.Context(), web.K(CurrentUser), user)
+		ctx = context.WithValue(ctx, web.K(IsAdmin), p.Dao.Is(user.ID, RoleAdmin))
+		n(w, r.WithContext(ctx))
+	} else {
+		n(w, r)
 	}
-	return nil
 }
 
 // MustSignInMiddleware must-sign-in middleware
-func (p *Jwt) MustSignInMiddleware(c *web.Context) error {
-	if _, ok := c.Get(CurrentUser); ok {
-		return nil
+func (p *Jwt) MustSignInMiddleware(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
+	if _, ok := r.Context().Value(web.K(CurrentUser)).(*User); ok {
+		n(w, r)
+	} else {
+		lng := r.Context().Value(web.K(i18n.LOCALE)).(string)
+		http.Error(w, p.I18n.T(lng, "auth.errors.user-must-sign-in"), http.StatusForbidden)
 	}
-	return c.E(http.StatusForbidden, "auth.errors.user-not-sign-in")
 }
 
 // MustAdminMiddleware must-admin middleware
-func (p *Jwt) MustAdminMiddleware(c *web.Context) error {
-	if is, ok := c.Get(IsAdmin); !ok && is.(bool) {
-		return nil
+func (p *Jwt) MustAdminMiddleware(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
+	if is, ok := r.Context().Value(web.K(IsAdmin)).(bool); ok && is {
+		n(w, r)
+	} else {
+		lng := r.Context().Value(web.K(i18n.LOCALE)).(string)
+		http.Error(w, p.I18n.T(lng, "auth.errors.user-must-is-admin"), http.StatusForbidden)
 	}
-	return c.E(http.StatusForbidden, "auth.errors.user-must-is-admin")
 }
