@@ -3,11 +3,31 @@ package i18n
 import (
 	"net/http"
 
+	log "github.com/Sirupsen/logrus"
 	"golang.org/x/text/language"
 )
 
-// Detect detect language from http request
-func Detect(r *http.Request) string {
+// Lang detect language from http request
+func (p *I18n) Lang(r *http.Request) language.Tag {
+	lang := p.detect(r)
+	if lang == "" {
+		return language.AmericanEnglish
+	}
+	langs, err := p.Store.Languages()
+	if err != nil {
+		log.Error(err)
+		return language.AmericanEnglish
+	}
+	var tags []language.Tag
+	for _, l := range langs {
+		tags = append(tags, language.Make(l))
+	}
+	matcher := language.NewMatcher(tags)
+	tag, _, _ := matcher.Match(language.Make(lang))
+	return tag
+}
+
+func (p *I18n) detect(r *http.Request) string {
 	const key = "locale"
 
 	// 1. Check URL arguments.
@@ -25,5 +45,5 @@ func Detect(r *http.Request) string {
 		return al[:5] // Only compare first 5 letters.
 	}
 
-	return language.AmericanEnglish.String()
+	return ""
 }
