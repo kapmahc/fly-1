@@ -13,6 +13,7 @@ import (
 	_ "github.com/kapmahc/fly/plugins/pos"
 	_ "github.com/kapmahc/fly/plugins/reading"
 	_ "github.com/kapmahc/fly/plugins/shop"
+	_ "github.com/kapmahc/fly/plugins/site"
 	"github.com/kapmahc/fly/web"
 )
 
