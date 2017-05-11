@@ -33,7 +33,6 @@ func (p *Plugin) Open(g *inject.Graph) error {
 	if err != nil {
 		return err
 	}
-	db.SetLogger(&gormLogger{})
 	// -------------------
 	cip, err := aes.NewCipher([]byte(viper.GetString("secrets.aes")))
 	if err != nil {
@@ -79,9 +78,8 @@ func (p *Plugin) openDatabase() (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-	if !web.IsProduction() {
-		db.LogMode(true)
-	}
+	db.LogMode(true)
+	db.SetLogger(&gormLogger{})
 
 	if err := db.DB().Ping(); err != nil {
 		return nil, err

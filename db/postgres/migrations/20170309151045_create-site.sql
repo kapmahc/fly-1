@@ -10,14 +10,12 @@ CREATE TABLE leave_words (
 
 CREATE TABLE posts (
   id         BIGSERIAL PRIMARY KEY,
-  name        VARCHAR(32)                 NOT NULL,
   title      VARCHAR(255)                NOT NULL,
   body       TEXT                        NOT NULL,
   type       VARCHAR(8)                  NOT NULL DEFAULT 'markdown',
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
   updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );
-CREATE UNIQUE INDEX idx_posts_name ON posts(name);
 
 CREATE TABLE notices (
   id         BIGSERIAL PRIMARY KEY,

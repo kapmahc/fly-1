@@ -246,7 +246,7 @@ func (p *Plugin) Console() []cli.Command {
 			Name:    "routes",
 			Aliases: []string{"rt"},
 			Usage:   "print out all defined routes",
-			Action: web.Inject(func(*cli.Context, *inject.Graph) error {
+			Action: func(*cli.Context) error {
 				rt := h2o.New()
 				web.Walk(func(en web.Plugin) error {
 					en.Mount(rt)
@@ -254,11 +254,11 @@ func (p *Plugin) Console() []cli.Command {
 				})
 				tpl := "%-7s %s\n"
 				fmt.Printf(tpl, "METHOD", "PATH")
-				return rt.Walk(func(methods []string, path string, handlers ...h2o.HandlerFunc) error {
-					fmt.Printf(tpl, methods, path)
+				return rt.Walk(func(method, path string, handlers ...h2o.HandlerFunc) error {
+					fmt.Printf(tpl, method, path)
 					return nil
 				})
-			}),
+			},
 		},
 		{
 			Name:  "i18n",
