@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/SermoDigital/jose/crypto"
+	log "github.com/Sirupsen/logrus"
 	"github.com/facebookgo/inject"
 	_redis "github.com/garyburd/redigo/redis"
 	"github.com/jinzhu/gorm"
@@ -18,12 +19,21 @@ import (
 	"github.com/spf13/viper"
 )
 
+type gormLogger struct {
+}
+
+func (p *gormLogger) Print(v ...interface{}) {
+	// log.Debugf("%+v", v)
+	log.Debug(gorm.LogFormatter(v...)...)
+}
+
 // Open init beans
 func (p *Plugin) Open(g *inject.Graph) error {
 	db, err := p.openDatabase()
 	if err != nil {
 		return err
 	}
+	db.SetLogger(&gormLogger{})
 	// -------------------
 	cip, err := aes.NewCipher([]byte(viper.GetString("secrets.aes")))
 	if err != nil {
