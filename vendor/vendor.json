@@ -397,10 +397,16 @@
 			"revisionTime": "2016-08-03T19:07:31Z"
 		},
 		{
-			"checksumSHA1": "qDIsjUrk7WWMpcW+9DdsQTCtbjM=",
+			"checksumSHA1": "wVzCEggAxsudOukfhyAHnznroWk=",
+			"path": "github.com/kapmahc/epub",
+			"revision": "7759d080da6dd736e42fc896da65cc6f7e79c2b3",
+			"revisionTime": "2016-10-27T03:53:36Z"
+		},
+		{
+			"checksumSHA1": "Qr70DPNsNwUqqi66m/BNwLuITGs=",
 			"path": "github.com/kapmahc/h2o",
-			"revision": "020d002c03d76ae7d00f1a0abf227c1250d8cb31",
-			"revisionTime": "2017-05-11T21:06:12Z"
+			"revision": "4ead67df678fd6f9e134bb544f4d49dd3e5e9f03",
+			"revisionTime": "2017-05-11T23:02:22Z"
 		},
 		{
 			"checksumSHA1": "Fj24vzH8FovUFUmw6PktslTcC9E=",
@@ -467,6 +473,16 @@
 			"path": "github.com/kapmahc/h2o/uploader/fs",
 			"revision": "ab07ac0c34cb22e7f2ba33f76896a723d9086cef",
 			"revisionTime": "2017-05-11T17:57:41Z"
+		},
+		{
+			"path": "github.com/kapmahc/h2o/web/job",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "NXjCygVQDinUDwy8Y7j+1KY7dfE=",
+			"path": "github.com/kapmahc/stardict",
+			"revision": "9732cbd4ae88c76b6cb44a17d41ce4ee7be236d9",
+			"revisionTime": "2017-03-23T22:25:13Z"
 		},
 		{
 			"checksumSHA1": "p+Bj1OSkp9/zxr6oZGzBAvYsdm0=",
