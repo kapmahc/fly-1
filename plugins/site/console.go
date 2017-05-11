@@ -8,6 +8,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"text/template"
 	"time"
 
 	"github.com/BurntSushi/toml"
@@ -316,7 +317,12 @@ func (p *Plugin) generateNginxConf(*cli.Context) error {
 	}
 	defer fd.Close()
 
-	return web.Template(fd, "nginx.conf", struct {
+	tpl, err := template.ParseFiles(path.Join("templates", "nginx.conf"))
+	if err != nil {
+		return err
+	}
+
+	return tpl.Execute(fd, struct {
 		Port  int
 		Root  string
 		Theme string
@@ -706,8 +712,11 @@ func (p *Plugin) writeRobotsTxt(root string) error {
 		return err
 	}
 	defer fd.Close()
-
-	return web.Template(fd, "robots.txt", struct {
+	tpl, err := template.ParseFiles(path.Join("templates", "robots.txt"))
+	if err != nil {
+		return err
+	}
+	return tpl.Execute(fd, struct {
 		Home string
 	}{Home: web.Frontend()})
 }
