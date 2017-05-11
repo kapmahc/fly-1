@@ -6,7 +6,8 @@ import (
 
 	"github.com/SermoDigital/jose/jws"
 	"github.com/kapmahc/fly/web"
-	"github.com/kapmahc/fly/web/i18n"
+	"github.com/kapmahc/h2o"
+	"github.com/kapmahc/h2o/i18n"
 )
 
 type fmSignUp struct {
@@ -16,31 +17,34 @@ type fmSignUp struct {
 	PasswordConfirmation string `form:"passwordConfirmation" binding:"eqfield=Password"`
 }
 
-func (p *Plugin) postUsersSignUp(c *web.Context, o interface{}) (interface{}, error) {
+func (p *Plugin) postUsersSignUp(c *h2o.Context) error {
 	l := c.Get(i18n.LOCALE).(string)
-	fm := o.(*fmSignUp)
+	var fm fmSignUp
+	if err := c.Bind(&fm); err != nil {
+		return err
+	}
 
 	var count int
 	if err := p.Db.
 		Model(&User{}).
 		Where("email = ?", fm.Email).
 		Count(&count).Error; err != nil {
-		return nil, err
+		return err
 	}
 
 	if count > 0 {
-		return nil, p.I18n.E(http.StatusInternalServerError, l, "auth.errors.email-already-exists")
+		return p.I18n.E(http.StatusInternalServerError, l, "auth.errors.email-already-exists")
 	}
 
 	user, err := p.Dao.AddEmailUser(fm.Name, fm.Email, fm.Password)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	p.Dao.Log(user.ID, c.ClientIP(), p.I18n.T(l, "auth.logs.sign-up"))
 	p.sendEmail(l, user, actConfirm)
 
-	return web.H{"message": p.I18n.T(l, "auth.messages.email-for-confirm")}, nil
+	return c.JSON(http.StatusOK, h2o.H{"message": p.I18n.T(l, "auth.messages.email-for-confirm")})
 }
 
 type fmSignIn struct {
@@ -49,31 +53,35 @@ type fmSignIn struct {
 	RememberMe bool   `form:"rememberMe"`
 }
 
-func (p *Plugin) postUsersSignIn(c *web.Context, o interface{}) (interface{}, error) {
+func (p *Plugin) postUsersSignIn(c *h2o.Context) error {
 	l := c.Get(i18n.LOCALE).(string)
-	fm := o.(*fmSignIn)
+	var fm fmSignIn
+	if err := c.Bind(&fm); err != nil {
+		return err
+	}
 
 	user, err := p.Dao.SignIn(l, fm.Email, fm.Password, c.ClientIP())
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	cm := jws.Claims{}
 	cm.Set(UID, user.UID)
 	tkn, err := p.Jwt.Sum(cm, time.Hour*24*7)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return web.H{
+
+	return c.JSON(http.StatusOK, h2o.H{
 		"token": string(tkn),
-	}, nil
+	})
 }
 
 type fmEmail struct {
 	Email string `form:"email" binding:"required,email"`
 }
 
-func (p *Plugin) getUsersConfirm(c *web.Context) error {
+func (p *Plugin) getUsersConfirm(c *h2o.Context) error {
 	l := c.Get(i18n.LOCALE).(string)
 	token := c.Param("token")
 	user, err := p.parseToken(l, token, actConfirm)
@@ -90,24 +98,27 @@ func (p *Plugin) getUsersConfirm(c *web.Context) error {
 	return nil
 }
 
-func (p *Plugin) postUsersConfirm(c *web.Context, o interface{}) (interface{}, error) {
+func (p *Plugin) postUsersConfirm(c *h2o.Context) error {
 	l := c.Get(i18n.LOCALE).(string)
-	fm := o.(*fmEmail)
+	var fm fmEmail
+	if err := c.Bind(&fm); err != nil {
+		return err
+	}
 	user, err := p.Dao.GetByEmail(fm.Email)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	if user.IsConfirm() {
-		return nil, p.I18n.E(http.StatusForbidden, l, "auth.errors.user-already-confirm")
+		return p.I18n.E(http.StatusForbidden, l, "auth.errors.user-already-confirm")
 	}
 
 	p.sendEmail(l, user, actConfirm)
 
-	return web.H{"message": p.I18n.T(l, "auth.messages.email-for-confirm")}, nil
+	return c.JSON(http.StatusOK, h2o.H{"message": p.I18n.T(l, "auth.messages.email-for-confirm")})
 }
 
-func (p *Plugin) getUsersUnlock(c *web.Context) error {
+func (p *Plugin) getUsersUnlock(c *h2o.Context) error {
 	l := c.Get(i18n.LOCALE).(string)
 	token := c.Param("token")
 	user, err := p.parseToken(l, token, actUnlock)
@@ -125,33 +136,38 @@ func (p *Plugin) getUsersUnlock(c *web.Context) error {
 	return nil
 }
 
-func (p *Plugin) postUsersUnlock(c *web.Context, o interface{}) (interface{}, error) {
+func (p *Plugin) postUsersUnlock(c *h2o.Context) error {
 	l := c.Get(i18n.LOCALE).(string)
 
-	fm := o.(*fmEmail)
+	var fm fmEmail
+	if err := c.Bind(&fm); err != nil {
+		return err
+	}
 	user, err := p.Dao.GetByEmail(fm.Email)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	if !user.IsLock() {
-		return nil, p.I18n.E(http.StatusForbidden, l, "auth.errors.user-not-lock")
+		return p.I18n.E(http.StatusForbidden, l, "auth.errors.user-not-lock")
 	}
 	p.sendEmail(l, user, actUnlock)
-	return web.H{"message": p.I18n.T(l, "auth.messages.email-for-unlock")}, nil
+	return c.JSON(http.StatusOK, h2o.H{"message": p.I18n.T(l, "auth.messages.email-for-unlock")})
 }
 
-func (p *Plugin) postUsersForgotPassword(c *web.Context, o interface{}) (interface{}, error) {
+func (p *Plugin) postUsersForgotPassword(c *h2o.Context) error {
 	l := c.Get(i18n.LOCALE).(string)
-
-	fm := o.(*fmEmail)
+	var fm fmEmail
+	if err := c.Bind(&fm); err != nil {
+		return err
+	}
 	var user *User
 	user, err := p.Dao.GetByEmail(fm.Email)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	p.sendEmail(l, user, actResetPassword)
 
-	return web.H{"message": p.I18n.T(l, "auth.messages.email-for-reset-password")}, nil
+	return c.JSON(http.StatusOK, h2o.H{"message": p.I18n.T(l, "auth.messages.email-for-reset-password")})
 }
 
 type fmResetPassword struct {
@@ -160,29 +176,32 @@ type fmResetPassword struct {
 	PasswordConfirmation string `form:"passwordConfirmation" binding:"eqfield=Password"`
 }
 
-func (p *Plugin) postUsersResetPassword(c *web.Context, o interface{}) (interface{}, error) {
+func (p *Plugin) postUsersResetPassword(c *h2o.Context) error {
 	l := c.Get(i18n.LOCALE).(string)
 
-	fm := o.(*fmResetPassword)
+	var fm fmResetPassword
+	if err := c.Bind(&fm); err != nil {
+		return err
+	}
 	user, err := p.parseToken(l, fm.Token, actResetPassword)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	p.Db.Model(user).Update("password", p.Hmac.Sum([]byte(fm.Password)))
 	p.Dao.Log(user.ID, c.ClientIP(), p.I18n.T(l, "auth.logs.reset-password"))
-	return web.H{"message": p.I18n.T(l, "auth.messages.reset-password-success")}, nil
+	return c.JSON(http.StatusOK, h2o.H{"message": p.I18n.T(l, "auth.messages.reset-password-success")})
 }
 
-func (p *Plugin) deleteUsersSignOut(c *web.Context) (interface{}, error) {
+func (p *Plugin) deleteUsersSignOut(c *h2o.Context) error {
 	l := c.Get(i18n.LOCALE).(string)
 	user := c.Get(CurrentUser).(*User)
 	p.Dao.Log(user.ID, c.ClientIP(), p.I18n.T(l, "auth.logs.sign-out"))
-	return web.H{}, nil
+	return c.JSON(http.StatusOK, h2o.H{})
 }
 
-func (p *Plugin) getUsersInfo(c *web.Context) (interface{}, error) {
+func (p *Plugin) getUsersInfo(c *h2o.Context) error {
 	user := c.Get(CurrentUser).(*User)
-	return web.H{"name": user.Name, "email": user.Email}, nil
+	return c.JSON(http.StatusOK, h2o.H{"name": user.Name, "email": user.Email})
 }
 
 type fmInfo struct {
@@ -191,18 +210,21 @@ type fmInfo struct {
 	// Logo string `form:"logo" binding:"max=255"`
 }
 
-func (p *Plugin) postUsersInfo(c *web.Context, o interface{}) (interface{}, error) {
+func (p *Plugin) postUsersInfo(c *h2o.Context) error {
 	user := c.Get(CurrentUser).(*User)
-	fm := o.(*fmInfo)
+	var fm fmInfo
+	if err := c.Bind(&fm); err != nil {
+		return err
+	}
 
 	if err := p.Db.Model(user).Updates(map[string]interface{}{
 		// "home": fm.Home,
 		// "logo": fm.Logo,
 		"name": fm.Name,
 	}).Error; err != nil {
-		return nil, err
+		return err
 	}
-	return web.H{}, nil
+	return c.JSON(http.StatusOK, h2o.H{})
 }
 
 type fmChangePassword struct {
@@ -211,40 +233,48 @@ type fmChangePassword struct {
 	PasswordConfirmation string `form:"passwordConfirmation" binding:"eqfield=NewPassword"`
 }
 
-func (p *Plugin) postUsersChangePassword(c *web.Context, o interface{}) (interface{}, error) {
+func (p *Plugin) postUsersChangePassword(c *h2o.Context) error {
 	l := c.Get(i18n.LOCALE).(string)
 
 	user := c.Get(CurrentUser).(*User)
-	fm := o.(*fmChangePassword)
+	var fm fmChangePassword
+	if err := c.Bind(&fm); err != nil {
+		return err
+	}
 	if !p.Hmac.Chk([]byte(fm.CurrentPassword), user.Password) {
-		return nil, p.I18n.E(http.StatusForbidden, l, "auth.errors.bad-password")
+		return p.I18n.E(http.StatusForbidden, l, "auth.errors.bad-password")
 	}
 	if err := p.Db.Model(user).
 		Update("password", p.Hmac.Sum([]byte(fm.NewPassword))).Error; err != nil {
-		return nil, err
+		return err
 	}
 
-	return web.H{}, nil
+	return c.JSON(http.StatusOK, h2o.H{})
 }
 
-func (p *Plugin) getUsersLogs(c *web.Context) (interface{}, error) {
+func (p *Plugin) getUsersLogs(c *h2o.Context) error {
 	user := c.Get(CurrentUser).(*User)
 	var logs []Log
-	err := p.Db.
+	if err := p.Db.
 		Select([]string{"ip", "message", "created_at"}).
 		Where("user_id = ?", user.ID).
 		Order("id DESC").Limit(120).
-		Find(&logs).Error
-	return logs, err
+		Find(&logs).Error; err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, logs)
 }
 
-func (p *Plugin) indexUsers(c *web.Context) (interface{}, error) {
+func (p *Plugin) indexUsers(c *h2o.Context) error {
 	var users []User
-	err := p.Db.
+	if err := p.Db.
 		Select([]string{"name", "logo", "home"}).
 		Order("last_sign_in_at DESC").
-		Find(&users).Error
-	return users, err
+		Find(&users).Error; err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, users)
 }
 
 func (p *Plugin) _signInURL() string {

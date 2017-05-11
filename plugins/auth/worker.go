@@ -9,7 +9,7 @@ import (
 	"github.com/SermoDigital/jose/jws"
 	log "github.com/Sirupsen/logrus"
 	"github.com/kapmahc/fly/web"
-	"github.com/kapmahc/fly/web/job"
+	"github.com/kapmahc/h2o/job"
 	gomail "gopkg.in/gomail.v2"
 )
 

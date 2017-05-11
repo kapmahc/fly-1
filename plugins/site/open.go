@@ -5,22 +5,17 @@ import (
 	"fmt"
 	"time"
 
-	validator "gopkg.in/go-playground/validator.v9"
-
 	"github.com/SermoDigital/jose/crypto"
 	"github.com/facebookgo/inject"
 	_redis "github.com/garyburd/redigo/redis"
-	"github.com/go-playground/form"
-	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	"github.com/kapmahc/fly/web"
-	"github.com/kapmahc/fly/web/cache/redis"
-	i_orm "github.com/kapmahc/fly/web/i18n/orm"
-	"github.com/kapmahc/fly/web/job/rabbitmq"
-	s_orm "github.com/kapmahc/fly/web/settings/orm"
-	"github.com/kapmahc/fly/web/uploader/fs"
+	"github.com/kapmahc/h2o/cache/redis"
+	i_orm "github.com/kapmahc/h2o/i18n/orm"
+	"github.com/kapmahc/h2o/job/rabbitmq"
+	s_orm "github.com/kapmahc/h2o/settings/orm"
+	"github.com/kapmahc/h2o/uploader/fs"
 	"github.com/spf13/viper"
-	"github.com/urfave/negroni"
 )
 
 // Open init beans
@@ -45,10 +40,6 @@ func (p *Plugin) Open(g *inject.Graph) error {
 	}
 	// -------------------
 	return g.Provide(
-		&inject.Object{Value: negroni.New()},
-		&inject.Object{Value: mux.NewRouter()},
-		&inject.Object{Value: validator.New()},
-		&inject.Object{Value: form.NewDecoder()},
 
 		&inject.Object{Value: []byte(viper.GetString("secrets.hmac")), Name: "hmac.key"},
 		&inject.Object{Value: []byte(viper.GetString("secrets.jwt")), Name: "jwt.key"},

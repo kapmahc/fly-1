@@ -397,6 +397,78 @@
 			"revisionTime": "2016-08-03T19:07:31Z"
 		},
 		{
+			"checksumSHA1": "D55ZOcAMQo9GoF+11b+prJhPRYc=",
+			"path": "github.com/kapmahc/h2o",
+			"revision": "ab07ac0c34cb22e7f2ba33f76896a723d9086cef",
+			"revisionTime": "2017-05-11T17:57:41Z"
+		},
+		{
+			"checksumSHA1": "Fj24vzH8FovUFUmw6PktslTcC9E=",
+			"path": "github.com/kapmahc/h2o/cache",
+			"revision": "ab07ac0c34cb22e7f2ba33f76896a723d9086cef",
+			"revisionTime": "2017-05-11T17:57:41Z"
+		},
+		{
+			"checksumSHA1": "xnmFYf+YV5dBIZah3bXACL2ES2w=",
+			"path": "github.com/kapmahc/h2o/cache/redis",
+			"revision": "ab07ac0c34cb22e7f2ba33f76896a723d9086cef",
+			"revisionTime": "2017-05-11T17:57:41Z"
+		},
+		{
+			"checksumSHA1": "LUJuhg3yDgAOKixnDcFfuX/iMrI=",
+			"path": "github.com/kapmahc/h2o/i18n",
+			"revision": "ab07ac0c34cb22e7f2ba33f76896a723d9086cef",
+			"revisionTime": "2017-05-11T17:57:41Z"
+		},
+		{
+			"checksumSHA1": "KaCgJ3gKZvIkAU0PA2jAD1QgO2k=",
+			"path": "github.com/kapmahc/h2o/i18n/orm",
+			"revision": "ab07ac0c34cb22e7f2ba33f76896a723d9086cef",
+			"revisionTime": "2017-05-11T17:57:41Z"
+		},
+		{
+			"checksumSHA1": "5rIjurgTwXmHbSJrh5mkWFFn9/8=",
+			"path": "github.com/kapmahc/h2o/job",
+			"revision": "ab07ac0c34cb22e7f2ba33f76896a723d9086cef",
+			"revisionTime": "2017-05-11T17:57:41Z"
+		},
+		{
+			"checksumSHA1": "oNqgjWaIJfga3YFo7V8/nMnEj50=",
+			"path": "github.com/kapmahc/h2o/job/rabbitmq",
+			"revision": "ab07ac0c34cb22e7f2ba33f76896a723d9086cef",
+			"revisionTime": "2017-05-11T17:57:41Z"
+		},
+		{
+			"checksumSHA1": "BlBwUVtJl/kv/oFQApj5D8X1Kr4=",
+			"path": "github.com/kapmahc/h2o/security",
+			"revision": "ab07ac0c34cb22e7f2ba33f76896a723d9086cef",
+			"revisionTime": "2017-05-11T17:57:41Z"
+		},
+		{
+			"checksumSHA1": "pF9QoBW52cnNSvtaML962erDpHI=",
+			"path": "github.com/kapmahc/h2o/settings",
+			"revision": "ab07ac0c34cb22e7f2ba33f76896a723d9086cef",
+			"revisionTime": "2017-05-11T17:57:41Z"
+		},
+		{
+			"checksumSHA1": "b3jVYWsopxQXFEPSv7emTRNalTE=",
+			"path": "github.com/kapmahc/h2o/settings/orm",
+			"revision": "ab07ac0c34cb22e7f2ba33f76896a723d9086cef",
+			"revisionTime": "2017-05-11T17:57:41Z"
+		},
+		{
+			"checksumSHA1": "/rjtwzh9pZtq5Zkh+QSx6NXwA7M=",
+			"path": "github.com/kapmahc/h2o/uploader",
+			"revision": "ab07ac0c34cb22e7f2ba33f76896a723d9086cef",
+			"revisionTime": "2017-05-11T17:57:41Z"
+		},
+		{
+			"checksumSHA1": "J79NyiNkDvQlVd8GO6jDsGwcAf8=",
+			"path": "github.com/kapmahc/h2o/uploader/fs",
+			"revision": "ab07ac0c34cb22e7f2ba33f76896a723d9086cef",
+			"revisionTime": "2017-05-11T17:57:41Z"
+		},
+		{
 			"checksumSHA1": "p+Bj1OSkp9/zxr6oZGzBAvYsdm0=",
 			"path": "github.com/kylelemons/go-gypsy/yaml",
 			"revision": "08cad365cd28a7fba23bb1e57aa43c5e18ad8bb8",
@@ -509,6 +581,12 @@
 			"path": "github.com/streadway/amqp",
 			"revision": "afe8eee29a74d213b1f3fb2586058157c397da60",
 			"revisionTime": "2017-03-13T17:48:48Z"
+		},
+		{
+			"checksumSHA1": "XQ2GsdTmZgUO2xycRg02vxBYi50=",
+			"path": "github.com/unrolled/render",
+			"revision": "50716a0a853771bb36bfce61a45cdefdb98c2e6e",
+			"revisionTime": "2017-01-09T14:32:44Z"
 		},
 		{
 			"checksumSHA1": "79A2m2Zs96hg/3xtcsOBzkpPAKM=",

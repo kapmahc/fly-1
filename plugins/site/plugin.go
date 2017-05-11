@@ -4,24 +4,21 @@ import (
 	"os"
 	"path"
 
-	"github.com/gorilla/mux"
 	"github.com/ikeikeikeike/go-sitemap-generator/stm"
 	"github.com/jinzhu/gorm"
 	"github.com/kapmahc/fly/plugins/auth"
 	"github.com/kapmahc/fly/web"
-	"github.com/kapmahc/fly/web/cache"
-	"github.com/kapmahc/fly/web/i18n"
-	"github.com/kapmahc/fly/web/job"
-	"github.com/kapmahc/fly/web/settings"
+	"github.com/kapmahc/h2o"
+	"github.com/kapmahc/h2o/cache"
+	"github.com/kapmahc/h2o/i18n"
+	"github.com/kapmahc/h2o/job"
+	"github.com/kapmahc/h2o/settings"
 	"github.com/spf13/viper"
-	"github.com/urfave/negroni"
 	"golang.org/x/tools/blog/atom"
 )
 
 // Plugin plugin
 type Plugin struct {
-	Negroni  *negroni.Negroni   `inject:""`
-	Router   *mux.Router        `inject:""`
 	Db       *gorm.DB           `inject:""`
 	Jwt      *auth.Jwt          `inject:""`
 	I18n     *i18n.I18n         `inject:""`
@@ -44,7 +41,7 @@ func (p *Plugin) Sitemap() ([]stm.URL, error) {
 }
 
 // Mount mount web points
-func (p *Plugin) Mount() {
+func (p *Plugin) Mount(rt *h2o.Router) {
 
 }
 

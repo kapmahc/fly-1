@@ -7,8 +7,8 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/jinzhu/gorm"
-	"github.com/kapmahc/fly/web/i18n"
-	"github.com/kapmahc/fly/web/security"
+	"github.com/kapmahc/h2o/i18n"
+	"github.com/kapmahc/h2o/security"
 )
 
 // Dao auth dao

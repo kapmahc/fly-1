@@ -1,13 +1,11 @@
 package site
 
 import (
-	"context"
 	"crypto/x509/pkix"
 	"encoding/xml"
 	"fmt"
 	"net/http"
 	"os"
-	"os/signal"
 	"path"
 	"path/filepath"
 	"time"
@@ -16,15 +14,14 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/facebookgo/inject"
 	"github.com/google/uuid"
-	"github.com/gorilla/mux"
 	"github.com/ikeikeikeike/go-sitemap-generator/stm"
 	"github.com/kapmahc/fly/web"
-	negronilogrus "github.com/meatballhat/negroni-logrus"
+	"github.com/kapmahc/h2o"
 	"github.com/rs/cors"
 	"github.com/spf13/viper"
 	"github.com/steinbacher/goose"
+	"github.com/unrolled/render"
 	"github.com/urfave/cli"
-	"github.com/urfave/negroni"
 	"golang.org/x/text/language"
 	"golang.org/x/tools/blog/atom"
 )
@@ -250,19 +247,15 @@ func (p *Plugin) Console() []cli.Command {
 			Aliases: []string{"rt"},
 			Usage:   "print out all defined routes",
 			Action: web.Inject(func(*cli.Context, *inject.Graph) error {
+				rt := h2o.New()
 				web.Walk(func(en web.Plugin) error {
-					en.Mount()
+					en.Mount(rt)
 					return nil
 				})
 				tpl := "%-7s %s\n"
 				fmt.Printf(tpl, "METHOD", "PATH")
-				// FIXME https://github.com/gorilla/mux/pull/244
-				return p.Router.Walk(func(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
-					ptl, err := route.GetPathTemplate()
-					if err != nil {
-						return err
-					}
-					fmt.Printf(tpl, "", ptl)
+				return rt.Walk(func(methods []string, path string, handlers ...h2o.HandlerFunc) error {
+					fmt.Printf(tpl, methods, path)
 					return nil
 				})
 			}),
@@ -594,34 +587,20 @@ func (p *Plugin) runWorker(c *cli.Context, _ *inject.Graph) error {
 }
 
 func (p *Plugin) runServer(c *cli.Context, _ *inject.Graph) error {
-	port := viper.GetInt("server.port")
-	log.Infof(
-		"application starting in %s on http://localhost:%d",
-		viper.GetString("env"),
-		port,
-	)
-	// ---------------------
-	p.Negroni.Use(negroni.NewRecovery())
-	p.Negroni.Use(negronilogrus.NewMiddleware())
-	// --------------------
-	p.Negroni.Use(cors.New(cors.Options{
-		AllowedHeaders:   []string{"Authorization"},
-		AllowedMethods:   []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete, http.MethodPatch},
-		AllowedOrigins:   []string{web.Frontend()},
-		AllowCredentials: true,
-	}))
+	rt := h2o.New()
 	// --------------------
 	lm, err := p.I18n.Middleware()
 	if err != nil {
 		return err
 	}
-	p.Negroni.Use(lm)
-	// ----------------
-	p.Negroni.Use(negroni.HandlerFunc(p.Jwt.CurrentUserMiddleware))
-	// --------
-
+	// --------------------
+	rt.Use(
+		lm,
+		p.Jwt.CurrentUserMiddleware,
+	)
+	// --------------------
 	web.Walk(func(en web.Plugin) error {
-		en.Mount()
+		en.Mount(rt)
 		return nil
 	})
 	// ---------------
@@ -636,37 +615,18 @@ func (p *Plugin) runServer(c *cli.Context, _ *inject.Graph) error {
 			}
 		}()
 	}
-
 	// ---------------
-	p.Negroni.UseHandler(p.Router)
-	addr := fmt.Sprintf(":%d", port)
-
-	if web.IsProduction() {
-		srv := &http.Server{Addr: addr, Handler: p.Negroni}
-		go func() {
-			// service connections
-			if err := srv.ListenAndServe(); err != nil {
-				log.Error(err)
-			}
-		}()
-
-		// Wait for interrupt signal to gracefully shutdown the server with
-		// a timeout of 5 seconds.
-		quit := make(chan os.Signal)
-		signal.Notify(quit, os.Interrupt)
-		<-quit
-		log.Warningf("shutdown server ...")
-
-		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-		defer cancel()
-		if err := srv.Shutdown(ctx); err != nil {
-			return err
-		}
-		log.Info("server exist")
-		return nil
-	}
-
-	return http.ListenAndServe(addr, p.Negroni)
+	return rt.Run(
+		viper.GetInt("server.port"),
+		web.IsProduction(),
+		cors.Options{
+			AllowedHeaders:   []string{"Authorization"},
+			AllowedMethods:   []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete, http.MethodPatch},
+			AllowedOrigins:   []string{web.Frontend()},
+			AllowCredentials: true,
+		},
+		render.Options{},
+	)
 }
 
 func (p *Plugin) writeSitemap(root string) error {

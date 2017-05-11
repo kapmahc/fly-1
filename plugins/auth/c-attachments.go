@@ -1,12 +1,10 @@
 package auth
 
 import (
-	"context"
 	"net/http"
 
-	"github.com/gorilla/mux"
-	"github.com/kapmahc/fly/web"
-	"github.com/kapmahc/fly/web/i18n"
+	"github.com/kapmahc/h2o"
+	"github.com/kapmahc/h2o/i18n"
 )
 
 type fmAttachmentNew struct {
@@ -14,25 +12,24 @@ type fmAttachmentNew struct {
 	ID   uint   `form:"id"`
 }
 
-func (p *Plugin) createAttachment(c *web.Context, o interface{}) (interface{}, error) {
+func (p *Plugin) createAttachment(c *h2o.Context) error {
 	user := c.Get(CurrentUser).(*User)
-	// fm := o.(*fmAttachmentNew)
 
 	file, header, err := c.Request.FormFile("file")
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	url, size, err := p.Uploader.Save(header)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	// http://golang.org/pkg/net/http/#DetectContentType
 	buf := make([]byte, 512)
 	file.Seek(0, 0)
 	if _, err = file.Read(buf); err != nil {
-		return nil, err
+		return err
 	}
 
 	a := Attachment{
@@ -45,40 +42,45 @@ func (p *Plugin) createAttachment(c *web.Context, o interface{}) (interface{}, e
 		ResourceID:   DefaultResourceID,   //fm.ID,
 	}
 	if err := p.Db.Create(&a).Error; err != nil {
-		return nil, err
+		return err
 	}
-	return a, nil
+	return c.JSON(http.StatusOK, a)
 }
 
 type fmAttachmentEdit struct {
 	Title string `form:"title" binding:"required,max=255"`
 }
 
-func (p *Plugin) updateAttachment(c *web.Context, o interface{}) (interface{}, error) {
+func (p *Plugin) updateAttachment(c *h2o.Context) error {
 	a := c.Get("item").(*Attachment)
-	fm := o.(*fmAttachmentEdit)
+	var fm fmAttachmentEdit
+	if err := c.Bind(&fm); err != nil {
+		return err
+	}
 	if err := p.Db.Model(a).Update("title", fm.Title).Error; err != nil {
-		return nil, err
+		return err
 	}
 
-	return web.H{}, nil
+	return c.JSON(http.StatusOK, a)
 }
 
-func (p *Plugin) destroyAttachment(c *web.Context) (interface{}, error) {
+func (p *Plugin) destroyAttachment(c *h2o.Context) error {
 	a := c.Get("item").(*Attachment)
-	err := p.Db.Delete(a).Error
-	if err != nil {
-		return nil, err
+	if err := p.Db.Delete(a).Error; err != nil {
+		return err
 	}
-	return a, p.Uploader.Remove(a.URL)
+	if err := p.Uploader.Remove(a.URL); err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, a)
 }
 
-func (p *Plugin) showAttachment(c *web.Context) (interface{}, error) {
+func (p *Plugin) showAttachment(c *h2o.Context) error {
 	a := c.Get("item").(*Attachment)
-	return a, nil
+	return c.JSON(http.StatusOK, a)
 }
 
-func (p *Plugin) indexAttachments(c *web.Context) (interface{}, error) {
+func (p *Plugin) indexAttachments(c *h2o.Context) error {
 	user := c.Get(CurrentUser).(*User)
 	isa := c.Get(IsAdmin).(bool)
 	var items []Attachment
@@ -87,26 +89,24 @@ func (p *Plugin) indexAttachments(c *web.Context) (interface{}, error) {
 		qry = qry.Where("user_id = ?", user.ID)
 	}
 	if err := qry.Order("updated_at DESC").Find(&items).Error; err != nil {
-		return nil, err
+		return err
 	}
-
-	return items, nil
+	return c.JSON(http.StatusOK, items)
 }
 
-func (p *Plugin) canEditAttachment(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
-	user := r.Context().Value(web.K(CurrentUser)).(*User)
-	lng := r.Context().Value(web.K(i18n.LOCALE)).(string)
-	vars := mux.Vars(r)
+func (p *Plugin) canEditAttachment(c *h2o.Context) error {
+	user := c.Get(CurrentUser).(*User)
+	lng := c.Get(i18n.LOCALE).(string)
 
 	var a Attachment
-	err := p.Db.Where("id = ?", vars["id"]).First(&a).Error
-	if err == nil {
-		if user.ID == a.UserID || r.Context().Value(IsAdmin).(bool) {
-			n(w, r.WithContext(context.WithValue(r.Context(), web.K("item"), &a)))
-		} else {
-			http.Error(w, p.I18n.T(lng, "auth.errors.not-allow"), http.StatusInternalServerError)
-		}
-	} else {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+	if err := p.Db.Where("id = ?", c.Param("id")).First(&a).Error; err != nil {
+		return err
 	}
+
+	if user.ID == a.UserID || c.Get(IsAdmin).(bool) {
+		c.Set("item", &a)
+		return nil
+	}
+
+	return p.I18n.E(http.StatusForbidden, lng, "auth.errors.not-allow")
 }

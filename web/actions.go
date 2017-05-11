@@ -7,7 +7,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	logrus_syslog "github.com/Sirupsen/logrus/hooks/syslog"
 	"github.com/facebookgo/inject"
-	"github.com/kapmahc/fly/web/job"
+	"github.com/kapmahc/h2o/job"
 	"github.com/spf13/viper"
 	"github.com/urfave/cli"
 )

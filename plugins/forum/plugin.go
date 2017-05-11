@@ -6,9 +6,10 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/kapmahc/fly/plugins/auth"
 	"github.com/kapmahc/fly/web"
-	"github.com/kapmahc/fly/web/i18n"
-	"github.com/kapmahc/fly/web/job"
-	"github.com/kapmahc/fly/web/settings"
+	"github.com/kapmahc/h2o"
+	"github.com/kapmahc/h2o/i18n"
+	"github.com/kapmahc/h2o/job"
+	"github.com/kapmahc/h2o/settings"
 	"github.com/urfave/cli"
 	"golang.org/x/tools/blog/atom"
 )
@@ -41,7 +42,7 @@ func (p *Plugin) Sitemap() ([]stm.URL, error) {
 }
 
 // Mount mount web points
-func (p *Plugin) Mount() {
+func (p *Plugin) Mount(rt *h2o.Router) {
 
 }
 

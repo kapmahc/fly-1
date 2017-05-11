@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"context"
 	"net/http"
 	"time"
 
@@ -9,8 +8,8 @@ import (
 	"github.com/SermoDigital/jose/jws"
 	"github.com/SermoDigital/jose/jwt"
 	"github.com/google/uuid"
-	"github.com/kapmahc/fly/web"
-	"github.com/kapmahc/fly/web/i18n"
+	"github.com/kapmahc/h2o"
+	"github.com/kapmahc/h2o/i18n"
 )
 
 const (
@@ -68,9 +67,9 @@ func (p *Jwt) Sum(cm jws.Claims, exp time.Duration) ([]byte, error) {
 	return jt.Serialize(p.Key)
 }
 
-func (p *Jwt) getUserFromRequest(r *http.Request) (*User, error) {
-	lng := r.Context().Value(web.K(i18n.LOCALE)).(string)
-	cm, err := p.parse(r)
+func (p *Jwt) getUserFromRequest(c *h2o.Context) (*User, error) {
+	lng := c.Get(i18n.LOCALE).(string)
+	cm, err := p.parse(c.Request)
 	if err != nil {
 		return nil, err
 	}
@@ -88,32 +87,28 @@ func (p *Jwt) getUserFromRequest(r *http.Request) (*User, error) {
 }
 
 // CurrentUserMiddleware current-user middleware
-func (p *Jwt) CurrentUserMiddleware(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
-	if user, err := p.getUserFromRequest(r); err == nil {
-		ctx := context.WithValue(r.Context(), web.K(CurrentUser), user)
-		ctx = context.WithValue(ctx, web.K(IsAdmin), p.Dao.Is(user.ID, RoleAdmin))
-		n(w, r.WithContext(ctx))
-	} else {
-		n(w, r)
+func (p *Jwt) CurrentUserMiddleware(c *h2o.Context) error {
+	if user, err := p.getUserFromRequest(c); err == nil {
+		c.Set(CurrentUser, user)
+		c.Set(IsAdmin, p.Dao.Is(user.ID, RoleAdmin))
 	}
+	return nil
 }
 
 // MustSignInMiddleware must-sign-in middleware
-func (p *Jwt) MustSignInMiddleware(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
-	if _, ok := r.Context().Value(web.K(CurrentUser)).(*User); ok {
-		n(w, r)
-	} else {
-		lng := r.Context().Value(web.K(i18n.LOCALE)).(string)
-		http.Error(w, p.I18n.T(lng, "auth.errors.user-must-sign-in"), http.StatusForbidden)
+func (p *Jwt) MustSignInMiddleware(c *h2o.Context) error {
+	if _, ok := c.Get(CurrentUser).(*User); ok {
+		return nil
 	}
+	lng := c.Get(i18n.LOCALE).(string)
+	return p.I18n.E(http.StatusForbidden, lng, "auth.errors.user-must-sign-in")
 }
 
 // MustAdminMiddleware must-admin middleware
-func (p *Jwt) MustAdminMiddleware(w http.ResponseWriter, r *http.Request, n http.HandlerFunc) {
-	if is, ok := r.Context().Value(web.K(IsAdmin)).(bool); ok && is {
-		n(w, r)
-	} else {
-		lng := r.Context().Value(web.K(i18n.LOCALE)).(string)
-		http.Error(w, p.I18n.T(lng, "auth.errors.user-must-is-admin"), http.StatusForbidden)
+func (p *Jwt) MustAdminMiddleware(c *h2o.Context) error {
+	if is, ok := c.Get(IsAdmin).(bool); ok && is {
+		return nil
 	}
+	lng := c.Get(i18n.LOCALE).(string)
+	return p.I18n.E(http.StatusForbidden, lng, "auth.errors.user-must-is-admin")
 }
