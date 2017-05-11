@@ -2,6 +2,7 @@ package auth
 
 import (
 	"github.com/facebookgo/inject"
+	"github.com/gorilla/mux"
 	"github.com/ikeikeikeike/go-sitemap-generator/stm"
 	"github.com/jinzhu/gorm"
 	"github.com/kapmahc/fly/web"
@@ -10,11 +11,15 @@ import (
 	"github.com/kapmahc/fly/web/security"
 	"github.com/kapmahc/fly/web/settings"
 	"github.com/kapmahc/fly/web/uploader"
+	"github.com/urfave/negroni"
 	"golang.org/x/tools/blog/atom"
 )
 
 // Plugin plugin
 type Plugin struct {
+	Negroni  *negroni.Negroni   `inject:""`
+	Router   *mux.Router        `inject:""`
+	Wrapper  *web.Wrapper       `inject:""`
 	Db       *gorm.DB           `inject:""`
 	Jwt      *Jwt               `inject:""`
 	Dao      *Dao               `inject:""`

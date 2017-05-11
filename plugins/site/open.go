@@ -5,9 +5,12 @@ import (
 	"fmt"
 	"time"
 
+	validator "gopkg.in/go-playground/validator.v9"
+
 	"github.com/SermoDigital/jose/crypto"
 	"github.com/facebookgo/inject"
 	_redis "github.com/garyburd/redigo/redis"
+	"github.com/go-playground/form"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	"github.com/kapmahc/fly/web"
@@ -44,6 +47,8 @@ func (p *Plugin) Open(g *inject.Graph) error {
 	return g.Provide(
 		&inject.Object{Value: negroni.New()},
 		&inject.Object{Value: mux.NewRouter()},
+		&inject.Object{Value: validator.New()},
+		&inject.Object{Value: form.NewDecoder()},
 
 		&inject.Object{Value: []byte(viper.GetString("secrets.hmac")), Name: "hmac.key"},
 		&inject.Object{Value: []byte(viper.GetString("secrets.jwt")), Name: "jwt.key"},

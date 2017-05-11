@@ -19,6 +19,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/ikeikeikeike/go-sitemap-generator/stm"
 	"github.com/kapmahc/fly/web"
+	negronilogrus "github.com/meatballhat/negroni-logrus"
 	"github.com/rs/cors"
 	"github.com/spf13/viper"
 	"github.com/steinbacher/goose"
@@ -255,6 +256,7 @@ func (p *Plugin) Console() []cli.Command {
 				})
 				tpl := "%-7s %s\n"
 				fmt.Printf(tpl, "METHOD", "PATH")
+				// FIXME https://github.com/gorilla/mux/pull/244
 				return p.Router.Walk(func(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
 					ptl, err := route.GetPathTemplate()
 					if err != nil {
@@ -598,7 +600,9 @@ func (p *Plugin) runServer(c *cli.Context, _ *inject.Graph) error {
 		viper.GetString("env"),
 		port,
 	)
-
+	// ---------------------
+	p.Negroni.Use(negroni.NewRecovery())
+	p.Negroni.Use(negronilogrus.NewMiddleware())
 	// --------------------
 	p.Negroni.Use(cors.New(cors.Options{
 		AllowedHeaders:   []string{"Authorization"},

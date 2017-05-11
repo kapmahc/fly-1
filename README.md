@@ -83,3 +83,4 @@ GRANT ALL PRIVILEGES ON DATABASE db-name TO user-name;
 - [negroni](https://github.com/urfave/negroni)
 - [anglar](https://angular.io/docs/ts/latest/guide/)
 - [ng-bootstrap](https://ng-bootstrap.github.io/#/getting-started)
+- [validator](https://github.com/go-playground/validator)

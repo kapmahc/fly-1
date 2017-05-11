@@ -46,11 +46,6 @@ func (p *Jwt) Validate(buf []byte) (jwt.Claims, error) {
 
 func (p *Jwt) parse(r *http.Request) (jwt.Claims, error) {
 	tk, err := jws.ParseJWTFromRequest(r)
-	// if err == jws.ErrNoTokenInRequest {
-	// 	if ck, er := r.Cookie(TOKEN); er == nil {
-	// 		tk, err = jws.ParseJWT([]byte(ck.Value))
-	// 	}
-	// }
 	if err != nil {
 		return nil, err
 	}
