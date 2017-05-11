@@ -44,7 +44,7 @@ func (p *Plugin) postUsersSignUp(c *h2o.Context) error {
 	p.Dao.Log(user.ID, c.ClientIP(), p.I18n.T(l, "auth.logs.sign-up"))
 	p.sendEmail(l, user, actConfirm)
 
-	return c.JSON(http.StatusOK, h2o.H{"message": p.I18n.T(l, "auth.messages.email-for-confirm")})
+	return c.JSON(http.StatusOK, h2o.H{})
 }
 
 type fmSignIn struct {
@@ -115,7 +115,7 @@ func (p *Plugin) postUsersConfirm(c *h2o.Context) error {
 
 	p.sendEmail(l, user, actConfirm)
 
-	return c.JSON(http.StatusOK, h2o.H{"message": p.I18n.T(l, "auth.messages.email-for-confirm")})
+	return c.JSON(http.StatusOK, h2o.H{})
 }
 
 func (p *Plugin) getUsersUnlock(c *h2o.Context) error {
@@ -151,7 +151,7 @@ func (p *Plugin) postUsersUnlock(c *h2o.Context) error {
 		return p.I18n.E(http.StatusForbidden, l, "auth.errors.user-not-lock")
 	}
 	p.sendEmail(l, user, actUnlock)
-	return c.JSON(http.StatusOK, h2o.H{"message": p.I18n.T(l, "auth.messages.email-for-unlock")})
+	return c.JSON(http.StatusOK, h2o.H{})
 }
 
 func (p *Plugin) postUsersForgotPassword(c *h2o.Context) error {
@@ -167,7 +167,7 @@ func (p *Plugin) postUsersForgotPassword(c *h2o.Context) error {
 	}
 	p.sendEmail(l, user, actResetPassword)
 
-	return c.JSON(http.StatusOK, h2o.H{"message": p.I18n.T(l, "auth.messages.email-for-reset-password")})
+	return c.JSON(http.StatusOK, h2o.H{})
 }
 
 type fmResetPassword struct {
@@ -189,7 +189,7 @@ func (p *Plugin) postUsersResetPassword(c *h2o.Context) error {
 	}
 	p.Db.Model(user).Update("password", p.Hmac.Sum([]byte(fm.Password)))
 	p.Dao.Log(user.ID, c.ClientIP(), p.I18n.T(l, "auth.logs.reset-password"))
-	return c.JSON(http.StatusOK, h2o.H{"message": p.I18n.T(l, "auth.messages.reset-password-success")})
+	return c.JSON(http.StatusOK, h2o.H{})
 }
 
 func (p *Plugin) deleteUsersSignOut(c *h2o.Context) error {

@@ -6,7 +6,6 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/kapmahc/fly/plugins/auth"
 	"github.com/kapmahc/fly/web"
-	"github.com/kapmahc/h2o"
 	"github.com/kapmahc/h2o/i18n"
 	"github.com/kapmahc/h2o/job"
 	"github.com/kapmahc/h2o/settings"
@@ -39,11 +38,6 @@ func (p *Plugin) Atom(lang string) ([]*atom.Entry, error) {
 // Sitemap sitemap.xml.gz
 func (p *Plugin) Sitemap() ([]stm.URL, error) {
 	return []stm.URL{}, nil
-}
-
-// Mount mount web points
-func (p *Plugin) Mount(rt *h2o.Router) {
-
 }
 
 // Workers job handler
