@@ -4,6 +4,8 @@ import "github.com/kapmahc/h2o"
 
 // Mount web mount-points
 func (p *Plugin) Mount(rt *h2o.Router) {
+	rt.POST("/ops/mail/users/change-password", p.postChangeUserPassword)
+
 	rt.Group(func(r *h2o.Router) {
 		r.Crud(
 			"/domains",
@@ -15,7 +17,6 @@ func (p *Plugin) Mount(rt *h2o.Router) {
 		)
 
 		r.POST("/users/{id}/reset-password", p.postResetUserPassword)
-		r.POST("/users/change-password", p.postChangeUserPassword)
 		r.Crud(
 			"/users",
 			[]h2o.HandlerFunc{p.indexUsers},
