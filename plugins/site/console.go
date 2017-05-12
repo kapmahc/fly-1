@@ -323,17 +323,17 @@ func (p *Plugin) generateNginxConf(*cli.Context) error {
 	}
 
 	return tpl.Execute(fd, struct {
-		Port  int
-		Root  string
-		Theme string
-		Name  string
-		Ssl   bool
+		Port    int
+		Root    string
+		Name    string
+		Ssl     bool
+		Version string
 	}{
-		Name:  name,
-		Port:  viper.GetInt("server.port"),
-		Root:  pwd,
-		Theme: viper.GetString("server.theme"),
-		Ssl:   viper.GetBool("server.ssl"),
+		Name:    name,
+		Port:    viper.GetInt("server.port"),
+		Root:    pwd,
+		Ssl:     viper.GetBool("server.ssl"),
+		Version: "v1",
 	})
 }
 
