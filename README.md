@@ -2,6 +2,14 @@
 
 A complete open source e-commerce solution for the Go language(STILL IN DEVELOPMENT).
 
+## Install packages
+```bash
+sudo pacman -S go
+export GOROOT=/opt/go
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | zsh
+nvm install node
+```
+
 ## Usage
 
 ```bash
