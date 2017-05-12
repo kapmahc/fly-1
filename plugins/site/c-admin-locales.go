@@ -25,8 +25,8 @@ func (p *Plugin) deleteAdminLocales(c *h2o.Context) error {
 }
 
 type fmLocale struct {
-	Code    string `form:"code" binding:"required,max=255"`
-	Message string `form:"message" binding:"required"`
+	Code    string `form:"code" validate:"required,max=255"`
+	Message string `form:"message" validate:"required"`
 }
 
 func (p *Plugin) postAdminLocales(c *h2o.Context) error {

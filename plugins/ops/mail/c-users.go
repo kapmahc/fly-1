@@ -29,10 +29,10 @@ func (p *Plugin) indexUsers(c *h2o.Context) error {
 }
 
 type fmUserNew struct {
-	FullName             string `form:"fullName" binding:"required,max=255"`
-	Email                string `form:"email" binding:"required,email"`
-	Password             string `form:"password" binding:"min=6,max=32"`
-	PasswordConfirmation string `form:"passwordConfirmation" binding:"eqfield=Password"`
+	FullName             string `form:"fullName" validate:"required,max=255"`
+	Email                string `form:"email" validate:"required,email"`
+	Password             string `form:"password" validate:"min=6,max=32"`
+	PasswordConfirmation string `form:"passwordConfirmation" validate:"eqfield=Password"`
 	Enable               bool   `form:"enable"`
 	DomainID             uint   `form:"domainId"`
 }
@@ -67,7 +67,7 @@ func (p *Plugin) showUser(c *h2o.Context) error {
 }
 
 type fmUserEdit struct {
-	FullName string `form:"fullName" binding:"required,max=255"`
+	FullName string `form:"fullName" validate:"required,max=255"`
 	Enable   bool   `form:"enable"`
 }
 
@@ -94,8 +94,8 @@ func (p *Plugin) updateUser(c *h2o.Context) error {
 }
 
 type fmUserResetPassword struct {
-	Password             string `form:"password" binding:"min=6,max=32"`
-	PasswordConfirmation string `form:"passwordConfirmation" binding:"eqfield=Password"`
+	Password             string `form:"password" validate:"min=6,max=32"`
+	PasswordConfirmation string `form:"passwordConfirmation" validate:"eqfield=Password"`
 }
 
 func (p *Plugin) postResetUserPassword(c *h2o.Context) error {
@@ -123,10 +123,10 @@ func (p *Plugin) postResetUserPassword(c *h2o.Context) error {
 }
 
 type fmUserChangePassword struct {
-	Email                string `form:"email" binding:"required,email"`
-	CurrentPassword      string `form:"currentPassword" binding:"required"`
-	NewPassword          string `form:"newPassword" binding:"min=6,max=32"`
-	PasswordConfirmation string `form:"passwordConfirmation" binding:"eqfield=NewPassword"`
+	Email                string `form:"email" validate:"required,email"`
+	CurrentPassword      string `form:"currentPassword" validate:"required"`
+	NewPassword          string `form:"newPassword" validate:"min=6,max=32"`
+	PasswordConfirmation string `form:"passwordConfirmation" validate:"eqfield=NewPassword"`
 }
 
 func (p *Plugin) postChangeUserPassword(c *h2o.Context) error {

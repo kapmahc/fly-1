@@ -151,11 +151,11 @@ func (p *Plugin) showForm(c *h2o.Context) error {
 }
 
 type fmForm struct {
-	Title    string `form:"title" binding:"required,max=255"`
-	Deadline string `form:"deadline" binding:"required"`
-	Body     string `form:"body" binding:"required"`
-	Type     string `form:"type" binding:"required,max=8"`
-	Fields   string `form:"fields" binding:"required"`
+	Title    string `form:"title" validate:"required,max=255"`
+	Deadline string `form:"deadline" validate:"required"`
+	Body     string `form:"body" validate:"required"`
+	Type     string `form:"type" validate:"required,max=8"`
+	Fields   string `form:"fields" validate:"required"`
 }
 
 func (p *Plugin) updateForm(c *h2o.Context) error {

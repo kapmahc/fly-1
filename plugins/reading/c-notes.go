@@ -48,8 +48,8 @@ func (p *Plugin) indexNotes(c *h2o.Context) error {
 }
 
 type fmNoteNew struct {
-	Type   string `form:"type" binding:"required,max=8"`
-	Body   string `form:"body" binding:"required,max=2000"`
+	Type   string `form:"type" validate:"required,max=8"`
+	Body   string `form:"body" validate:"required,max=2000"`
 	BookID uint   `form:"bookId"`
 }
 
@@ -83,8 +83,8 @@ func (p *Plugin) showNote(c *h2o.Context) error {
 }
 
 type fmNoteEdit struct {
-	Type string `form:"type" binding:"required,max=8"`
-	Body string `form:"body" binding:"required,max=2000"`
+	Type string `form:"type" validate:"required,max=8"`
+	Body string `form:"body" validate:"required,max=2000"`
 }
 
 func (p *Plugin) updateNote(c *h2o.Context) error {

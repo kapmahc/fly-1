@@ -15,7 +15,7 @@ func (p *Plugin) indexTags(c *h2o.Context) error {
 }
 
 type fmTag struct {
-	Name string `form:"name" binding:"required,max=255"`
+	Name string `form:"name" validate:"required,max=255"`
 }
 
 func (p *Plugin) createTag(c *h2o.Context) error {

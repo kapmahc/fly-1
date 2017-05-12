@@ -16,9 +16,9 @@ func (p *Plugin) indexLinks(c *h2o.Context) error {
 }
 
 type fmLink struct {
-	Label     string `form:"label" binding:"required,max=255"`
-	Href      string `form:"href" binding:"required,max=255"`
-	Loc       string `form:"loc" binding:"required,max=32"`
+	Label     string `form:"label" validate:"required,max=255"`
+	Href      string `form:"href" validate:"required,max=255"`
+	Loc       string `form:"loc" validate:"required,max=32"`
 	SortOrder int    `form:"sortOrder"`
 }
 

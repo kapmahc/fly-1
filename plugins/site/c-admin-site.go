@@ -113,8 +113,8 @@ type fmSiteSMTP struct {
 	Port                 int    `form:"port"`
 	Ssl                  string `form:"ssl"`
 	Username             string `form:"username"`
-	Password             string `form:"password" binding:"min=6,max=32"`
-	PasswordConfirmation string `form:"passwordConfirmation" binding:"eqfield=Password"`
+	Password             string `form:"password" validate:"min=6,max=32"`
+	PasswordConfirmation string `form:"passwordConfirmation" validate:"eqfield=Password"`
 }
 
 func (p *Plugin) getAdminSiteSMTP(c *h2o.Context) error {

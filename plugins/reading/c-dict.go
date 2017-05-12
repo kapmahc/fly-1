@@ -7,7 +7,7 @@ import (
 )
 
 type fmDict struct {
-	Keywords string `form:"keywords" binding:"required,max=255"`
+	Keywords string `form:"keywords" validate:"required,max=255"`
 }
 
 func (p *Plugin) postDict(c *h2o.Context) error {

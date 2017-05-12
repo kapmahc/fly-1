@@ -16,7 +16,7 @@ func (p *Plugin) indexDomains(c *h2o.Context) error {
 }
 
 type fmDomain struct {
-	Name string `form:"name" binding:"required,max=255"`
+	Name string `form:"name" validate:"required,max=255"`
 }
 
 func (p *Plugin) createDomain(c *h2o.Context) error {

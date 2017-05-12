@@ -18,9 +18,9 @@ func (p *Plugin) _parseValues(f *Field) []interface{} {
 }
 
 type fmApply struct {
-	Username string `form:"username" binding:"required,max=255"`
-	Email    string `form:"email" binding:"required,max=255"`
-	Phone    string `form:"phone" binding:"required,max=255"`
+	Username string `form:"username" validate:"required,max=255"`
+	Email    string `form:"email" validate:"required,max=255"`
+	Phone    string `form:"phone" validate:"required,max=255"`
 }
 
 func (p *Plugin) postFormApply(c *h2o.Context) error {

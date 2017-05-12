@@ -8,7 +8,7 @@ import (
 )
 
 type fmCancel struct {
-	Who string `form:"who" binding:"required,max=255"`
+	Who string `form:"who" validate:"required,max=255"`
 }
 
 func (p *Plugin) postFormCancel(c *h2o.Context) error {

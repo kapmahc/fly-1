@@ -31,8 +31,8 @@ func (p *Plugin) indexAliases(c *h2o.Context) error {
 }
 
 type fmAlias struct {
-	Source      string `form:"source" binding:"required,max=255"`
-	Destination string `form:"destination" binding:"required,max=255"`
+	Source      string `form:"source" validate:"required,max=255"`
+	Destination string `form:"destination" validate:"required,max=255"`
 }
 
 func (p *Plugin) createAlias(c *h2o.Context) error {

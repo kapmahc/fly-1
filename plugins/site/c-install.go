@@ -10,11 +10,11 @@ import (
 )
 
 type fmInstall struct {
-	Title                string `form:"title" binding:"required"`
-	SubTitle             string `form:"subTitle" binding:"required"`
-	Email                string `form:"email" binding:"required,email"`
-	Password             string `form:"password" binding:"min=6,max=32"`
-	PasswordConfirmation string `form:"passwordConfirmation" binding:"eqfield=Password"`
+	Title                string `form:"title" validate:"required"`
+	SubTitle             string `form:"subTitle" validate:"required"`
+	Email                string `form:"email" validate:"required,email"`
+	Password             string `form:"password" validate:"min=6,max=32"`
+	PasswordConfirmation string `form:"passwordConfirmation" validate:"eqfield=Password"`
 }
 
 func (p *Plugin) postInstall(c *h2o.Context) error {

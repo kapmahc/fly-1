@@ -15,11 +15,11 @@ func (p *Plugin) indexCards(c *h2o.Context) error {
 }
 
 type fmCard struct {
-	Loc       string `form:"loc" binding:"required,max=32"`
-	Title     string `form:"title" binding:"required,max=255"`
-	Summary   string `form:"summary" binding:"required"`
-	Href      string `form:"href" binding:"required,max=255"`
-	Logo      string `form:"logo" binding:"required,max=255"`
+	Loc       string `form:"loc" validate:"required,max=32"`
+	Title     string `form:"title" validate:"required,max=255"`
+	Summary   string `form:"summary" validate:"required"`
+	Href      string `form:"href" validate:"required,max=255"`
+	Logo      string `form:"logo" validate:"required,max=255"`
 	SortOrder int    `form:"sortOrder"`
 }
 

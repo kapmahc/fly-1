@@ -11,10 +11,10 @@ import (
 )
 
 type fmSignUp struct {
-	Name                 string `form:"name" binding:"required,max=255"`
-	Email                string `form:"email" binding:"required,email"`
-	Password             string `form:"password" binding:"min=6,max=32"`
-	PasswordConfirmation string `form:"passwordConfirmation" binding:"eqfield=Password"`
+	Name                 string `form:"name" validate:"required,max=255"`
+	Email                string `form:"email" validate:"required,email"`
+	Password             string `form:"password" validate:"min=6,max=32"`
+	PasswordConfirmation string `form:"passwordConfirmation" validate:"eqfield=Password"`
 }
 
 func (p *Plugin) postUsersSignUp(c *h2o.Context) error {
@@ -48,8 +48,8 @@ func (p *Plugin) postUsersSignUp(c *h2o.Context) error {
 }
 
 type fmSignIn struct {
-	Email      string `form:"email" binding:"required,email"`
-	Password   string `form:"password" binding:"required"`
+	Email      string `form:"email" validate:"required,email"`
+	Password   string `form:"password" validate:"required"`
 	RememberMe bool   `form:"rememberMe"`
 }
 
@@ -78,7 +78,7 @@ func (p *Plugin) postUsersSignIn(c *h2o.Context) error {
 }
 
 type fmEmail struct {
-	Email string `form:"email" binding:"required,email"`
+	Email string `form:"email" validate:"required,email"`
 }
 
 func (p *Plugin) getUsersConfirm(c *h2o.Context) error {
@@ -171,9 +171,9 @@ func (p *Plugin) postUsersForgotPassword(c *h2o.Context) error {
 }
 
 type fmResetPassword struct {
-	Token                string `form:"token" binding:"required"`
-	Password             string `form:"password" binding:"min=6,max=32"`
-	PasswordConfirmation string `form:"passwordConfirmation" binding:"eqfield=Password"`
+	Token                string `form:"token" validate:"required"`
+	Password             string `form:"password" validate:"min=6,max=32"`
+	PasswordConfirmation string `form:"passwordConfirmation" validate:"eqfield=Password"`
 }
 
 func (p *Plugin) postUsersResetPassword(c *h2o.Context) error {
@@ -205,9 +205,9 @@ func (p *Plugin) getUsersInfo(c *h2o.Context) error {
 }
 
 type fmInfo struct {
-	Name string `form:"name" binding:"required,max=255"`
-	// Home string `form:"home" binding:"max=255"`
-	// Logo string `form:"logo" binding:"max=255"`
+	Name string `form:"name" validate:"required,max=255"`
+	// Home string `form:"home" validate:"max=255"`
+	// Logo string `form:"logo" validate:"max=255"`
 }
 
 func (p *Plugin) postUsersInfo(c *h2o.Context) error {
@@ -228,9 +228,9 @@ func (p *Plugin) postUsersInfo(c *h2o.Context) error {
 }
 
 type fmChangePassword struct {
-	CurrentPassword      string `form:"currentPassword" binding:"required"`
-	NewPassword          string `form:"newPassword" binding:"min=6,max=32"`
-	PasswordConfirmation string `form:"passwordConfirmation" binding:"eqfield=NewPassword"`
+	CurrentPassword      string `form:"currentPassword" validate:"required"`
+	NewPassword          string `form:"newPassword" validate:"min=6,max=32"`
+	PasswordConfirmation string `form:"passwordConfirmation" validate:"eqfield=NewPassword"`
 }
 
 func (p *Plugin) postUsersChangePassword(c *h2o.Context) error {

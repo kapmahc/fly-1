@@ -16,8 +16,8 @@ func (p *Plugin) indexNotices(c *h2o.Context) error {
 }
 
 type fmNotice struct {
-	Body string `form:"body" binding:"required"`
-	Type string `form:"type" binding:"required,max=8"`
+	Body string `form:"body" validate:"required"`
+	Type string `form:"type" validate:"required,max=8"`
 }
 
 func (p *Plugin) createNotice(c *h2o.Context) error {

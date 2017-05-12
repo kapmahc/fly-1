@@ -8,7 +8,7 @@ import (
 )
 
 type fmAttachmentNew struct {
-	Type string `form:"type" binding:"required,max=255"`
+	Type string `form:"type" validate:"required,max=255"`
 	ID   uint   `form:"id"`
 }
 
@@ -48,7 +48,7 @@ func (p *Plugin) createAttachment(c *h2o.Context) error {
 }
 
 type fmAttachmentEdit struct {
-	Title string `form:"title" binding:"required,max=255"`
+	Title string `form:"title" validate:"required,max=255"`
 }
 
 func (p *Plugin) updateAttachment(c *h2o.Context) error {

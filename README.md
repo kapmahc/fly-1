@@ -77,10 +77,18 @@ GRANT ALL PRIVILEGES ON DATABASE db-name TO user-name;
 
 - [For gmail smtp](http://stackoverflow.com/questions/20337040/gmail-smtp-debug-error-please-log-in-via-your-web-browser)
 
+## Atom plugins
+
+- go-plus
+- file-icons
+- linter
+- editorconfig
+- atom-typescript
+
 ## Documents
 
-- [mux](https://github.com/gorilla/mux)
-- [negroni](https://github.com/urfave/negroni)
-- [anglar](https://angular.io/docs/ts/latest/guide/)
+- [nvm](https://github.com/creationix/nvm)
+- [angular](https://angular.io/docs/ts/latest/quickstart.html)
 - [ng-bootstrap](https://ng-bootstrap.github.io/#/getting-started)
+- [ng2-admin](https://akveo.github.io/ng2-admin/)
 - [validator](https://github.com/go-playground/validator)

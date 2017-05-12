@@ -15,7 +15,7 @@ func (p *Plugin) indexLeaveWords(c *h2o.Context) error {
 }
 
 type fmLeaveWord struct {
-	Body string `form:"body" binding:"required,max=2048"`
+	Body string `form:"body" validate:"required,max=2048"`
 }
 
 func (p *Plugin) createLeaveWord(c *h2o.Context) error {

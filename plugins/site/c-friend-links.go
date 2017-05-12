@@ -16,9 +16,9 @@ func (p *Plugin) indexFriendLinks(c *h2o.Context) error {
 }
 
 type fmFriendLink struct {
-	Title string `form:"title" binding:"required,max=255"`
-	Home  string `form:"home" binding:"required,max=255"`
-	Logo  string `form:"logo" binding:"required,max=255"`
+	Title string `form:"title" validate:"required,max=255"`
+	Home  string `form:"home" validate:"required,max=255"`
+	Logo  string `form:"logo" validate:"required,max=255"`
 }
 
 func (p *Plugin) createFriendLink(c *h2o.Context) error {

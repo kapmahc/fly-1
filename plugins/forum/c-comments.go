@@ -47,9 +47,9 @@ func (p *Plugin) indexComments(c *h2o.Context) error {
 }
 
 type fmCommentAdd struct {
-	Body      string `form:"body" binding:"required,max=800"`
-	Type      string `form:"type" binding:"required,max=8"`
-	ArticleID uint   `form:"articleId" binding:"required"`
+	Body      string `form:"body" validate:"required,max=800"`
+	Type      string `form:"type" validate:"required,max=8"`
+	ArticleID uint   `form:"articleId" validate:"required"`
 }
 
 func (p *Plugin) createComment(c *h2o.Context) error {
@@ -83,8 +83,8 @@ func (p *Plugin) showComment(c *h2o.Context) error {
 }
 
 type fmCommentEdit struct {
-	Body string `form:"body" binding:"required,max=800"`
-	Type string `form:"type" binding:"required,max=8"`
+	Body string `form:"body" validate:"required,max=800"`
+	Type string `form:"type" validate:"required,max=8"`
 }
 
 func (p *Plugin) updateComment(c *h2o.Context) error {
