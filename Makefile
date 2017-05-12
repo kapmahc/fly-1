@@ -8,7 +8,7 @@ AUTHOR_EMAIL=`git config --get user.email`
 COPYRIGHT=`head -n 1 LICENSE`
 USAGE=`sed -n '3p' README.md`
 
-build: backend frontend
+build: backend ng2
 	tar jcvf dist.tar.bz2 $(dist)
 
 
@@ -16,14 +16,15 @@ backend:
 	go build -ldflags "-s -w -X ${pkg}.Version=${VERSION} -X '${pkg}.BuildTime=${BUILD_TIME}' -X '${pkg}.AuthorName=${AUTHOR_NAME}' -X ${pkg}.AuthorEmail=${AUTHOR_EMAIL} -X '${pkg}.Copyright=${COPYRIGHT}' -X '${pkg}.Usage=${USAGE}'" -o ${dist}/fly main.go
 	-cp -rv locales db templates $(dist)/
 
-frontend:
-	cd front && npm run build
-	cp -rv front/dist $(dist)/public
+ng2:
+	mkdir -pv $(dist)
+	cd ng2-admin && npm run build:prod:aot
+	cp -rv ng2-admin/dist $(dist)/public
 
 
 clean:
-	-rm -rv $(dist) dist.tar.bz2
+	-rm -rv $(dist) dist.tar.bz2 ng2-admin/dist
 
 init:
 	govendor sync
-	cd front && npm install
+	cd ng2-admin && npm install

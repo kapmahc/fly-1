@@ -24,7 +24,7 @@ go run main.go g c # generate config.toml
 ### Start front server
 
 ```bash
-cd $GOPATH/src/github.com/kapmahc/fly/front
+cd $GOPATH/src/github.com/kapmahc/fly/ng2-admin
 npm start
 ```
 
