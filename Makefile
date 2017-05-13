@@ -8,13 +8,18 @@ AUTHOR_EMAIL=`git config --get user.email`
 COPYRIGHT=`head -n 1 LICENSE`
 USAGE=`sed -n '3p' README.md`
 
-build: backend ng2
+build: vue backend
 	tar jcvf dist.tar.bz2 $(dist)
 
 
 backend:
 	go build -ldflags "-s -w -X ${pkg}.Version=${VERSION} -X '${pkg}.BuildTime=${BUILD_TIME}' -X '${pkg}.AuthorName=${AUTHOR_NAME}' -X ${pkg}.AuthorEmail=${AUTHOR_EMAIL} -X '${pkg}.Copyright=${COPYRIGHT}' -X '${pkg}.Usage=${USAGE}'" -o ${dist}/fly main.go
 	-cp -rv locales db templates $(dist)/
+
+vue:
+	mkdir -pv $(dist)
+	cd dashboard && npm run build
+	cp -rv dashboard/dist $(dist)/public
 
 ng2:
 	mkdir -pv $(dist)
@@ -23,8 +28,11 @@ ng2:
 
 
 clean:
-	-rm -rv $(dist) dist.tar.bz2 ng2-admin/dist
+	-rm -rv $(dist) dist.tar.bz2
+	-rm -rv dashboard/dist
+	# -rm -rv ng2-admin/dist
 
 init:
 	govendor sync
-	cd ng2-admin && npm install
+	cd dashboard && npm install
+	# cd ng2-admin && npm install

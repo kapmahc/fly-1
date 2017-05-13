@@ -24,8 +24,8 @@ go run main.go g c # generate config.toml
 ### Start front server
 
 ```bash
-cd $GOPATH/src/github.com/kapmahc/fly/ng2-admin
-npm start
+cd $GOPATH/src/github.com/kapmahc/fly/dashboard
+npm run dev
 ```
 
 ## Create database
