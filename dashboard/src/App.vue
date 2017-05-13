@@ -9,3 +9,10 @@ export default {
   name: 'app'
 }
 </script>
+
+
+<style scope>
+body {
+  padding-bottom: 4rem;
+}
+</style>

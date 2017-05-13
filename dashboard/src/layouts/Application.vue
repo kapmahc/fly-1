@@ -1,15 +1,17 @@
 <template>
   <div>
     <app-header />
-    <h2>application</h2>
-    <slot />
-    <app-footer />
+    <div class="container">
+      <slot />
+      <hr />
+      <app-footer />
+    </div>
   </div>
 </template>
 
 <script>
-import Header from './Header'
-import Footer from './Footer'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 
 export default {
   name: 'layout-application',
@@ -23,3 +25,9 @@ export default {
   }
 }
 </script>
+
+<style scope>
+body {
+  padding-top: 4rem;
+}
+</style>

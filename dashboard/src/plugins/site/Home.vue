@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Application from '@/components/Application'
+import Application from '@/layouts/Application'
 
 export default {
   name: 'home',

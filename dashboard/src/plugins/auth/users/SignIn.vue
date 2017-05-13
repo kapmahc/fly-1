@@ -1,15 +1,20 @@
 <template>
-  <div class="row">
+  <NonSignIn>
     <h2>sign in</h2>
-  </div>
+  </NonSignIn>
 </template>
 
 <script>
+import NonSignIn from './NonSignIn'
+
 export default {
-  name: 'users-sign-in',
+  name: 'auth-users-sign-in',
   data () {
     return {
     }
+  },
+  components: {
+    NonSignIn
   }
 }
 </script>
