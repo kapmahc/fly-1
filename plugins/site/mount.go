@@ -4,6 +4,7 @@ import "github.com/kapmahc/h2o"
 
 // Mount mount web points
 func (p *Plugin) Mount(rt *h2o.Router) {
+	rt.GET("/locales/{lang}", p.getLocales)
 	rt.GET("/site/info", p.getSiteInfo)
 	rt.POST("/install", p.mustDatabaseEmpty, p.postInstall)
 

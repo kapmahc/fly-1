@@ -7,6 +7,14 @@ import (
 	"github.com/kapmahc/h2o/i18n"
 )
 
+func (p *Plugin) getLocales(c *h2o.Context) error {
+	items, err := p.I18n.All(c.Param("lang"))
+	if err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, items)
+}
+
 func (p *Plugin) getSiteInfo(c *h2o.Context) error {
 	langs, err := p.I18n.Store.Languages()
 	if err != nil {
