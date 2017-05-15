@@ -7,11 +7,12 @@ import {get} from './ajax'
 
 export const LOCALE = 'locale'
 
+export const LANGUAGES = ['en-US', 'zh-Hans', 'zh-Hant']
+
 export const i18n = new I18n({})
 
 export function detect () {
-  // TODO detect from request
-  return 'zh-Hans'
+  return localStorage.getItem(LOCALE) || 'en-US'
 }
 
 export function load (locale) {
@@ -19,6 +20,7 @@ export function load (locale) {
     i18n.setLocaleMessage(locale, message)
     i18n.locale = locale
     document.title = i18n.t('site.title')
+    localStorage.setItem(LOCALE, locale)
   }).catch((err) => {
     console.error(err)
   })

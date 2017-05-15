@@ -1,17 +1,25 @@
 <template>
-  <b-nav-item-dropdown text="Lang" right-alignment right>
-    <b-dropdown-item to="/en">EN</b-dropdown-item>
-    <b-dropdown-item to="/zh-cn">ES</b-dropdown-item>
-    <b-dropdown-item to="/zh-tw">RU</b-dropdown-item>
+  <b-nav-item-dropdown right-alignment right>
+    <template slot="text">
+      {{$t('language-bar.switch')}}
+    </template>
+    <b-dropdown-item v-bind:key="l" v-on:click="setLocale(l)" v-for="l in languages">
+      {{$t(`languages.${l}`)}}
+    </b-dropdown-item>
   </b-nav-item-dropdown>
 </template>
 
 <script>
+import {LANGUAGES, load as setLocale} from '@/i18n'
 export default {
   name: 'language-bar',
   data () {
     return {
+      languages: LANGUAGES
     }
+  },
+  methods: {
+    setLocale
   }
 }
 </script>
