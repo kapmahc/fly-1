@@ -1,10 +1,8 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import 'jquery'
+import 'bootstrap'
+
 import Vue from 'vue'
 Vue.config.productionTip = false
-
-import BootstrapVue from 'bootstrap-vue'
-Vue.use(BootstrapVue)
 
 import App from './App'
 import router from './router'
