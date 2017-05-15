@@ -3,8 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "antd": "^2.10.1",
+    "clipboard": "^1.6.1",
+    "highlight.js": "^9.11.0",
+    "i18next": "^8.2.1",
+    "i18next-browser-languagedetector": "^1.0.1",
+    "i18next-xhr-backend": "^1.4.1",
+    "jwt-decode": "^2.2.0",
+    "marked": "^0.3.6",
+    "prop-types": "^15.5.10",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-redux": "^5.0.4",
+    "react-router": "^4.1.1",
+    "react-router-dom": "^4.1.1",
+    "react-router-redux": "^5.0.0-alpha.6",
+    "redux": "^3.6.0",
+    "timeago.js": "^3.0.1"
   },
   "devDependencies": {
     "react-scripts": "0.9.5"
