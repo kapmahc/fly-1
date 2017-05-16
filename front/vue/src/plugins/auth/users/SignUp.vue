@@ -7,7 +7,7 @@
       </div>
       <div class="form-group">
         <label for="email">{{$t('attributes.email')}}</label>
-        <input v-model="email" type="email" class="form-control" id="email" aria-describedby="emailHelp">
+        <input v-model="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" />
         <small id="emailHelp" class="form-text text-muted">{{$t('helpers.email')}}</small>
       </div>
       <div class="form-group">

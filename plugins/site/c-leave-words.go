@@ -16,6 +16,7 @@ func (p *Plugin) indexLeaveWords(c *h2o.Context) error {
 
 type fmLeaveWord struct {
 	Body string `form:"body" validate:"required,max=2048"`
+	Type string `form:"type" validate:"required,max=16"`
 }
 
 func (p *Plugin) createLeaveWord(c *h2o.Context) error {
@@ -26,6 +27,7 @@ func (p *Plugin) createLeaveWord(c *h2o.Context) error {
 
 	item := LeaveWord{
 		Body: fm.Body,
+		Type: fm.Type,
 	}
 	if err := p.Db.Create(&item).Error; err != nil {
 		return err
