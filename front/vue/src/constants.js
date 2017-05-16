@@ -1,5 +1,5 @@
 
-export const {TOKEN} = 'token'
+export const TOKEN = 'token'
 
 export const nonSignInLinks = [
   { href: 'auth.users.sign-in', icon: 'security' },

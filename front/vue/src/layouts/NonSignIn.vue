@@ -1,15 +1,11 @@
 <template>
   <Layout>
     <div class="row">
-      <div class="col-12">
+      <div class="offset-2 col-8">
         <h2>{{$t(title)}}</h2>
         <hr />
         <slot />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12 block">
-        <div class="list-group">
+        <div class="list-group block">
           <router-link class="list-group-item list-group-item-action" v-for="l in links" v-bind:key="l" :to="{name: l.href}">
             <material-icon :name="l.icon" />&nbsp;{{$t(`${l.href}.title`)}}
           </router-link>

@@ -22,7 +22,7 @@ func (p *Plugin) Mount(rt *h2o.Router) {
 		r.POST("/info", p.postUsersInfo)
 		r.GET("/logs", p.getUsersLogs)
 		r.POST("/change-password", p.postUsersChangePassword)
-		r.DELETE("sign-out", p.deleteUsersSignOut)
+		r.DELETE("/sign-out", p.deleteUsersSignOut)
 	}, "/users", p.Jwt.MustSignInMiddleware)
 
 	rt.Group(func(r *h2o.Router) {

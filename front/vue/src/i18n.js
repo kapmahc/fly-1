@@ -16,12 +16,16 @@ export function detect () {
 }
 
 export function load (locale) {
-  get(`/locales/${locale}`).then((message) => {
-    i18n.setLocaleMessage(locale, message)
-    i18n.locale = locale
-    document.title = i18n.t('site.title')
-    localStorage.setItem(LOCALE, locale)
-  }).catch((err) => {
-    console.error(err)
-  })
+  get(
+    `/locales/${locale}`,
+    (message) => {
+      i18n.setLocaleMessage(locale, message)
+      i18n.locale = locale
+      document.title = i18n.t('site.title')
+      localStorage.setItem(LOCALE, locale)
+    },
+    (err) => {
+      console.error(err)
+    }
+  )
 }

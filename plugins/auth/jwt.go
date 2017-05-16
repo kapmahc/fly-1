@@ -101,7 +101,7 @@ func (p *Jwt) MustSignInMiddleware(c *h2o.Context) error {
 		return nil
 	}
 	lng := c.Get(i18n.LOCALE).(string)
-	return p.I18n.E(http.StatusForbidden, lng, "auth.errors.user-must-sign-in")
+	return p.I18n.E(http.StatusForbidden, lng, "auth.errors.please-sign-in")
 }
 
 // MustAdminMiddleware must-admin middleware
@@ -110,5 +110,5 @@ func (p *Jwt) MustAdminMiddleware(c *h2o.Context) error {
 		return nil
 	}
 	lng := c.Get(i18n.LOCALE).(string)
-	return p.I18n.E(http.StatusForbidden, lng, "auth.errors.user-must-is-admin")
+	return p.I18n.E(http.StatusForbidden, lng, "errors.not-allow")
 }
