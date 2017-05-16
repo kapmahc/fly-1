@@ -7,7 +7,6 @@
 
 <script>
 export default {
-  name: 'search-form',
   data () {
     return {
     }

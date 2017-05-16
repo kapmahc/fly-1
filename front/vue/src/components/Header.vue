@@ -31,7 +31,6 @@ import LanguageBar from './LanguageBar'
 import SearchForm from './SearchForm'
 
 export default {
-  name: 'header',
   data () {
     return {
     }

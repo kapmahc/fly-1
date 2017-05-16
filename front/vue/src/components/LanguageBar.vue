@@ -14,7 +14,6 @@
 <script>
 import {LANGUAGES, load as setLocale} from '@/i18n'
 export default {
-  name: 'language-bar',
   data () {
     return {
       languages: LANGUAGES

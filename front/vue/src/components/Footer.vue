@@ -18,7 +18,6 @@
 import {LANGUAGES, load as setLocale} from '@/i18n'
 
 export default {
-  name: 'footer',
   data () {
     return {
       languages: LANGUAGES

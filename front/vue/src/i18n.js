@@ -5,7 +5,7 @@ Vue.use(I18n)
 
 import {get} from './ajax'
 
-export const LOCALE = 'locale'
+const LOCALE = 'locale'
 
 export const LANGUAGES = ['en-US', 'zh-Hans', 'zh-Hant']
 

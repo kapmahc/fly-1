@@ -1,10 +1,11 @@
 <template>
-  <non-sign-in-layout title="auth.users.sign-in.title">
-    <h2>sign in</h2>
+  <non-sign-in-layout title="site.install.title">
+
   </non-sign-in-layout>
 </template>
 
 <script>
+
 export default {
   data () {
     return {

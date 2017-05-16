@@ -1,12 +1,11 @@
 <template>
-  <div class="row">
-    <h2>dashboard</h2>
-      <slot />
-  </div>
+  <i class="material-icons">{{name}}</i>
 </template>
 
 <script>
+
 export default {
+  props: ['name'],
   data () {
     return {
     }

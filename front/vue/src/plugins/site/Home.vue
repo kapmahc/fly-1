@@ -1,20 +1,17 @@
 <template>
-  <Application>
+  <application-layout>
     <h2>home</h2>
-  </Application>
+  </application-layout>
 </template>
 
 <script>
-import Application from '@/layouts/Application'
 
 export default {
-  name: 'home',
   data () {
     return {
     }
   },
   components: {
-    Application
   }
 }
 </script>
