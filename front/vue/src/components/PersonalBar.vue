@@ -1,8 +1,17 @@
 <template>
-  <b-nav-item-dropdown text="User" right-alignment right>
-    <b-dropdown-item to="/users/info">Profile</b-dropdown-item>
-    <b-dropdown-item to="/users/sign-out">Signout</b-dropdown-item>
-  </b-nav-item-dropdown>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" id="personalBar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {{$t('personal-bar.sign-in-or-up')}}
+    </a>
+    <div class="dropdown-menu" aria-labelledby="personalBar">
+      <router-link class="dropdown-item" :to="{name: 'auth.users.sign-in'}">
+        sign in
+      </router-link>
+      <router-link class="dropdown-item" :to="{name: 'auth.users.sign-in'}">
+        sign up
+      </router-link>
+    </div>
+  </li>
 </template>
 
 <script>

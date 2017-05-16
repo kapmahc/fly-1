@@ -2,9 +2,9 @@
   <footer>
     <p class="float-right">
       {{$t('footer.other-languages')}}:
-      <b-link v-bind:key="l" v-on:click="setLocale(l)" v-for="l in languages">
+      <button class="btn btn-sm btn-link" v-bind:key="l" v-on:click="setLocale(l)" v-for="l in languages">
         {{$t(`languages.${l}`)}}
-      </b-link>
+      </button>
     </p>
     <p>
       &copy; {{ $t("site.copyright") }}

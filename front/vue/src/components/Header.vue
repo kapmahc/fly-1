@@ -1,31 +1,34 @@
 <template>
-  <b-navbar toggleable type="inverse" variant="inverse" fixed="top">
-
-    <b-nav-toggle target="nav_collapse"></b-nav-toggle>
-
-    <b-link class="navbar-brand" to="#">
-      <span>BootstrapVue</span>
-    </b-link>
-
-    <b-collapse is-nav id="nav_collapse">
-
-      <b-nav is-nav-bar>
-        <b-nav-item>Support</b-nav-item>
-        <b-nav-item>Docs</b-nav-item>
-        <b-nav-item>Contact Us</b-nav-item>
-      </b-nav>
-
-      <b-nav is-nav-bar class="ml-auto">
+  <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <router-link class="navbar-brand" :to="{name: 'site.home'}">
+      {{$t('site.subTitle')}}
+    </router-link>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <router-link class="nav-link" :to="{name: 'site.home'}">
+            {{$t('header.home')}}
+            <span class="sr-only">(current)</span>
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
         <LanguageBar />
         <PersonalBar />
-      </b-nav>
-    </b-collapse>
-  </b-navbar>
+      </ul>
+      <SearchForm />
+    </div>
+  </nav>
 </template>
 
 <script>
 import PersonalBar from './PersonalBar'
 import LanguageBar from './LanguageBar'
+import SearchForm from './SearchForm'
 
 export default {
   name: 'header',
@@ -35,7 +38,8 @@ export default {
   },
   components: {
     PersonalBar,
-    LanguageBar
+    LanguageBar,
+    SearchForm
   }
 }
 </script>
