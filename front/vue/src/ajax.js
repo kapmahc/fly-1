@@ -1,8 +1,18 @@
+import $ from 'jquery'
+
 import {TOKEN} from './constants'
 
 export const api = (path) => {
   return `${process.env.API_HOST}${path}`
 }
+
+const fail = (e) => alert(e.responseText || e.statusText)
+
+export const post = (path, body, success) => {
+  $.post(api(path), body, success).fail(fail)
+}
+
+// ---------------------------------
 
 const parse = (res) => {
   // res.status === 200 || res.status === 0
@@ -28,8 +38,9 @@ export const _delete = (path) => {
   return fetch(api(path), options('delete')).then(parse)
 }
 
-export const post = (path, body) => {
-  var data = options('post')
-  data.body = body
-  return fetch(api(path), data).then(parse)
-}
+// export const post = (path, body) => {
+//   var data = options('post')
+//   data.body = body
+//   console.log(data)
+//   return fetch(api(path), data).then(parse)
+// }
