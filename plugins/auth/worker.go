@@ -66,11 +66,13 @@ func (p *Plugin) sendEmail(lng string, user *User, act string) {
 	}
 
 	// -----------------------
-	p.Server.Send(job.PriorityLow, SendEmailJob, map[string]string{
+	if err := p.Server.Send(job.PriorityLow, SendEmailJob, map[string]string{
 		"to":      user.Email,
 		"subject": subject,
 		"body":    body,
-	})
+	}); err != nil {
+		log.Error(err)
+	}
 }
 
 func (p *Plugin) parseToken(lng, tkn, act string) (*User, error) {
