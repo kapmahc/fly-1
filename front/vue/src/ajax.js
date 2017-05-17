@@ -1,12 +1,15 @@
-import $ from 'jquery'
+// import $ from 'jquery'
 
-import {TOKEN} from './constants'
+// const $ = window.jQuery
+const $ = require('jquery')
 
-$.ajaxSetup({
-  beforeSend: function (xhr) {
-    xhr.setRequestHeader('Authorization', `BEARER ${window.sessionStorage.getItem(TOKEN)}`)
-  }
-})
+// import {TOKEN} from './constants'
+
+// $.ajaxSetup({
+//   beforeSend: function (xhr) {
+//     xhr.setRequestHeader('Authorization', `BEARER ${window.sessionStorage.getItem(TOKEN)}`)
+//   }
+// })
 
 export const api = (path) => {
   return `${process.env.API_HOST}${path}`

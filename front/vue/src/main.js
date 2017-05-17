@@ -1,5 +1,5 @@
-import 'jquery'
-import 'bootstrap'
+// import 'jquery'
+// import 'bootstrap'
 
 import Vue from 'vue'
 Vue.config.productionTip = false
