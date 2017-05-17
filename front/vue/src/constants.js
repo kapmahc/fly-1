@@ -7,5 +7,6 @@ export const nonSignInLinks = [
   { href: 'auth.users.forgot-password', icon: 'find_replace' },
   { href: 'auth.users.confirm', icon: 'confirmation_number' },
   { href: 'auth.users.unlock', icon: 'lock_open' },
+  null,
   { href: 'site.leave-words.new', icon: 'message' }
 ]

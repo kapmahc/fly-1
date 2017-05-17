@@ -1,24 +1,22 @@
 <template>
-  <Layout>
+  <application-layout>
     <div class="row">
       <div class="offset-2 col-8">
         <h2>{{$t(title)}}</h2>
         <hr />
         <slot />
         <div class="list-group block">
-          <router-link class="list-group-item list-group-item-action" v-for="l in links" v-bind:key="l" :to="{name: l.href}">
+          <router-link v-if="l" class="list-group-item list-group-item-action" v-for="l in links" v-bind:key="l" :to="{name: l.href}">
             <material-icon :name="l.icon" />&nbsp;{{$t(`${l.href}.title`)}}
           </router-link>
         </div>
       </div>
     </div>
-  </Layout>
+  </application-layout>
 </template>
 
 <script>
-import Layout from '@/layouts/Application'
 import {nonSignInLinks as links} from '@/constants'
-import Icon from '@/components/Icon'
 
 export default {
   props: ['title'],
@@ -26,17 +24,13 @@ export default {
     return {
       links
     }
-  },
-  components: {
-    Layout,
-    Icon
   }
 }
 </script>
 
-<style scope>
+<style scoped>
 .block {
-  padding-top: 3rem;
+  padding-top: 2rem;
   padding-bottom: 3rem;
 }
 </style>

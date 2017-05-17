@@ -13,9 +13,10 @@
       </a>
     </div>
     <div v-else class="dropdown-menu" aria-labelledby="personalBar">
-      <router-link class="dropdown-item" v-for="l in links" v-bind:key="l" :to="{name: l.href}">
+      <router-link v-if="l" class="dropdown-item" v-for="l in links" v-bind:key="l" :to="{name: l.href}">
         {{$t(`${l.href}.title`)}}
       </router-link>
+      <div v-else class="dropdown-divider"></div>
     </div>
   </li>
 </template>

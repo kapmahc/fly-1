@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="body">
     <app-header />
     <div class="container">
       <slot />
@@ -25,8 +25,9 @@ export default {
 }
 </script>
 
-<style scope>
-body {
+<style scoped>
+.body {
   padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 </style>
